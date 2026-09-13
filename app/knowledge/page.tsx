@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, ArrowUpRight, Eye, EyeOff, TriangleAlert } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Clock, Eye, EyeOff, TriangleAlert } from 'lucide-react';
 import {
   Badge,
   ButtonLink,
@@ -12,7 +12,7 @@ import {
 } from '@/components/ui';
 import { AnatomyExplorer } from '@/components/knowledge/anatomy-explorer';
 import { DecoderSearch } from '@/components/knowledge/decoder-search';
-import { ARTICLES, MYTHS, PENALTY_EXPOSURE } from '@/content/knowledge';
+import { ARTICLES, MYTHS, PENALTY_EXPOSURE, TIMELINE_POSITION } from '@/content/knowledge';
 import { SITE, pageOg } from '@/lib/site';
 import { formatDate } from '@/lib/utils';
 import { loadContent, pick } from '@/lib/content';
@@ -59,6 +59,27 @@ export default async function KnowledgePage() {
           <div className="mt-10">
             <AnatomyExplorer />
           </div>
+
+          {/* Stated plainly so nothing above can be read as a delivery
+              commitment for work whose scope we have not yet seen. */}
+          <Card className="mt-6 bg-white p-7 sm:p-8">
+            <div className="flex items-start gap-4">
+              <span className="bg-brand-50 ring-brand-500/15 flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-md)] ring-1 ring-inset">
+                <Clock className="text-brand-600 h-4 w-4" strokeWidth={2} />
+              </span>
+              <div className="min-w-0">
+                <h3 className="text-ink text-[1.0625rem] font-semibold">
+                  {TIMELINE_POSITION.heading}
+                </h3>
+                <p className="text-ink-tertiary mt-2.5 text-[0.9375rem] leading-relaxed">
+                  {TIMELINE_POSITION.body}
+                </p>
+                <p className="text-ink-quaternary mt-3 border-t border-[var(--color-hairline)] pt-3 text-[0.8125rem] leading-relaxed">
+                  {TIMELINE_POSITION.note}
+                </p>
+              </div>
+            </div>
+          </Card>
         </Container>
       </Section>
 

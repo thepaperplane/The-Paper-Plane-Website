@@ -78,7 +78,7 @@ export function Hero({
               {[
                 'ITR 1–7 & GST filing',
                 'Section 148 defence',
-                'Incorporation in 3–5 days',
+                'End-to-end incorporation',
               ].map((item) => (
                 <li key={item} className="text-ink-secondary flex items-center gap-2 text-[0.9375rem]">
                   <Check className="text-success h-4 w-4 shrink-0" strokeWidth={2.5} />

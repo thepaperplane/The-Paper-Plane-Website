@@ -116,22 +116,23 @@ export default async function HomePage() {
                   {item.reality}
                 </p>
 
-                <dl className="mt-6 grid grid-cols-2 gap-3">
+                {/* Depth is shown through scope and review passes, never hours —
+                    a published duration reads as a commitment. */}
+                <dl className="mt-6 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]">
                   <div className="bg-sunken rounded-[var(--radius-md)] p-4">
                     <dt className="text-ink-quaternary text-[0.75rem] font-medium">
-                      What you see
+                      What you hand over
                     </dt>
-                    <dd className="text-ink mt-1 text-[1.375rem] font-semibold tabular-nums">
-                      {item.visibleHours}
+                    <dd className="text-ink mt-1.5 text-[0.9375rem] leading-relaxed">
+                      {item.clientInput}
                     </dd>
                   </div>
-                  <div className="bg-brand-50 rounded-[var(--radius-md)] p-4">
-                    <dt className="text-brand-700 text-[0.75rem] font-medium">
-                      What it takes
-                    </dt>
-                    <dd className="text-brand-900 mt-1 text-[1.375rem] font-semibold tabular-nums">
-                      {item.invisibleHours}
+                  <div className="bg-brand-50 flex flex-col justify-center rounded-[var(--radius-md)] p-4 text-center sm:w-32">
+                    <dt className="text-brand-700 text-[0.75rem] font-medium">Review passes</dt>
+                    <dd className="text-brand-900 mt-1 text-[1.75rem] leading-none font-semibold tabular-nums">
+                      {item.reviewLayers}
                     </dd>
+                    <dd className="text-brand-700/70 mt-1 text-[0.6875rem]">before filing</dd>
                   </div>
                 </dl>
 

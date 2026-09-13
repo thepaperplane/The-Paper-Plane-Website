@@ -166,7 +166,7 @@ export const PILLARS: Pillar[] = [
         title: 'Private Limited & LLP',
         subtitle: 'MCA SPICe+ and FiLLiP',
         description:
-          'Complete incorporation through the MCA portal, typically concluding in three to five working days.',
+          'Complete incorporation through the MCA portal, from structure advisory and name reservation to the certificate itself.',
         features: [
           'DIN and digital signature',
           'Name approval, SPICe+ Part A and B',
@@ -185,7 +185,7 @@ export const PILLARS: Pillar[] = [
           'MSME / Udyam certificate',
           'Municipal trade licence',
           'Bank account dossier',
-          'Same-day registration guidance',
+          'Guidance from the first conversation',
         ],
       },
       {

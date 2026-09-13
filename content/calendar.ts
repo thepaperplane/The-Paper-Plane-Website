@@ -207,9 +207,9 @@ export const TURNAROUNDS: Turnaround[] = [
   {
     section: 'MCA SPICe+',
     service: 'Private Limited / LLP setup',
-    duration: '3–5 working days',
+    duration: 'Set by MCA processing',
     detail:
-      'From name reservation and digital signatures through to the certificate of incorporation.',
+      'Name reservation, digital signatures, constitutional drafting and ten registrations in one submission. The pace depends on MCA queues and whether names clear first time — neither of which any adviser controls.',
   },
 ];
 

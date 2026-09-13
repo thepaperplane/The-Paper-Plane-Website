@@ -8,13 +8,29 @@
 
 /* -------------------------------------------------------------------------
    1. SERVICE ANATOMY — what actually happens inside an engagement
+
+   Deliberately NO durations anywhere in this section.
+
+   An earlier version quantified each service in hours ("~15 min you see,
+   4-9 hrs behind it"). That was a liability dressed up as transparency. A
+   published number reads as a commitment: the one engagement that runs long
+   becomes an argument instead of a conversation, and a client whose volumes
+   have grown since onboarding will hold the old figure against us. It also
+   prices the work by the hour, which is precisely how this work should not
+   be valued.
+
+   Depth is conveyed instead through things we fully control and can always
+   stand behind: what the client hands over, the scope we examine, how many
+   independent review passes a file gets, and the gates it must clear. What
+   actually moves a timeline is stated separately and honestly, so
+   variability is understood up front rather than discovered later.
    ------------------------------------------------------------------------- */
 
 export type AnatomyStep = {
   label: string;
   detail: string;
-  /** Roughly what share of total effort this stage consumes. */
-  effort: number;
+  /** Share of the total work this stage represents — a proportion, never a duration. */
+  share: number;
   /** What goes wrong when this stage is skipped or rushed. */
   risk: string;
 };
@@ -27,10 +43,19 @@ export type ServiceAnatomy = {
   perception: string;
   /** What the work actually consists of. */
   reality: string;
-  visibleHours: string;
-  invisibleHours: string;
-  steps: AnatomyStep[];
+  /** What the client provides — sets expectations about their side of it. */
+  clientInput: string;
+  /** The breadth of what we examine. Scope, never time. */
+  workScope: string;
+  /** Independent review passes before anything leaves the practice. */
+  reviewLayers: number;
+  /** Gates every file must clear. */
+  checkpoints: string[];
+  /** The exposure we absorb so the client does not. */
   carriedRisk: string;
+  /** Why two engagements of the same type run to different lengths. */
+  timelineDrivers: string[];
+  steps: AnatomyStep[];
 };
 
 export const SERVICE_ANATOMY: ServiceAnatomy[] = [
@@ -40,45 +65,59 @@ export const SERVICE_ANATOMY: ServiceAnatomy[] = [
     pillarId: 'tax',
     perception: '“You upload my sales figures to a portal once a month.”',
     reality:
-      'Filing is the last ten minutes. The work is reconciling what your vendors reported against what you recorded — because the credit you claim is only as good as their compliance, not yours.',
-    visibleHours: '~15 min',
-    invisibleHours: '4–9 hrs',
+      'Filing is the last step and the smallest one. The work is reconciling what your vendors reported against what you recorded — because the credit you claim is only as good as their compliance, not yours.',
+    clientInput: 'Your purchase and sales registers, in whatever format you already keep them.',
+    workScope:
+      'Every purchase invoice matched three ways — your register, the portal’s auto-drafted statement, and the credit actually claimed — with each difference itemised rather than absorbed.',
+    reviewLayers: 3,
+    checkpoints: [
+      'GSTIN and place of supply validated on every line',
+      'Mismatches itemised and assigned an owner',
+      'Set-off order confirmed before any cash moves',
+      'Working papers archived alongside the acknowledgement',
+    ],
     carriedRisk:
       'An unreconciled input credit claim is recoverable from you with 18% interest — years later, when the vendor’s default surfaces in a departmental audit.',
+    timelineDrivers: [
+      'The number of invoices in the period',
+      'Whether your suppliers have filed on time',
+      'How clean the purchase register is when it reaches us',
+      'Whether earlier months need correcting first',
+    ],
     steps: [
       {
         label: 'Purchase register normalisation',
         detail:
           'Your books, in your format, mapped to GST fields. GSTINs validated, place of supply corrected, reverse-charge entries separated.',
-        effort: 20,
+        share: 20,
         risk: 'Wrong place of supply turns a valid credit into an ineligible one.',
       },
       {
         label: 'GSTR-2B three-way match',
         detail:
-          'Every purchase invoice matched against the auto-drafted statement and your ledger. Mismatches are itemised, not absorbed.',
-        effort: 35,
+          'Every purchase invoice matched against the auto-drafted statement and your ledger. Mismatches are listed, not absorbed.',
+        share: 35,
         risk: 'Silently claiming unmatched credit is the single most common cause of GST demand notices.',
       },
       {
         label: 'Vendor default chase',
         detail:
-          'Suppliers who have not uploaded invoices are listed and pursued so you can withhold payment until they do.',
-        effort: 20,
+          'Suppliers who have not uploaded invoices are identified and pursued so you can withhold payment until they do.',
+        share: 20,
         risk: 'Unchased defaults become permanently lost credit once the claim window closes.',
       },
       {
-        label: 'Liability computation & set-off',
+        label: 'Liability computation and set-off',
         detail:
           'Output liability computed, credit set off in the statutory order, net cash position confirmed before payment.',
-        effort: 15,
+        share: 15,
         risk: 'Incorrect set-off order overstates cash payable or triggers interest.',
       },
       {
-        label: 'Filing & archival',
+        label: 'Filing and archival',
         detail:
           'GSTR-1 and 3B filed, acknowledgements archived with the working papers that produced them.',
-        effort: 10,
+        share: 10,
         risk: 'Filings without retained workings cannot be defended three years later.',
       },
     ],
@@ -90,44 +129,58 @@ export const SERVICE_ANATOMY: ServiceAnatomy[] = [
     perception: '“You copy numbers from my Form 16 into a return.”',
     reality:
       'The department already holds a parallel record of your year — AIS, TIS and Form 26AS. The job is reconciling your position against theirs before you sign, because every unexplained gap is an automated notice waiting to be issued.',
-    visibleHours: '~30 min',
-    invisibleHours: '3–12 hrs',
+    clientInput:
+      'Form 16, bank and broker statements, and anything else that produced income during the year.',
+    workScope:
+      'Every entry the department already holds about you, traced back to your own records or formally explained — alongside both tax regimes computed in parallel.',
+    reviewLayers: 3,
+    checkpoints: [
+      'Department’s own data reconciled line by line',
+      'Head-wise classification confirmed',
+      'Both regimes computed and the difference shown in writing',
+      'Verification completed inside the statutory window',
+    ],
     carriedRisk:
       'A return that contradicts the department’s own data is selected for scrutiny by software, not by chance.',
+    timelineDrivers: [
+      'How many income sources and capital gains transactions there are',
+      'Whether the department’s records agree with yours',
+      'How quickly missing documents and confirmations arrive',
+      'Whether an earlier year needs revising first',
+    ],
     steps: [
       {
-        label: 'AIS / TIS / 26AS reconciliation',
+        label: 'AIS, TIS and 26AS reconciliation',
         detail:
           'Every reported interest payment, dividend, securities transaction and high-value entry traced to your records — or formally explained.',
-        effort: 30,
-        risk: 'Unreconciled entries are the most common trigger for a s.143(1) adjustment.',
+        share: 30,
+        risk: 'Unreconciled entries are the most common trigger for a section 143(1) adjustment.',
       },
       {
         label: 'Head-wise classification',
         detail:
           'Income correctly assigned across salary, house property, business, capital gains and other sources.',
-        effort: 15,
+        share: 15,
         risk: 'Misclassification changes the rate, the set-off rights and the carry-forward position.',
       },
       {
         label: 'Capital gains computation',
         detail:
           'Holding periods, indexation where available, grandfathering, and loss set-off ordering applied transaction by transaction.',
-        effort: 25,
+        share: 25,
         risk: 'Errors here are large, obvious to the department, and expensive to unwind.',
       },
       {
         label: 'Regime comparison',
         detail:
-          'Old and new regime computed in parallel and the difference shown to you in writing before election.',
-        effort: 15,
+          'Old and new regime computed in parallel, with the difference put in front of you before the election is made.',
+        share: 15,
         risk: 'The election is binding for the year — and for businesses, for longer.',
       },
       {
-        label: 'Filing & e-verification',
-        detail:
-          'Return filed, verification completed inside the window, acknowledgement archived.',
-        effort: 15,
+        label: 'Filing and e-verification',
+        detail: 'Return filed, verification completed inside the window, acknowledgement archived.',
+        share: 15,
         risk: 'An unverified return is legally treated as never filed.',
       },
     ],
@@ -138,45 +191,59 @@ export const SERVICE_ANATOMY: ServiceAnatomy[] = [
     pillarId: 'scrutiny',
     perception: '“You write a letter back to the department.”',
     reality:
-      'You are building an evidentiary record that a judge may read years from now. The reply you file at the first stage constrains every argument available to you at every stage after it.',
-    visibleHours: '~1 hr',
-    invisibleHours: '20–60 hrs',
+      'You are building an evidentiary record that a judge may read years from now. The reply filed at the first stage constrains every argument available at every stage after it.',
+    clientInput: 'The notice itself, and the records behind the year it questions.',
+    workScope:
+      'The procedural validity of the notice, the complete evidentiary record behind the year in question, and the binding case law on every point in issue.',
+    reviewLayers: 4,
+    checkpoints: [
+      'Jurisdiction, limitation and sanction tested before the merits',
+      'Paper book indexed and cross-referenced to the submission',
+      'Binding precedent identified for each ground',
+      'Submission reviewed as it will read on appeal, not just today',
+    ],
     carriedRisk:
       'A weak first reply cannot be withdrawn. Appellate authorities read it as your considered position.',
+    timelineDrivers: [
+      'The deadline stated on the notice — that governs everything else',
+      'How many assessment years and issues are in scope',
+      'Whether the department has actually furnished the material it relies on',
+      'How complete and retrievable the underlying records are',
+    ],
     steps: [
       {
         label: 'Notice validity audit',
         detail:
           'Jurisdiction, limitation period, sanctioning authority and service of notice tested before the merits are touched at all.',
-        effort: 20,
+        share: 20,
         risk: 'A procedurally void notice can end proceedings outright — but only if challenged in time.',
       },
       {
         label: 'Evidence assembly',
         detail:
           'Bank trails, contracts, invoices and confirmations collected and indexed into a paper book.',
-        effort: 30,
+        share: 30,
         risk: 'Evidence produced late is frequently refused at the appellate stage.',
       },
       {
         label: 'Legal research',
         detail:
           'Binding precedent identified from jurisdictional High Court and Tribunal decisions on the specific point.',
-        effort: 20,
+        share: 20,
         risk: 'An argument without authority is an opinion the officer is free to disregard.',
       },
       {
         label: 'Written submission drafting',
         detail:
-          'Facts, law and relief drafted as a self-contained document that reads correctly on its own in three years.',
-        effort: 20,
+          'Facts, law and relief drafted as a self-contained document that still reads correctly to a stranger in three years.',
+        share: 20,
         risk: 'Submissions that assume context the reader lacks fail on appeal.',
       },
       {
         label: 'Hearing representation',
         detail:
           'Appearance through the faceless portal or in person, with responses to further queries inside their deadlines.',
-        effort: 10,
+        share: 10,
         risk: 'A missed hearing is decided ex parte, on the department’s version alone.',
       },
     ],
@@ -185,52 +252,78 @@ export const SERVICE_ANATOMY: ServiceAnatomy[] = [
     id: 'incorporation',
     service: 'Company incorporation',
     pillarId: 'incorporation',
-    perception: '“You fill one government form.”',
+    perception: '“You fill in one government form.”',
     reality:
-      'SPICe+ collapses ten registrations into one submission — which means one rejected field rejects everything. Getting the structure right before filing is cheaper than restructuring after.',
-    visibleHours: '~2 hrs',
-    invisibleHours: '10–20 hrs',
+      'SPICe+ collapses ten registrations into a single submission — which means one rejected field rejects everything. Getting the structure right before filing costs far less than restructuring after.',
+    clientInput:
+      'Identity and address documents for each director, and a clear picture of what the business intends to do.',
+    workScope:
+      'Entity structure, shareholding, authorised capital and object clauses, plus ten separate registrations that must all agree with one another.',
+    reviewLayers: 3,
+    checkpoints: [
+      'Structure agreed against your actual plans, not a template',
+      'Name tested against existing companies and trademark classes',
+      'Constitutional documents drafted to your objects',
+      'Registers, certificates and a twelve-month calendar handed over',
+    ],
     carriedRisk:
-      'Share structure, object clauses and director particulars are expensive and slow to amend once registered.',
+      'Share structure, object clauses and director particulars are slow and expensive to amend once registered.',
+    timelineDrivers: [
+      'MCA processing queues, which no adviser controls',
+      'Whether the proposed names clear on the first attempt',
+      'How quickly digital signatures and director documents are ready',
+      'Whether the structure needs advisory work before anything is filed',
+    ],
     steps: [
       {
         label: 'Structure advisory',
         detail:
           'Entity type, shareholding split, authorised capital and founder vesting decided against your actual plans.',
-        effort: 25,
-        risk: 'The wrong structure is a restructuring cost, plus tax, later.',
+        share: 25,
+        risk: 'The wrong structure becomes a restructuring cost, plus tax, later.',
       },
       {
         label: 'Name reservation',
         detail:
           'Options tested against existing companies, trademark classes and naming rules before submission.',
-        effort: 15,
-        risk: 'Rejections cost fees and days, and can be repeated indefinitely.',
+        share: 15,
+        risk: 'Rejections cost fees and days, and can repeat indefinitely.',
       },
       {
         label: 'Constitutional drafting',
         detail:
           'Memorandum and articles drafted around your object clauses rather than pasted from a template.',
-        effort: 25,
+        share: 25,
         risk: 'Narrow object clauses block activities you have not thought of yet.',
       },
       {
         label: 'Integrated filing',
         detail:
           'DIN, DSC, PAN, TAN, EPFO, ESIC, professional tax and bank account submitted as a single application.',
-        effort: 20,
+        share: 20,
         risk: 'One inconsistent field rejects the entire bundle.',
       },
       {
         label: 'Post-incorporation handover',
         detail:
           'Certificate, statutory registers, share certificates and a twelve-month compliance calendar handed over.',
-        effort: 15,
-        risk: 'First-year compliance is missed most often by companies that were never told it existed.',
+        share: 15,
+        risk: 'First-year compliance is missed most often by companies that were never told it had begun.',
       },
     ],
   },
 ];
+
+/**
+ * Shown wherever service anatomy appears. States plainly that timelines are
+ * agreed per engagement, so nothing on this site can be read as a commitment
+ * for work whose scope we have not yet seen.
+ */
+export const TIMELINE_POSITION = {
+  heading: 'Why we do not publish turnaround times',
+  body: 'Two clients buying the same service rarely need the same work. Volumes grow, records arrive in different states, and a notice sets its own deadline. Publishing an average would be easy, and occasionally wrong — and the engagement it is wrong about is the one that matters. We agree a timeline with you in writing once we have seen the actual scope, and we tell you the moment anything changes it.',
+  note: 'Statutory deadlines shown elsewhere on this site are set by the department, not by us. Those are fixed, and they are the dates we work backwards from.',
+};
 
 /* -------------------------------------------------------------------------
    2. COST OF NON-COMPLIANCE
