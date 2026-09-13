@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" role="img" aria-label="The Paper Plane">
+  <title>The Paper Plane</title>
+  <!-- Document stack -->
+  <g fill="none" stroke-linejoin="round" stroke-linecap="round">
+    <g transform="translate(112 196) rotate(-19)">
+      <path d="M9 0 H119 L152 33 V103 A9 9 0 0 1 143 112 H9 A9 9 0 0 1 0 103 V9 A9 9 0 0 1 9 0 Z" stroke="#3fa0d8" stroke-width="14"/>
+      <path d="M119 0 V24 A9 9 0 0 0 128 33 H152" stroke="#3fa0d8" stroke-width="12"/>
+    </g>
+    <g transform="translate(150 128) rotate(-19)">
+      <path d="M9 0 H119 L152 33 V103 A9 9 0 0 1 143 112 H9 A9 9 0 0 1 0 103 V9 A9 9 0 0 1 9 0 Z" stroke="#2f8fd8" stroke-width="15"/>
+      <path d="M119 0 V24 A9 9 0 0 0 128 33 H152" stroke="#2f8fd8" stroke-width="13"/>
+      <path d="M30 48 H96 M30 74 H118" stroke="#2f8fd8" stroke-width="11"/>
+    </g>
+  </g>
+  <!-- Motion trail -->
+  <g stroke="#3fa0d8" stroke-linecap="round" fill="none">
+    <path d="M74 232 A 186 186 0 0 0 412 206" stroke-width="17"/>
+    <path d="M84 274 A 156 156 0 0 0 372 250" stroke-width="15"/>
+    <path d="M104 312 A 124 124 0 0 0 330 292" stroke-width="13"/>
+  </g>
+  <!-- Dart -->
+  <path d="M570 10 L233 95 L390 150 Z" fill="#1e3a6b"/>
+  <path d="M570 10 L390 150 L323 235 L233 95 Z" fill="#152a52"/>
+  <path d="M570 10 L390 150 L507 227 Z" fill="#0e1f3f"/>
+</svg>

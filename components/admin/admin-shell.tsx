@@ -1,0 +1,183 @@
+'use client';
+
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { useState } from 'react';
+import {
+  Building2,
+  FileText,
+  Inbox,
+  LayoutDashboard,
+  LogOut,
+  Mail,
+  Menu,
+  MonitorSmartphone,
+  Newspaper,
+  Users,
+  X,
+} from 'lucide-react';
+import { LogoMark } from '@/components/brand/logo';
+import { browserClient } from '@/lib/supabase-browser';
+import type { ProfileRow } from '@/lib/database.types';
+import { cn } from '@/lib/utils';
+
+type NavItem = {
+  href: string;
+  label: string;
+  icon: React.ElementType;
+  exact?: boolean;
+};
+
+const NAV: NavItem[] = [
+  { href: '/admin', label: 'Overview', icon: LayoutDashboard, exact: true },
+  { href: '/admin/clients', label: 'Clients', icon: Building2 },
+  { href: '/admin/enquiries', label: 'Enquiries', icon: Inbox },
+  { href: '/admin/subscribers', label: 'Subscribers', icon: Mail },
+  { href: '/admin/portfolio', label: 'Portfolio', icon: MonitorSmartphone },
+  { href: '/admin/content', label: 'Content', icon: FileText },
+  { href: '/admin/news', label: 'News feeds', icon: Newspaper },
+  { href: '/admin/team', label: 'Team', icon: Users },
+];
+
+const ROLE_LABEL: Record<string, string> = {
+  owner: 'Owner',
+  admin: 'Administrator',
+  editor: 'Editor',
+  viewer: 'Viewer',
+};
+
+export function AdminShell({
+  profile,
+  children,
+}: {
+  profile: ProfileRow;
+  children: React.ReactNode;
+}) {
+  const pathname = usePathname();
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+
+  const isActive = (href: string, exact?: boolean) =>
+    exact ? pathname === href : pathname.startsWith(href);
+
+  async function signOut() {
+    try {
+      await browserClient().auth.signOut();
+    } finally {
+      router.push('/admin/login');
+      router.refresh();
+    }
+  }
+
+  const initials =
+    (profile.full_name ?? profile.email)
+      .split(/[\s@.]+/)
+      .filter(Boolean)
+      .map((part) => part[0])
+      .slice(0, 2)
+      .join('')
+      .toUpperCase() || 'PP';
+
+  return (
+    <div className="bg-sunken min-h-dvh">
+      {/* Top bar (mobile) */}
+      <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-[var(--color-hairline)] bg-white/90 px-4 backdrop-blur-xl lg:hidden">
+        <Link href="/admin" className="flex items-center gap-2.5">
+          <LogoMark className="h-7 w-7" />
+          <span className="text-ink text-[0.9375rem] font-semibold">Admin</span>
+        </Link>
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-label={open ? 'Close menu' : 'Open menu'}
+          aria-expanded={open}
+          className="text-ink hover:bg-sunken flex h-10 w-10 items-center justify-center rounded-[var(--radius-sm)]"
+        >
+          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
+      </header>
+
+      <div className="lg:flex">
+        {/* Sidebar */}
+        <aside
+          className={cn(
+            'border-r border-[var(--color-hairline)] bg-white lg:sticky lg:top-0 lg:h-dvh lg:w-64 lg:shrink-0',
+            open ? 'block' : 'hidden lg:block',
+          )}
+        >
+          <div className="flex h-full flex-col">
+            <div className="hidden items-center gap-2.5 px-5 py-5 lg:flex">
+              <LogoMark className="h-8 w-8" />
+              <div className="leading-none">
+                <span className="text-ink block text-[0.9375rem] font-semibold">
+                  The Paper Plane
+                </span>
+                <span className="text-ink-quaternary mt-0.5 block text-[0.6875rem]">
+                  Admin console
+                </span>
+              </div>
+            </div>
+
+            <nav className="flex-1 space-y-0.5 px-3 py-3 lg:py-0" aria-label="Admin">
+              {NAV.map(({ href, label, icon: Icon, exact }) => {
+                const active = isActive(href, exact);
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    onClick={() => setOpen(false)}
+                    aria-current={active ? 'page' : undefined}
+                    className={cn(
+                      'flex items-center gap-3 rounded-[var(--radius-sm)] px-3 py-2.5 text-[0.9375rem] font-medium transition-colors',
+                      active
+                        ? 'bg-brand-50 text-brand-700'
+                        : 'text-ink-secondary hover:bg-sunken hover:text-ink',
+                    )}
+                  >
+                    <Icon className="h-4 w-4 shrink-0" strokeWidth={2} />
+                    {label}
+                  </Link>
+                );
+              })}
+            </nav>
+
+            <div className="border-t border-[var(--color-hairline)] p-3">
+              <div className="flex items-center gap-3 px-2 py-2">
+                <span className="bg-brand-50 text-brand-700 flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[0.75rem] font-semibold">
+                  {initials}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="text-ink truncate text-[0.875rem] font-medium">
+                    {profile.full_name ?? profile.email}
+                  </p>
+                  <p className="text-ink-quaternary truncate text-[0.75rem]">
+                    {ROLE_LABEL[profile.role] ?? profile.role}
+                  </p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={signOut}
+                className="text-ink-secondary hover:bg-sunken hover:text-ink mt-1 flex w-full items-center gap-3 rounded-[var(--radius-sm)] px-3 py-2.5 text-[0.875rem] font-medium transition-colors"
+              >
+                <LogOut className="h-4 w-4" strokeWidth={2} />
+                Sign out
+              </button>
+
+              <Link
+                href="/"
+                className="text-ink-quaternary hover:text-ink mt-1 block px-3 py-2 text-[0.8125rem] transition-colors"
+              >
+                ← Back to website
+              </Link>
+            </div>
+          </div>
+        </aside>
+
+        {/* Content */}
+        <main className="min-w-0 flex-1 px-5 py-6 sm:px-8 sm:py-8">{children}</main>
+      </div>
+    </div>
+  );
+}
