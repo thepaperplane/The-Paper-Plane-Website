@@ -63,9 +63,29 @@ export async function POST(request: Request) {
       );
     }
   } else {
-    // No database configured — log so the message is at least recoverable
-    // from deployment logs, and still tell the sender the truth.
+    // No database configured. Never return a cheerful "thank you" we cannot
+    // honour — a silently dropped enquiry is a lost client. Attempt the
+    // notification email, and if that is unavailable too, say so plainly and
+    // hand over a channel that definitely works.
     console.warn('[contact] Supabase not configured; enquiry not persisted', { email });
+
+    const notified = await sendEnquiryNotification({
+      name,
+      email,
+      phone,
+      company,
+      serviceId,
+      message,
+    }).catch(() => ({ sent: false }));
+
+    if (!notified.sent) {
+      return apiError(
+        'We could not deliver your message right now. Please email contact@thepaperplane.co.in or message us on WhatsApp — we do not want to lose it.',
+        503,
+      );
+    }
+
+    return apiOk({ message: 'Thank you — we will be in touch within one working day.' });
   }
 
   // Notification is best-effort: the enquiry is already safely stored, so a
