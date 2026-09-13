@@ -1,5 +1,6 @@
 import { ImageResponse } from 'next/og';
 import { SITE } from '@/lib/site';
+import { LOGO_MARK_DATA_URI } from '@/lib/brand-mark';
 
 export const runtime = 'edge';
 
@@ -24,7 +25,7 @@ export async function GET() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          background: 'linear-gradient(135deg, #ffffff 0%, #f5f5f7 55%, #eff8ff 100%)',
+          background: 'linear-gradient(135deg, #ffffff 0%, #f5f5f7 55%, #eef7fc 100%)',
           padding: '72px 80px',
           fontFamily: 'sans-serif',
           position: 'relative',
@@ -39,39 +40,17 @@ export async function GET() {
             width: 680,
             height: 680,
             borderRadius: 680,
-            background: 'radial-gradient(circle, rgba(48,154,230,0.22) 0%, rgba(48,154,230,0) 70%)',
+            background: 'radial-gradient(circle, rgba(53,165,213,0.22) 0%, rgba(53,165,213,0) 70%)',
             display: 'flex',
           }}
         />
 
         {/* Mark + wordmark */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-          <svg width="88" height="59" viewBox="0 0 600 400">
-            <g fill="none" strokeLinejoin="round" strokeLinecap="round">
-              <g transform="translate(112 196) rotate(-19)">
-                <path
-                  d="M9 0 H119 L152 33 V103 A9 9 0 0 1 143 112 H9 A9 9 0 0 1 0 103 V9 A9 9 0 0 1 9 0 Z"
-                  stroke="#3fa0d8"
-                  strokeWidth="14"
-                />
-              </g>
-              <g transform="translate(150 128) rotate(-19)">
-                <path
-                  d="M9 0 H119 L152 33 V103 A9 9 0 0 1 143 112 H9 A9 9 0 0 1 0 103 V9 A9 9 0 0 1 9 0 Z"
-                  stroke="#2f8fd8"
-                  strokeWidth="15"
-                />
-              </g>
-            </g>
-            <g stroke="#3fa0d8" strokeLinecap="round" fill="none">
-              <path d="M74 232 A 186 186 0 0 0 412 206" strokeWidth="17" />
-              <path d="M84 274 A 156 156 0 0 0 372 250" strokeWidth="15" />
-            </g>
-            <path d="M570 10 L233 95 L390 150 Z" fill="#1e3a6b" />
-            <path d="M570 10 L390 150 L323 235 L233 95 Z" fill="#152a52" />
-            <path d="M570 10 L390 150 L507 227 Z" fill="#0e1f3f" />
-          </svg>
-          <div style={{ display: 'flex', fontSize: 30, fontWeight: 600, color: '#152a52' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element -- Satori renders
+              plain <img>; next/image does not exist in this context. */}
+          <img src={LOGO_MARK_DATA_URI} width={92} height={64} alt="" />
+          <div style={{ display: 'flex', fontSize: 30, fontWeight: 600, color: '#1c3252' }}>
             {SITE.name}
           </div>
         </div>
@@ -83,7 +62,7 @@ export async function GET() {
               display: 'flex',
               fontSize: 74,
               fontWeight: 700,
-              color: '#152a52',
+              color: '#1c3252',
               letterSpacing: '-0.035em',
               lineHeight: 1.05,
             }}
@@ -95,7 +74,7 @@ export async function GET() {
               display: 'flex',
               fontSize: 74,
               fontWeight: 700,
-              color: '#2f80ed',
+              color: '#35a5d5',
               letterSpacing: '-0.035em',
               lineHeight: 1.05,
             }}
@@ -117,7 +96,7 @@ export async function GET() {
           <div style={{ display: 'flex', fontSize: 24, color: '#6e6e73' }}>
             Tax · GST · Scrutiny defence · Incorporation · Audit · Software
           </div>
-          <div style={{ display: 'flex', fontSize: 24, fontWeight: 600, color: '#152a52' }}>
+          <div style={{ display: 'flex', fontSize: 24, fontWeight: 600, color: '#1c3252' }}>
             thepaperplane.co.in
           </div>
         </div>

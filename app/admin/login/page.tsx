@@ -14,7 +14,7 @@ export default function AdminLoginPage() {
     <div className="bg-sunken flex min-h-dvh items-center justify-center px-6 py-16">
       <div className="w-full max-w-sm">
         <div className="mb-8 flex flex-col items-center text-center">
-          <LogoMark className="h-14 w-14" />
+          <LogoMark className="h-14 w-20" />
           <h1 className="text-ink mt-5 text-[1.375rem] font-semibold tracking-[-0.02em]">
             Admin console
           </h1>

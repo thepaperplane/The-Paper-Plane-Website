@@ -99,7 +99,7 @@ export function Hero({
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
                   <span className="ring-brand-100 flex h-11 w-11 items-center justify-center rounded-[var(--radius-md)] bg-white shadow-[var(--shadow-sm)] ring-1">
-                    <LogoMark className="h-7 w-7" />
+                    <LogoMark className="h-7 w-10" />
                   </span>
                   <div>
                     <p className="text-ink text-[0.9375rem] font-semibold">Every month</p>

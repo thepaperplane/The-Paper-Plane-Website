@@ -14,7 +14,7 @@ export default function NotFound() {
     <Section className="flex min-h-[70dvh] items-center pt-32">
       <div className="ambient-wash pointer-events-none absolute inset-0 -z-10" />
       <Container size="content" className="text-center">
-        <LogoMark className="mx-auto h-16 w-16" />
+        <LogoMark className="mx-auto h-16 w-[5.7rem]" />
 
         <p className="eyebrow mt-8">Error 404</p>
         <h1 className="text-ink mt-3 text-[length:var(--text-display-s)] leading-tight font-semibold tracking-[-0.03em]">

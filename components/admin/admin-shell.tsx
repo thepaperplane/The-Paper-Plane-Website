@@ -83,7 +83,7 @@ export function AdminShell({
       {/* Top bar (mobile) */}
       <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-[var(--color-hairline)] bg-white/90 px-4 backdrop-blur-xl lg:hidden">
         <Link href="/admin" className="flex items-center gap-2.5">
-          <LogoMark className="h-7 w-7" />
+          <LogoMark className="h-7 w-10" />
           <span className="text-ink text-[0.9375rem] font-semibold">Admin</span>
         </Link>
         <button
@@ -107,7 +107,7 @@ export function AdminShell({
         >
           <div className="flex h-full flex-col">
             <div className="hidden items-center gap-2.5 px-5 py-5 lg:flex">
-              <LogoMark className="h-8 w-8" />
+              <LogoMark className="h-8 w-[2.85rem]" />
               <div className="leading-none">
                 <span className="text-ink block text-[0.9375rem] font-semibold">
                   The Paper Plane

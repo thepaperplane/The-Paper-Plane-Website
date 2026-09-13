@@ -9,19 +9,23 @@
 
 @theme {
   /* --- Brand ------------------------------------------------------------
-     Derived from the logo artwork, not invented. The plane is deep navy,
-     the paper sheets and swoosh are sky blue.                            */
-  --color-brand-50: #eef6fd;
-  --color-brand-100: #d8ebf9;
-  --color-brand-200: #b4d9f3;
-  --color-brand-300: #7fc0e9;
-  --color-brand-400: #3fa0d8; /* logo — document outline & swoosh */
-  --color-brand-500: #2f8fd8; /* logo — front sheet stroke        */
-  --color-brand-600: #2f80ed; /* logo — tagline accent            */
-  --color-brand-700: #1e3a6b; /* logo — dart upper face           */
-  --color-brand-800: #152a52; /* logo — dart body                 */
-  --color-brand-900: #0e1f3f; /* logo — dart fold                 */
-  --color-brand-950: #08152b; /* deepest ground                   */
+     Sampled directly from the supplied logo vector, not invented.
+
+     Note on 500 vs 600: the authentic logo blue (#35a5d5) is only 2.8:1
+     against white, so it can never carry text or act as a button. It stays
+     DECORATIVE — fills, dots, bars, gradients. Anything a user must read or
+     click uses 600 (#2479a3, 4.84:1) or a navy, both of which pass WCAG AA. */
+  --color-brand-50: #eef7fc;
+  --color-brand-100: #d7ecf7;
+  --color-brand-200: #b2dbee;
+  --color-brand-300: #7cc3e2;
+  --color-brand-400: #4da8d0; /* logo — lighter swoosh            */
+  --color-brand-500: #35a5d5; /* LOGO BLUE — decorative only      */
+  --color-brand-600: #2479a3; /* AA-safe blue: buttons, links     */
+  --color-brand-700: #1c3252; /* logo — wordmark navy             */
+  --color-brand-800: #152b4d; /* logo — plane body                */
+  --color-brand-900: #11284a; /* logo — plane deep fold           */
+  --color-brand-950: #0b1c34; /* deepest ground                   */
 
   /* --- Canvas ----------------------------------------------------------
      Apple's light system greys. `canvas` is the page, `surface` is a card
@@ -48,8 +52,8 @@
   --color-warning-soft: #fdf3e3;
   --color-danger: #c8342a;
   --color-danger-soft: #fdeeed;
-  --color-info: #2f80ed;
-  --color-info-soft: #eaf2fe;
+  --color-info: #2479a3;
+  --color-info-soft: #e8f3f8;
 
   /* --- Typography ------------------------------------------------------
      `-apple-system` resolves to genuine SF Pro on Apple hardware; Inter is
@@ -97,7 +101,7 @@
     0 24px 48px -12px rgba(16, 24, 40, 0.12), 0 8px 16px -8px rgba(16, 24, 40, 0.05);
   --shadow-2xl:
     0 40px 80px -20px rgba(16, 24, 40, 0.16), 0 12px 24px -12px rgba(16, 24, 40, 0.06);
-  --shadow-brand: 0 16px 32px -12px rgba(47, 128, 237, 0.30);
+  --shadow-brand: 0 16px 32px -12px rgba(36, 121, 163, 0.30);
 
   /* --- Motion ----------------------------------------------------------
      Apple's spring-adjacent easing curves.                               */
@@ -233,7 +237,7 @@
 
   .card-interactive:hover {
     transform: translateY(-2px);
-    border-color: rgba(47, 128, 237, 0.26);
+    border-color: rgba(36, 121, 163, 0.26);
     box-shadow: var(--shadow-lg);
   }
 
@@ -264,8 +268,8 @@
      and it never overflows a phone viewport.                             */
   .ambient-wash {
     background-image:
-      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(63, 160, 216, 0.11), transparent 60%),
-      radial-gradient(ellipse 60% 40% at 90% 10%, rgba(47, 128, 237, 0.05), transparent 55%);
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(53, 165, 213, 0.12), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 90% 10%, rgba(36, 121, 163, 0.06), transparent 55%);
   }
 }
 

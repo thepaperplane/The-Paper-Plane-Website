@@ -59,7 +59,7 @@ export function SiteHeader() {
             className="shrink-0 rounded-lg transition-opacity hover:opacity-80"
             aria-label={`${SITE.name} — home`}
           >
-            <Logo />
+            <Logo priority />
           </Link>
 
           {/* Desktop navigation */}
@@ -95,7 +95,7 @@ export function SiteHeader() {
 
             <Link
               href="/contact"
-              className="bg-brand-600 hover:bg-brand-700 hidden h-10 items-center gap-1.5 rounded-[var(--radius-md)] px-4 text-[0.9375rem] font-semibold text-white shadow-[var(--shadow-brand)] transition-all duration-300 hover:shadow-[0_18px_36px_-12px_rgba(33,139,224,0.45)] active:scale-[0.97] sm:inline-flex"
+              className="bg-brand-600 hover:bg-brand-700 hidden h-10 items-center gap-1.5 rounded-[var(--radius-md)] px-4 text-[0.9375rem] font-semibold text-white shadow-[var(--shadow-brand)] transition-all duration-300 hover:shadow-[0_18px_36px_-12px_rgba(36,121,163,0.45)] active:scale-[0.97] sm:inline-flex"
             >
               Book a consultation
             </Link>

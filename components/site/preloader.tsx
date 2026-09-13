@@ -94,7 +94,7 @@ export function Preloader() {
       <div className="ambient-wash pointer-events-none absolute inset-0" />
 
       <div className="relative flex flex-col items-center">
-        <LogoMark className="h-28 w-28 sm:h-32 sm:w-32" animated />
+        <LogoMark className="h-20 w-28 sm:h-24 sm:w-[8.5rem]" animated priority />
 
         <div
           className="mt-6 overflow-hidden"
