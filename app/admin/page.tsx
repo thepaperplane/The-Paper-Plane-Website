@@ -8,12 +8,12 @@ import { formatRelative } from '@/lib/utils';
 export const dynamic = 'force-dynamic';
 
 const ENQUIRY_TONE = {
-  new: 'brand',
+  new: 'accent',
   contacted: 'neutral',
-  qualified: 'success',
-  converted: 'success',
+  qualified: 'positive',
+  converted: 'positive',
   archived: 'neutral',
-  spam: 'danger',
+  spam: 'critical',
 } as const;
 
 export default async function AdminOverview({
@@ -90,15 +90,15 @@ export default async function AdminOverview({
       ) : null}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Stat label="Active clients" value={stats.clients} tone="brand" />
+        <Stat label="Active clients" value={stats.clients} tone="accent" />
         <Stat label="Open leads" value={stats.leads} />
         <Stat
           label="New enquiries"
           value={stats.enquiries}
-          tone={stats.enquiries > 0 ? 'warning' : 'neutral'}
+          tone={stats.enquiries > 0 ? 'caution' : 'neutral'}
           hint={stats.enquiries > 0 ? 'Awaiting a first reply' : 'Nothing waiting'}
         />
-        <Stat label="Calendar subscribers" value={stats.subscribers} tone="success" />
+        <Stat label="Calendar subscribers" value={stats.subscribers} tone="positive" />
       </div>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
@@ -160,9 +160,9 @@ export default async function AdminOverview({
               <div className="flex items-center justify-between">
                 <span className="text-ink-tertiary text-[0.875rem]">Feeds with errors</span>
                 {stats.feedErrors > 0 ? (
-                  <Pill tone="danger">{stats.feedErrors} failing</Pill>
+                  <Pill tone="critical">{stats.feedErrors} failing</Pill>
                 ) : (
-                  <Pill tone="success">All healthy</Pill>
+                  <Pill tone="positive">All healthy</Pill>
                 )}
               </div>
               <Link

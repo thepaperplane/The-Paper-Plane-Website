@@ -1,122 +1,191 @@
 @import 'tailwindcss';
 
 /* ==========================================================================
-   THE PAPER PLANE — DESIGN SYSTEM v2  ·  "Paper Light"
-   A strict light theme built on Apple iOS Human Interface Guidelines.
-   Every token below is the single source of truth for the site AND the
-   admin console, so the two never drift apart.
+   THE PAPER PLANE — DESIGN SYSTEM v3  ·  "Editorial"
+
+   Two complete themes, one design. Light is the default; dark is a deliberate
+   choice the visitor makes, not a media-query accident.
+
+   Principles this file encodes, in reaction to what v2 got wrong:
+     - Type carries the design. A real pairing, a real scale, real hierarchy —
+       not a system font stack with size variations.
+     - Structure comes from rules, indents and negative space. Boxes are a
+       last resort, which is why there is no generic `.card` here.
+     - Gradients are not decoration. There are none in the base layer.
+     - One accent. Everything else is ink on ground.
    ========================================================================== */
 
 @theme {
-  /* --- Brand ------------------------------------------------------------
-     Sampled directly from the supplied logo vector, not invented.
-
-     Note on 500 vs 600: the authentic logo blue (#35a5d5) is only 2.8:1
-     against white, so it can never carry text or act as a button. It stays
-     DECORATIVE — fills, dots, bars, gradients. Anything a user must read or
-     click uses 600 or a navy.
-
-     600 and ink-quaternary are tuned to pass AA against BOTH #ffffff and the
-     #f5f5f7 sunken surface — a value that passes on white alone still fails
-     inside every sunken section, which is most of the page. */
-  --color-brand-50: #eef7fc;
-  --color-brand-100: #d7ecf7;
-  --color-brand-200: #b2dbee;
-  --color-brand-300: #7cc3e2;
-  --color-brand-400: #4da8d0; /* logo — lighter swoosh            */
-  --color-brand-500: #35a5d5; /* LOGO BLUE — decorative only      */
-  --color-brand-600: #216f97; /* AA-safe blue: buttons, links     */
-  --color-brand-700: #1c3252; /* logo — wordmark navy             */
-  --color-brand-800: #152b4d; /* logo — plane body                */
-  --color-brand-900: #11284a; /* logo — plane deep fold           */
-  --color-brand-950: #0b1c34; /* deepest ground                   */
-
-  /* --- Canvas ----------------------------------------------------------
-     Apple's light system greys. `canvas` is the page, `surface` is a card
-     sitting on it, `sunken` is a well recessed into it.                  */
-  --color-canvas: #ffffff;
-  --color-surface: #ffffff;
-  --color-sunken: #f5f5f7; /* Apple's signature light grey */
-  --color-muted: #fafafc;
-
-  /* --- Ink (text) ------------------------------------------------------ */
-  --color-ink: #1d1d1f; /* Apple near-black — primary label   */
-  --color-ink-secondary: #494950; /* secondary label                    */
-  --color-ink-tertiary: #6e6e73; /* tertiary label                     */
-  --color-ink-quaternary: #6b6b75; /* quaternary — AA on white AND sunken */
-
-  /* --- Separators ------------------------------------------------------ */
-  --color-hairline: rgba(0, 0, 0, 0.08);
-  --color-hairline-strong: rgba(0, 0, 0, 0.14);
-
-  /* --- Semantic (iOS system colours, light variants) ------------------- */
-  --color-success: #0f7a3d;
-  --color-success-soft: #e8f6ed;
-  --color-warning: #9a5a00;
-  --color-warning-soft: #fdf3e3;
-  --color-danger: #c8342a;
-  --color-danger-soft: #fdeeed;
-  --color-info: #2479a3;
-  --color-info-soft: #e8f3f8;
-
   /* --- Typography ------------------------------------------------------
-     `-apple-system` resolves to genuine SF Pro on Apple hardware; Inter is
-     the self-hosted fallback everywhere else. No external font request.  */
-  --font-sans:
-    -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', var(--font-inter),
-    'Segoe UI', Roboto, system-ui, sans-serif;
-  --font-mono:
-    'SF Mono', ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, monospace;
+     Instrument Serif  — display. High-contrast editorial serif: the
+                         considered-document voice the advisory side needs.
+     Archivo           — body and UI. Grotesque workhorse with an engineered
+                         feel that carries the technology side.
+     JetBrains Mono    — statutory references only (s.148, GSTR-3B, Form 3CA).
+                         On a compliance site this is precision, not ornament. */
+  --font-display: var(--font-instrument-serif), 'Iowan Old Style', Georgia, serif;
+  --font-sans: var(--font-archivo), 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, 'SF Mono', Menlo, monospace;
 
-  /* Apple type ramp, converted to a fluid scale. */
-  --text-caption-2: 0.6875rem; /* 11 */
-  --text-caption: 0.75rem; /* 12 */
-  --text-footnote: 0.8125rem; /* 13 */
-  --text-subhead: 0.9375rem; /* 15 */
-  --text-callout: 1rem; /* 16 */
-  --text-body: 1.0625rem; /* 17 — iOS body */
-  --text-headline: 1.0625rem; /* 17 semibold  */
-  --text-title-3: 1.375rem; /* 22 */
-  --text-title-2: 1.75rem; /* 28 */
-  --text-title-1: 2.125rem; /* 34 */
-  --text-display-s: clamp(2.25rem, 1.6rem + 2.6vw, 3rem);
-  --text-display-m: clamp(2.75rem, 1.7rem + 4.2vw, 4.25rem);
-  --text-display-l: clamp(3.25rem, 1.8rem + 5.8vw, 5.5rem);
+  /* Editorial scale — wide intervals so hierarchy is unmistakable. */
+  --text-micro: 0.75rem;
+  --text-caption: 0.8125rem;
+  --text-small: 0.875rem;
+  --text-body: 1rem;
+  --text-body-lg: 1.125rem;
+  --text-lede: clamp(1.125rem, 1.02rem + 0.5vw, 1.375rem);
+  --text-title-3: 1.25rem;
+  --text-title-2: clamp(1.375rem, 1.25rem + 0.6vw, 1.75rem);
+  --text-title-1: clamp(1.75rem, 1.4rem + 1.7vw, 2.75rem);
+  --text-display-2: clamp(2.25rem, 1.55rem + 3.4vw, 4.25rem);
+  --text-display-1: clamp(2.75rem, 1.5rem + 6vw, 7rem);
 
-  /* --- Radii -----------------------------------------------------------
-     iOS continuous-curvature ladder.                                     */
-  --radius-xs: 6px;
-  --radius-sm: 10px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
-  --radius-2xl: 34px;
-  --radius-3xl: 44px;
+  /* --- Rhythm ----------------------------------------------------------
+     Three deliberate section heights. Uniform padding everywhere is what
+     made v2 read as "safe" — nothing could be emphasised because everything
+     was weighted identically. */
+  --space-section-sm: clamp(3.5rem, 3rem + 2vw, 5rem);
+  --space-section: clamp(5rem, 4rem + 5vw, 9rem);
+  --space-section-lg: clamp(7rem, 5rem + 9vw, 14rem);
 
-  /* --- Elevation -------------------------------------------------------
-     Layered, low-opacity shadows. Never one harsh drop.                  */
-  --shadow-xs: 0 1px 2px rgba(16, 24, 40, 0.04);
-  --shadow-sm: 0 1px 3px rgba(16, 24, 40, 0.06), 0 1px 2px rgba(16, 24, 40, 0.04);
-  --shadow-md:
-    0 4px 8px -2px rgba(16, 24, 40, 0.06), 0 2px 4px -2px rgba(16, 24, 40, 0.04);
-  --shadow-lg:
-    0 12px 24px -6px rgba(16, 24, 40, 0.08), 0 4px 8px -4px rgba(16, 24, 40, 0.04);
-  --shadow-xl:
-    0 24px 48px -12px rgba(16, 24, 40, 0.12), 0 8px 16px -8px rgba(16, 24, 40, 0.05);
-  --shadow-2xl:
-    0 40px 80px -20px rgba(16, 24, 40, 0.16), 0 12px 24px -12px rgba(16, 24, 40, 0.06);
-  --shadow-brand: 0 16px 32px -12px rgba(33, 111, 151, 0.30);
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
 
-  /* --- Motion ----------------------------------------------------------
-     Apple's spring-adjacent easing curves.                               */
-  --ease-out-ios: cubic-bezier(0.32, 0.72, 0, 1);
-  --ease-in-out-ios: cubic-bezier(0.65, 0, 0.35, 1);
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-editorial: cubic-bezier(0.65, 0, 0.35, 1);
 
-  /* --- Layout ---------------------------------------------------------- */
-  --spacing-gutter: 1.5rem;
-  --container-content: 46rem;
-  --container-page: 80rem;
+  --container-page: 84rem;
+  --container-text: 38rem;
+}
+
+/* ==========================================================================
+   THEMES
+
+   Light is :root. Dark applies when the visitor chose it, or when they have
+   expressed no choice and their OS prefers dark. An explicit light choice
+   always beats the OS preference, which is why the media query is scoped to
+   :root:not([data-theme='light']).
+
+   Every value is verified against WCAG AA for its own ground — ratios noted
+   inline so a future edit can't quietly break them.
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  --ground: #fbfbf9; /* warm paper, not clinical white */
+  --surface: #ffffff;
+  --sunken: #f3f3f0;
+  --inverse: #0a0b0d;
+  --inverse-ink: #f2f2ef;
+
+  --ink: #12131a; /* 17.9:1 on ground */
+  --ink-2: #44464f; /*  9.1:1 */
+  --ink-3: #6b6d77; /*  5.0:1 — lowest level allowed to carry text */
+  --faint: #a8aab2; /*  NEVER text. Rules, disabled states, decoration only. */
+
+  --accent: #1b6e92; /*  5.5:1 on ground; white on it is 5.7:1 */
+  --accent-hover: #175f7e;
+  --accent-ink: #ffffff;
+  --accent-wash: #eef4f8;
+
+  --hairline: rgba(18, 19, 26, 0.1);
+  --hairline-strong: rgba(18, 19, 26, 0.18);
+
+  --positive: #0f7a3d;
+  --caution: #8f5300;
+  --critical: #a8291f;
+
+  --shadow-soft: 0 1px 2px rgba(18, 19, 26, 0.04), 0 8px 24px -12px rgba(18, 19, 26, 0.1);
+  --shadow-lift: 0 2px 4px rgba(18, 19, 26, 0.05), 0 20px 48px -20px rgba(18, 19, 26, 0.16);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+
+    --ground: #0a0b0d;
+    --surface: #131419;
+    --sunken: #08090b;
+    --inverse: #fbfbf9;
+    --inverse-ink: #12131a;
+
+    --ink: #f2f2ef; /* 17.6:1 on ground */
+    --ink-2: #b4b6be; /*  9.7:1 */
+    --ink-3: #8c8e97; /*  6.0:1 */
+    --faint: #5a5c65; /*  NEVER text. */
+
+    --accent: #4fb6e0; /*  8.5:1 on ground */
+    --accent-hover: #6bc4e8;
+    --accent-ink: #0a0b0d; /* dark text on a bright fill — 8.5:1 */
+    --accent-wash: #10222b;
+
+    --hairline: rgba(255, 255, 255, 0.09);
+    --hairline-strong: rgba(255, 255, 255, 0.18);
+
+    --positive: #4ac57d;
+    --caution: #e0a54a;
+    --critical: #ef6f63;
+
+    --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px -12px rgba(0, 0, 0, 0.7);
+    --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.5), 0 20px 48px -20px rgba(0, 0, 0, 0.8);
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --ground: #0a0b0d;
+  --surface: #131419;
+  --sunken: #08090b;
+  --inverse: #fbfbf9;
+  --inverse-ink: #12131a;
+
+  --ink: #f2f2ef;
+  --ink-2: #b4b6be;
+  --ink-3: #8c8e97;
+  --faint: #5a5c65;
+
+  --accent: #4fb6e0;
+  --accent-hover: #6bc4e8;
+  --accent-ink: #0a0b0d;
+  --accent-wash: #10222b;
+
+  --hairline: rgba(255, 255, 255, 0.09);
+  --hairline-strong: rgba(255, 255, 255, 0.18);
+
+  --positive: #4ac57d;
+  --caution: #e0a54a;
+  --critical: #ef6f63;
+
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px -12px rgba(0, 0, 0, 0.7);
+  --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.5), 0 20px 48px -20px rgba(0, 0, 0, 0.8);
+}
+
+/* Expose the theme values to Tailwind's utility generator, so `text-ink-2`,
+   `bg-surface`, `border-hairline` etc. resolve in both themes automatically. */
+@theme inline {
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-sunken: var(--sunken);
+  --color-inverse: var(--inverse);
+  --color-inverse-ink: var(--inverse-ink);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-wash: var(--accent-wash);
+  --color-hairline: var(--hairline);
+  --color-hairline-strong: var(--hairline-strong);
+  --color-positive: var(--positive);
+  --color-caution: var(--caution);
+  --color-critical: var(--critical);
 }
 
 /* ==========================================================================
@@ -125,60 +194,73 @@
 
 @layer base {
   * {
-    border-color: var(--color-hairline);
+    border-color: var(--hairline);
   }
 
   html {
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
-    scroll-padding-top: 6rem;
+    scroll-padding-top: 5rem;
   }
 
   body {
-    background-color: var(--color-canvas);
-    color: var(--color-ink);
+    background-color: var(--ground);
+    color: var(--ink);
     font-family: var(--font-sans);
     font-size: var(--text-body);
-    line-height: 1.5;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-    font-feature-settings: 'kern' 1, 'liga' 1, 'cv11' 1;
+    font-synthesis-weight: none;
+    /* A theme switch should feel like a dimmer, not a strobe. */
+    transition:
+      background-color 0.45s var(--ease-in-out-editorial),
+      color 0.45s var(--ease-in-out-editorial);
   }
 
-  /* Apple sets display type tight and dark; body type looser and softer. */
+  /* Display type is the serif, set tight with optical negative tracking —
+     the way a magazine sets a masthead. */
   h1,
   h2,
-  h3,
-  h4 {
-    color: var(--color-ink);
-    font-weight: 600;
-    letter-spacing: -0.022em;
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.04;
     text-wrap: balance;
+    color: var(--ink);
   }
 
-  h1 {
-    letter-spacing: -0.032em;
-    line-height: 1.05;
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    color: var(--ink);
   }
 
   p {
     text-wrap: pretty;
   }
 
-  /* Visible, on-brand focus ring — never remove the outline outright. */
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
   :focus-visible {
-    outline: 2px solid var(--color-brand-600);
-    outline-offset: 2px;
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
     border-radius: var(--radius-xs);
   }
 
   ::selection {
-    background-color: var(--color-brand-100);
-    color: var(--color-brand-900);
+    background-color: var(--accent);
+    color: var(--accent-ink);
   }
 
-  /* Respect the user's motion preference globally. */
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -192,88 +274,88 @@
 }
 
 /* ==========================================================================
-   COMPONENT PRIMITIVES
+   EDITORIAL PRIMITIVES
+   Structure from rules, numerals and indents — not from boxes.
    ========================================================================== */
 
 @layer components {
-  /* --- Glass ------------------------------------------------------------
-     Authentic iOS material: heavy saturation boost over a light scrim,
-     hairline top highlight, soft ambient shadow. Tuned for LIGHT ground. */
-  .glass {
-    background-color: rgba(255, 255, 255, 0.72);
-    backdrop-filter: saturate(180%) blur(20px);
-    -webkit-backdrop-filter: saturate(180%) blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    box-shadow:
-      var(--shadow-lg),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  }
 
-  .glass-strong {
-    background-color: rgba(255, 255, 255, 0.86);
-    backdrop-filter: saturate(200%) blur(28px);
-    -webkit-backdrop-filter: saturate(200%) blur(28px);
-    border: 1px solid rgba(255, 255, 255, 0.85);
-    box-shadow:
-      var(--shadow-xl),
-      inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  /* --- Brand mark -------------------------------------------------------
+     Rendered as a background-image rather than two <img> tags so only the
+     variant the active theme needs is ever downloaded — a hidden <img> is
+     still fetched by most browsers. */
+  .logo-mark {
+    background-image: url('/brand/logo-mark.svg');
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: contain;
   }
-
-  /* Browsers without backdrop-filter get an opaque surface, not a smear. */
-  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    .glass,
-    .glass-strong {
-      background-color: rgba(255, 255, 255, 0.97);
+  :root[data-theme='dark'] .logo-mark {
+    background-image: url('/brand/logo-mark-dark.svg');
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) .logo-mark {
+      background-image: url('/brand/logo-mark-dark.svg');
     }
   }
 
-  /* --- Card ------------------------------------------------------------- */
-  .card {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-hairline);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
-    transition:
-      box-shadow 0.4s var(--ease-out-ios),
-      transform 0.4s var(--ease-out-ios),
-      border-color 0.4s var(--ease-out-ios);
-  }
-
-  .card-interactive:hover {
-    transform: translateY(-2px);
-    border-color: rgba(36, 121, 163, 0.26);
-    box-shadow: var(--shadow-lg);
-  }
-
-  /* --- Eyebrow ---------------------------------------------------------
-     The ONE place uppercase is allowed. Small, tracked, never a heading. */
-  .eyebrow {
-    font-size: var(--text-caption);
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-brand-600);
-  }
-
-  /* --- Hairline rule ---------------------------------------------------- */
+  /* A hairline spanning a column. The workhorse structural device. */
   .rule {
     height: 1px;
-    background: linear-gradient(
-      to right,
-      transparent,
-      var(--color-hairline-strong) 18%,
-      var(--color-hairline-strong) 82%,
-      transparent
-    );
+    background-color: var(--hairline);
   }
 
-  /* --- Ambient brand wash ----------------------------------------------
-     Replaces the old 600px blur orbs: same depth, a fraction of the cost,
-     and it never overflows a phone viewport.                             */
-  .ambient-wash {
-    background-image:
-      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(53, 165, 213, 0.12), transparent 60%),
-      radial-gradient(ellipse 60% 40% at 90% 10%, rgba(36, 121, 163, 0.06), transparent 55%);
+  /* Small tracked label. The only place uppercase is permitted. */
+  .label {
+    font-family: var(--font-sans);
+    font-size: var(--text-micro);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  /* Statutory references — s.148, GSTR-3B, Form 3CA. */
+  .ref {
+    font-family: var(--font-mono);
+    font-size: 0.8125em;
+    letter-spacing: -0.01em;
+    font-feature-settings: 'zero' 1;
+  }
+
+  /* Editorial index numeral: 01, 02, 03 — serif, large, quiet.
+
+     Uses ink-3, not faint. An earlier pass set these in --faint and they
+     measured 2.2:1 — invisible, and wrong the moment a numeral carries real
+     content (the calendar sets dates this way). Quietness comes from the
+     serif and the size, not from washing the colour out. --faint stays
+     reserved for rules and borders, exactly as its comment says. */
+  .numeral {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-variant-numeric: tabular-nums lining-nums;
+    color: var(--ink-3);
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  /* Display italic, used sparingly for emphasis inside a headline. */
+  .em-serif {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  /* Underline that grows from the baseline, the way print sets a link. */
+  .link-underline {
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    transition: background-size 0.4s var(--ease-out-editorial);
+  }
+  .link-underline:hover,
+  .link-underline:focus-visible {
+    background-size: 100% 1px;
   }
 }
 
@@ -290,28 +372,46 @@
     display: none;
   }
 
-  /* Wide content (tables, code, mockups) scrolls in its own lane so the
-     page body never scrolls horizontally. */
   .scroll-lane {
     overflow-x: auto;
     overscroll-behavior-x: contain;
     -webkit-overflow-scrolling: touch;
   }
 
-  .text-gradient-brand {
-    background: linear-gradient(
-      135deg,
-      var(--color-brand-800) 0%,
-      var(--color-brand-500) 55%,
-      var(--color-brand-400) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
+  /* Scroll reveal — opacity and a short lift. Nothing spins, nothing flies
+     in from the side.
+
+     Critically, the DEFAULT is visible. Content is only hidden once the
+     inline head script has set `.reveal-ready`, proving JS is running and
+     will bring it back. Hiding by default would mean a broken observer, a
+     JS error, a crawler or a reader with scripts off sees a blank page —
+     which is exactly the failure this inversion prevents. */
+  .reveal {
+    opacity: 1;
+    transform: none;
   }
 
-  /* Screen-reader-only, but focusable (used by the skip link). */
+  .reveal-ready .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 0.85s var(--ease-out-editorial),
+      transform 0.85s var(--ease-out-editorial);
+    will-change: opacity, transform;
+  }
+
+  .reveal-ready .reveal[data-shown='true'] {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-ready .reveal {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
   .sr-only-focusable:not(:focus):not(:focus-within) {
     position: absolute;
     width: 1px;
@@ -322,58 +422,5 @@
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border-width: 0;
-  }
-}
-
-/* ==========================================================================
-   KEYFRAMES
-   ========================================================================== */
-
-@keyframes pp-fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes pp-draw {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes pp-glide {
-  0% {
-    opacity: 0;
-    transform: translate3d(-6px, 6px, 0) rotate(-4deg);
-  }
-  55% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) rotate(0deg);
-  }
-}
-
-@keyframes pp-marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-@keyframes pp-shimmer {
-  from {
-    background-position: -200% 0;
-  }
-  to {
-    background-position: 200% 0;
   }
 }

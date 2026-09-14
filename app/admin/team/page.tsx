@@ -9,8 +9,8 @@ export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Team' };
 
 const ROLE_TONE = {
-  owner: 'brand',
-  admin: 'success',
+  owner: 'accent',
+  admin: 'positive',
   editor: 'neutral',
   viewer: 'neutral',
 } as const;
@@ -70,7 +70,7 @@ export default async function TeamPage() {
                   <Pill tone={ROLE_TONE[member.role]}>{member.role}</Pill>
                 </td>
                 <td className="px-6 py-3.5">
-                  <Pill tone={member.is_active ? 'success' : 'neutral'}>
+                  <Pill tone={member.is_active ? 'positive' : 'neutral'}>
                     {member.is_active ? 'active' : 'disabled'}
                   </Pill>
                 </td>

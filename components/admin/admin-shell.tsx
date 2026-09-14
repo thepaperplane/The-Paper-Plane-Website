@@ -81,7 +81,7 @@ export function AdminShell({
   return (
     <div className="bg-sunken min-h-dvh">
       {/* Top bar (mobile) */}
-      <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-[var(--color-hairline)] bg-white/90 px-4 backdrop-blur-xl lg:hidden">
+      <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-[var(--hairline)] bg-surface/90 px-4 backdrop-blur-xl lg:hidden">
         <Link href="/admin" className="flex items-center gap-2.5">
           <LogoMark className="h-7 w-10" />
           <span className="text-ink text-[0.9375rem] font-semibold">Admin</span>
@@ -101,7 +101,7 @@ export function AdminShell({
         {/* Sidebar */}
         <aside
           className={cn(
-            'border-r border-[var(--color-hairline)] bg-white lg:sticky lg:top-0 lg:h-dvh lg:w-64 lg:shrink-0',
+            'border-r border-[var(--hairline)] bg-surface lg:sticky lg:top-0 lg:h-dvh lg:w-64 lg:shrink-0',
             open ? 'block' : 'hidden lg:block',
           )}
         >
@@ -112,7 +112,7 @@ export function AdminShell({
                 <span className="text-ink block text-[0.9375rem] font-semibold">
                   The Paper Plane
                 </span>
-                <span className="text-ink-quaternary mt-0.5 block text-[0.6875rem]">
+                <span className="text-ink-3 mt-0.5 block text-[0.6875rem]">
                   Admin console
                 </span>
               </div>
@@ -130,8 +130,8 @@ export function AdminShell({
                     className={cn(
                       'flex items-center gap-3 rounded-[var(--radius-sm)] px-3 py-2.5 text-[0.9375rem] font-medium transition-colors',
                       active
-                        ? 'bg-brand-50 text-brand-700'
-                        : 'text-ink-secondary hover:bg-sunken hover:text-ink',
+                        ? 'bg-accent-wash text-accent'
+                        : 'text-ink-2 hover:bg-sunken hover:text-ink',
                     )}
                   >
                     <Icon className="h-4 w-4 shrink-0" strokeWidth={2} />
@@ -141,16 +141,16 @@ export function AdminShell({
               })}
             </nav>
 
-            <div className="border-t border-[var(--color-hairline)] p-3">
+            <div className="border-t border-[var(--hairline)] p-3">
               <div className="flex items-center gap-3 px-2 py-2">
-                <span className="bg-brand-50 text-brand-700 flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[0.75rem] font-semibold">
+                <span className="bg-accent-wash text-accent flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[0.75rem] font-semibold">
                   {initials}
                 </span>
                 <div className="min-w-0 flex-1">
                   <p className="text-ink truncate text-[0.875rem] font-medium">
                     {profile.full_name ?? profile.email}
                   </p>
-                  <p className="text-ink-quaternary truncate text-[0.75rem]">
+                  <p className="text-ink-3 truncate text-[0.75rem]">
                     {ROLE_LABEL[profile.role] ?? profile.role}
                   </p>
                 </div>
@@ -159,7 +159,7 @@ export function AdminShell({
               <button
                 type="button"
                 onClick={signOut}
-                className="text-ink-secondary hover:bg-sunken hover:text-ink mt-1 flex w-full items-center gap-3 rounded-[var(--radius-sm)] px-3 py-2.5 text-[0.875rem] font-medium transition-colors"
+                className="text-ink-2 hover:bg-sunken hover:text-ink mt-1 flex w-full items-center gap-3 rounded-[var(--radius-sm)] px-3 py-2.5 text-[0.875rem] font-medium transition-colors"
               >
                 <LogOut className="h-4 w-4" strokeWidth={2} />
                 Sign out
@@ -167,7 +167,7 @@ export function AdminShell({
 
               <Link
                 href="/"
-                className="text-ink-quaternary hover:text-ink mt-1 block px-3 py-2 text-[0.8125rem] transition-colors"
+                className="text-ink-3 hover:text-ink mt-1 block px-3 py-2 text-[0.8125rem] transition-colors"
               >
                 ← Back to website
               </Link>

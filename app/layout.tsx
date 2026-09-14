@@ -1,28 +1,49 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
+import { Archivo, Instrument_Serif, JetBrains_Mono } from 'next/font/google';
 import { SITE, organizationJsonLd } from '@/lib/site';
 import { SiteHeader } from '@/components/site/site-header';
 import { SiteFooter } from '@/components/site/site-footer';
-import { Preloader } from '@/components/site/preloader';
+import { THEME_SCRIPT } from '@/components/site/theme';
+import { Reveal } from '@/components/site/reveal';
 import './globals.css';
 
-/**
- * Inter is the self-hosted fallback. Apple hardware resolves to genuine
- * SF Pro through the `-apple-system` stack in globals.css before reaching
- * this — so there is no external font request on the platforms that matter
- * most for the design, and no layout shift anywhere.
- */
-const inter = Inter({
+/* --------------------------------------------------------------------------
+   Type pairing. All three are self-hosted by next/font — no external request,
+   no layout shift, and `display: swap` with a matched fallback so the first
+   paint is never blank.
+
+   Instrument Serif carries the display voice; Archivo does the reading work;
+   JetBrains Mono is reserved for statutory references.
+   -------------------------------------------------------------------------- */
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ['latin'],
+  weight: '400',
+  style: ['normal', 'italic'],
+  display: 'swap',
+  variable: '--font-instrument-serif',
+  adjustFontFallback: true,
+});
+
+const archivo = Archivo({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-inter',
+  variable: '--font-archivo',
+  adjustFontFallback: true,
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  display: 'swap',
+  variable: '--font-jetbrains-mono',
   adjustFontFallback: true,
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: `${SITE.name} — Tax architecture, incorporation & digital infrastructure`,
+    default: `${SITE.name} — Advisory and engineering, under one roof`,
     template: `%s · ${SITE.name}`,
   },
   description: SITE.description,
@@ -31,19 +52,17 @@ export const metadata: Metadata = {
   creator: SITE.name,
   publisher: SITE.name,
   keywords: [
-    'tax filing India',
+    'chartered accountant India',
     'GST compliance',
     'income tax scrutiny defence',
     'company incorporation',
-    'private limited registration',
     'statutory audit',
     'compliance calendar',
-    'custom web development',
-    'financial SaaS',
+    'web application development',
+    'UI UX design',
+    'workflow automation',
   ],
-  alternates: {
-    canonical: '/',
-  },
+  alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     locale: SITE.locale,
@@ -52,12 +71,7 @@ export const metadata: Metadata = {
     title: `${SITE.name} — ${SITE.tagline}`,
     description: SITE.description,
     images: [
-      {
-        url: '/og/default.png',
-        width: 1200,
-        height: 630,
-        alt: `${SITE.name} — ${SITE.tagline}`,
-      },
+      { url: '/og/default.png', width: 1200, height: 630, alt: `${SITE.name} — ${SITE.tagline}` },
     ],
   },
   twitter: {
@@ -78,10 +92,7 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon.ico', sizes: '48x48' },
-    ],
+    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
     apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
   },
   manifest: '/site.webmanifest',
@@ -91,36 +102,44 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#ffffff',
-  colorScheme: 'light',
+  // Matches each theme's ground colour so the browser chrome agrees with the page.
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#fbfbf9' },
+    { media: '(prefers-color-scheme: dark)', color: '#0a0b0d' },
+  ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" className={inter.variable} suppressHydrationWarning>
-      <body className="bg-canvas text-ink min-h-dvh antialiased">
+    <html
+      lang="en-IN"
+      className={`${instrumentSerif.variable} ${archivo.variable} ${jetbrainsMono.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        {/* Applies the stored theme before first paint. Without this, anyone
+            who chose dark gets a white flash on every navigation. */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
+      <body className="bg-ground text-ink min-h-dvh antialiased">
         <script
           type="application/ld+json"
-          // Static, developer-authored JSON-LD — no user input reaches this.
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
         />
 
-        <Preloader />
-
         <a
           href="#main"
-          className="sr-only-focusable bg-brand-600 focus:ring-brand-200 fixed top-4 left-4 z-[100] rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-lg focus:ring-4"
+          className="sr-only-focusable bg-accent text-accent-ink fixed top-4 left-4 z-[100] rounded-[var(--radius-sm)] px-4 py-2 text-sm font-medium"
         >
           Skip to content
         </a>
 
         <SiteHeader />
-
-        <main id="main" className="flex-1">
-          {children}
-        </main>
-
+        <main id="main">{children}</main>
         <SiteFooter />
+
+        {/* Single observer that drives every .reveal on the page. */}
+        <Reveal />
       </body>
     </html>
   );

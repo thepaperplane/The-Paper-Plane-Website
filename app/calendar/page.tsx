@@ -37,7 +37,7 @@ export default async function CalendarPage() {
     <>
       {/* Header */}
       <Section className="pt-32 pb-12 sm:pt-40">
-        <div className="ambient-wash pointer-events-none absolute inset-0 -z-10" />
+        <div className="pointer-events-none absolute inset-0 -z-10" />
         <Container>
           <SectionHeading
             as="h1"
@@ -64,10 +64,10 @@ export default async function CalendarPage() {
                 <Mail className="h-3.5 w-3.5" strokeWidth={2.2} />
                 Monthly reminder
               </Eyebrow>
-              <h2 className="text-ink mt-4 text-[length:var(--text-display-s)] leading-[1.1] font-semibold tracking-[-0.03em]">
+              <h2 className="text-ink mt-4 text-[length:var(--text-display-2)] leading-[1.1] font-semibold tracking-[-0.03em]">
                 {pick(copy, 'calendar.subscribe.title')}
               </h2>
-              <p className="text-ink-tertiary mt-5 text-lg leading-relaxed">
+              <p className="text-ink-3 mt-5 text-lg leading-relaxed">
                 {pick(copy, 'calendar.subscribe.lede')}
               </p>
 
@@ -80,16 +80,16 @@ export default async function CalendarPage() {
                 ].map((item) => (
                   <li
                     key={item}
-                    className="text-ink-secondary flex items-start gap-2.5 text-[0.9375rem]"
+                    className="text-ink-2 flex items-start gap-2.5 text-[0.9375rem]"
                   >
-                    <span className="bg-brand-500 mt-2 h-1.5 w-1.5 shrink-0 rounded-full" />
+                    <span className="bg-accent mt-2 h-1.5 w-1.5 shrink-0 rounded-full" />
                     {item}
                   </li>
                 ))}
               </ul>
             </div>
 
-            <Card className="bg-white p-7 sm:p-9">
+            <Card className="bg-surface p-7 sm:p-9">
               <SubscribeForm />
             </Card>
           </div>
@@ -107,28 +107,28 @@ export default async function CalendarPage() {
 
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {TURNAROUNDS.map((item) => (
-              <Card key={item.section} className="flex flex-col bg-white p-6">
+              <Card key={item.section} className="flex flex-col bg-surface p-6">
                 <div className="flex items-start justify-between gap-3">
-                  <span className="text-ink-quaternary font-[family-name:var(--font-mono)] text-[0.75rem]">
+                  <span className="text-ink-3 font-[family-name:var(--font-mono)] text-[0.75rem]">
                     {item.section}
                   </span>
-                  <Clock className="text-brand-500 h-4 w-4 shrink-0" strokeWidth={2} />
+                  <Clock className="text-accent h-4 w-4 shrink-0" strokeWidth={2} />
                 </div>
 
                 <h3 className="text-ink mt-3 text-[1.0625rem] leading-snug font-semibold">
                   {item.service}
                 </h3>
-                <p className="text-brand-700 mt-1.5 text-[0.9375rem] font-semibold">
+                <p className="text-accent mt-1.5 text-[0.9375rem] font-semibold">
                   {item.duration}
                 </p>
-                <p className="text-ink-tertiary mt-3 flex-1 text-[0.875rem] leading-relaxed">
+                <p className="text-ink-3 mt-3 flex-1 text-[0.875rem] leading-relaxed">
                   {item.detail}
                 </p>
               </Card>
             ))}
           </div>
 
-          <p className="text-ink-quaternary mt-6 max-w-3xl text-[0.8125rem] leading-relaxed">
+          <p className="text-ink-3 mt-6 max-w-3xl text-[0.8125rem] leading-relaxed">
             Dates shown reflect the standard statutory position. The CBDT, GSTN and MCA extend
             deadlines from time to time by notification; subscribers are told when that happens.
             Confirm your own position with us before relying on any date here.

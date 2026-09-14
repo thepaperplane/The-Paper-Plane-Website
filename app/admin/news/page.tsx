@@ -45,14 +45,14 @@ export default async function AdminNewsPage() {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Stat label="Active sources" value={sources.filter((s) => s.is_active).length} />
-        <Stat label="Healthy" value={healthy} tone="success" />
+        <Stat label="Healthy" value={healthy} tone="positive" />
         <Stat
           label="Failing"
           value={failing}
-          tone={failing > 0 ? 'danger' : 'neutral'}
+          tone={failing > 0 ? 'critical' : 'neutral'}
           hint={failing > 0 ? 'See the error column below' : undefined}
         />
-        <Stat label="Cached headlines" value={total} tone="brand" hint="90-day retention" />
+        <Stat label="Cached headlines" value={total} tone="accent" hint="90-day retention" />
       </div>
 
       {neverFetched === sources.length && sources.length > 0 ? (
@@ -103,11 +103,11 @@ export default async function AdminNewsPage() {
                   {!source.is_active ? (
                     <Pill tone="neutral">paused</Pill>
                   ) : source.last_error ? (
-                    <Pill tone="danger">failing</Pill>
+                    <Pill tone="critical">failing</Pill>
                   ) : source.last_fetched_at ? (
-                    <Pill tone="success">healthy</Pill>
+                    <Pill tone="positive">healthy</Pill>
                   ) : (
-                    <Pill tone="warning">never run</Pill>
+                    <Pill tone="caution">never run</Pill>
                   )}
                 </td>
                 <td className="text-ink-quaternary px-6 py-3.5 text-[0.8125rem]">

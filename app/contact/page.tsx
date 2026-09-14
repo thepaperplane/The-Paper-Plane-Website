@@ -28,7 +28,7 @@ export default async function ContactPage() {
   return (
     <>
       <Section className="pt-32 pb-14 sm:pt-40">
-        <div className="ambient-wash pointer-events-none absolute inset-0 -z-10" />
+        <div className="pointer-events-none absolute inset-0 -z-10" />
         <Container>
           <SectionHeading
             as="h1"
@@ -42,25 +42,25 @@ export default async function ContactPage() {
       <Section className="pt-0 pb-20">
         <Container>
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:gap-12">
-            <Card className="bg-white p-7 sm:p-9">
+            <Card className="bg-surface p-7 sm:p-9">
               <ContactForm />
             </Card>
 
             <div className="space-y-5">
-              <Card className="bg-white p-7">
+              <Card className="bg-surface p-7">
                 <Eyebrow>Direct channels</Eyebrow>
 
                 <ul className="mt-5 space-y-4">
                   <li>
                     <a href={`tel:${SITE.phoneIntl}`} className="group flex items-start gap-3.5">
-                      <span className="bg-brand-50 ring-brand-500/15 flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-md)] ring-1 ring-inset">
-                        <Phone className="text-brand-600 h-4 w-4" strokeWidth={2} />
+                      <span className="bg-accent-wash ring-accent/15 flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-md)] ring-1 ring-inset">
+                        <Phone className="text-accent h-4 w-4" strokeWidth={2} />
                       </span>
                       <span>
-                        <span className="text-ink-quaternary block text-[0.75rem] font-medium">
+                        <span className="text-ink-3 block text-[0.75rem] font-medium">
                           Phone
                         </span>
-                        <span className="text-ink group-hover:text-brand-700 block text-[0.9375rem] font-semibold transition-colors">
+                        <span className="text-ink group-hover:text-accent block text-[0.9375rem] font-semibold transition-colors">
                           {SITE.phone}
                         </span>
                       </span>
@@ -69,14 +69,14 @@ export default async function ContactPage() {
 
                   <li>
                     <a href={`mailto:${SITE.email}`} className="group flex items-start gap-3.5">
-                      <span className="bg-brand-50 ring-brand-500/15 flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-md)] ring-1 ring-inset">
-                        <Mail className="text-brand-600 h-4 w-4" strokeWidth={2} />
+                      <span className="bg-accent-wash ring-accent/15 flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-md)] ring-1 ring-inset">
+                        <Mail className="text-accent h-4 w-4" strokeWidth={2} />
                       </span>
                       <span className="min-w-0">
-                        <span className="text-ink-quaternary block text-[0.75rem] font-medium">
+                        <span className="text-ink-3 block text-[0.75rem] font-medium">
                           Email
                         </span>
-                        <span className="text-ink group-hover:text-brand-700 block truncate text-[0.9375rem] font-semibold transition-colors">
+                        <span className="text-ink group-hover:text-accent block truncate text-[0.9375rem] font-semibold transition-colors">
                           {SITE.email}
                         </span>
                       </span>
@@ -90,14 +90,14 @@ export default async function ContactPage() {
                       rel="noopener noreferrer"
                       className="group flex items-start gap-3.5"
                     >
-                      <span className="bg-success-soft ring-success/15 flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-md)] ring-1 ring-inset">
-                        <MessageCircle className="text-success h-4 w-4" strokeWidth={2} />
+                      <span className="bg-positive/10 ring-positive/15 flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-md)] ring-1 ring-inset">
+                        <MessageCircle className="text-positive h-4 w-4" strokeWidth={2} />
                       </span>
                       <span>
-                        <span className="text-ink-quaternary block text-[0.75rem] font-medium">
+                        <span className="text-ink-3 block text-[0.75rem] font-medium">
                           WhatsApp
                         </span>
-                        <span className="text-ink group-hover:text-success block text-[0.9375rem] font-semibold transition-colors">
+                        <span className="text-ink group-hover:text-positive block text-[0.9375rem] font-semibold transition-colors">
                           Message us directly
                         </span>
                       </span>
@@ -106,21 +106,21 @@ export default async function ContactPage() {
                 </ul>
               </Card>
 
-              <Card className="bg-white p-7">
+              <Card className="bg-surface p-7">
                 <ul className="space-y-4">
                   <li className="flex items-start gap-3.5">
-                    <Clock className="text-ink-quaternary mt-0.5 h-4 w-4 shrink-0" strokeWidth={2} />
+                    <Clock className="text-ink-3 mt-0.5 h-4 w-4 shrink-0" strokeWidth={2} />
                     <span>
-                      <span className="text-ink-quaternary block text-[0.75rem] font-medium">
+                      <span className="text-ink-3 block text-[0.75rem] font-medium">
                         Working hours
                       </span>
                       <span className="text-ink block text-[0.9375rem]">{SITE.hours}</span>
                     </span>
                   </li>
                   <li className="flex items-start gap-3.5">
-                    <Globe className="text-ink-quaternary mt-0.5 h-4 w-4 shrink-0" strokeWidth={2} />
+                    <Globe className="text-ink-3 mt-0.5 h-4 w-4 shrink-0" strokeWidth={2} />
                     <span>
-                      <span className="text-ink-quaternary block text-[0.75rem] font-medium">
+                      <span className="text-ink-3 block text-[0.75rem] font-medium">
                         How we work
                       </span>
                       <span className="text-ink block text-[0.9375rem]">{SITE.serviceModel}</span>
@@ -131,7 +131,7 @@ export default async function ContactPage() {
 
               <Card className="bg-sunken p-7">
                 <h2 className="text-ink text-[1rem] font-semibold">Holding a notice?</h2>
-                <p className="text-ink-tertiary mt-2 text-[0.875rem] leading-relaxed">
+                <p className="text-ink-3 mt-2 text-[0.875rem] leading-relaxed">
                   Statutory reply windows are short and rarely extended. If you have received
                   something under section 142(1), 143(2) or 148, tell us the date on the notice
                   first — that determines everything else.

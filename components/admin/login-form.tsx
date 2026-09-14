@@ -39,9 +39,9 @@ export function LoginForm() {
   }
 
   const field =
-    'h-12 w-full rounded-[var(--radius-md)] bg-white px-4 text-[0.9375rem] text-ink ' +
-    'ring-1 ring-inset ring-[var(--color-hairline)] outline-none transition-shadow ' +
-    'focus:ring-2 focus:ring-brand-500';
+    'h-12 w-full rounded-[var(--radius-md)] bg-surface px-4 text-[0.9375rem] text-ink ' +
+    'ring-1 ring-inset ring-[var(--hairline)] outline-none transition-shadow ' +
+    'focus:ring-2 focus:ring-accent';
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
@@ -76,7 +76,7 @@ export function LoginForm() {
       </div>
 
       {error ? (
-        <p role="alert" className="text-danger text-[0.875rem]">
+        <p role="alert" className="text-critical text-[0.875rem]">
           {error}
         </p>
       ) : null}
@@ -84,7 +84,7 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={busy}
-        className="bg-brand-600 hover:bg-brand-700 inline-flex h-12 w-full items-center justify-center gap-2 rounded-[var(--radius-md)] text-[0.9375rem] font-semibold text-white transition-colors disabled:opacity-60"
+        className="bg-accent hover:bg-accent-hover inline-flex h-12 w-full items-center justify-center gap-2 rounded-[var(--radius-md)] text-[0.9375rem] font-semibold text-accent-ink transition-colors disabled:opacity-60"
       >
         {busy ? (
           <>

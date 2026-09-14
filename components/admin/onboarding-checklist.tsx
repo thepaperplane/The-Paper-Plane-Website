@@ -36,7 +36,7 @@ export function OnboardingChecklist({
 
   if (tasks.length === 0) {
     return (
-      <p className="text-ink-tertiary px-6 py-6 text-[0.875rem]">
+      <p className="text-ink-3 px-6 py-6 text-[0.875rem]">
         No onboarding tasks recorded for this client.
       </p>
     );
@@ -54,9 +54,9 @@ export function OnboardingChecklist({
 
   return (
     <div>
-      <div className="border-b border-[var(--color-hairline)] px-6 py-4">
+      <div className="border-b border-[var(--hairline)] px-6 py-4">
         <div className="flex items-center justify-between">
-          <span className="text-ink-tertiary text-[0.8125rem]">
+          <span className="text-ink-3 text-[0.8125rem]">
             {done} of {tasks.length} complete
           </span>
           <span className="text-ink text-[0.8125rem] font-semibold tabular-nums">
@@ -65,13 +65,13 @@ export function OnboardingChecklist({
         </div>
         <div className="bg-sunken mt-2 h-1.5 overflow-hidden rounded-full">
           <div
-            className="bg-success h-full rounded-full transition-[width] duration-500 ease-[var(--ease-out-ios)]"
+            className="bg-positive h-full rounded-full transition-[width] duration-500 ease-[var(--ease-out-editorial)]"
             style={{ width: `${progress}%` }}
           />
         </div>
       </div>
 
-      <ul className="divide-y divide-[var(--color-hairline)]">
+      <ul className="divide-y divide-[var(--hairline)]">
         {tasks.map((task) => {
           const Icon = ICON[task.state];
           const isDone = task.state === 'done';
@@ -92,10 +92,10 @@ export function OnboardingChecklist({
                   className={cn(
                     'mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full ring-1 ring-inset',
                     isDone
-                      ? 'bg-success text-white ring-transparent'
+                      ? 'bg-positive text-white ring-transparent'
                       : task.state === 'in_progress'
-                        ? 'text-brand-600 ring-brand-500/30'
-                        : 'text-ink-quaternary ring-[var(--color-hairline-strong)]',
+                        ? 'text-accent ring-accent/30'
+                        : 'text-ink-3 ring-[var(--hairline-strong)]',
                   )}
                 >
                   <Icon className="h-3 w-3" strokeWidth={2.6} />
@@ -105,13 +105,13 @@ export function OnboardingChecklist({
                   <span
                     className={cn(
                       'block text-[0.875rem] font-medium',
-                      isDone ? 'text-ink-quaternary line-through' : 'text-ink',
+                      isDone ? 'text-ink-3 line-through' : 'text-ink',
                     )}
                   >
                     {task.title}
                   </span>
                   {task.description ? (
-                    <span className="text-ink-quaternary mt-0.5 block text-[0.75rem] leading-relaxed">
+                    <span className="text-ink-3 mt-0.5 block text-[0.75rem] leading-relaxed">
                       {task.description}
                     </span>
                   ) : null}
@@ -123,7 +123,7 @@ export function OnboardingChecklist({
       </ul>
 
       {editable ? (
-        <p className="text-ink-quaternary border-t border-[var(--color-hairline)] px-6 py-3 text-[0.75rem]">
+        <p className="text-ink-3 border-t border-[var(--hairline)] px-6 py-3 text-[0.75rem]">
           Click a task to cycle it: pending, in progress, done.
         </p>
       ) : null}

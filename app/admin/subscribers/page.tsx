@@ -9,10 +9,10 @@ export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Subscribers' };
 
 const STATE_TONE = {
-  confirmed: 'success',
-  pending: 'warning',
+  confirmed: 'positive',
+  pending: 'caution',
   unsubscribed: 'neutral',
-  bounced: 'danger',
+  bounced: 'critical',
 } as const;
 
 export default async function SubscribersPage() {
@@ -62,7 +62,7 @@ export default async function SubscribersPage() {
       />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Stat label="Confirmed" value={confirmed} tone="success" />
+        <Stat label="Confirmed" value={confirmed} tone="positive" />
         <Stat label="Businesses" value={bySegment.business} />
         <Stat label="Professionals" value={bySegment.professional} />
         <Stat

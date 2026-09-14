@@ -41,14 +41,14 @@ export function DeviceMockup({
         {/* ---------------- Laptop ---------------- */}
         <figure className="relative min-w-0 flex-1">
           {/* Lid */}
-          <div className="rounded-t-[var(--radius-md)] bg-gradient-to-b from-[#3a3a3e] to-[#232326] p-[0.5rem] shadow-[var(--shadow-xl)] sm:p-[0.625rem]">
+          <div className="rounded-t-[var(--radius-md)] bg-gradient-to-b from-[#3a3a3e] to-[#232326] p-[0.5rem] shadow-[var(--shadow-lift)] sm:p-[0.625rem]">
             {/* Camera */}
             <div className="mb-[0.375rem] flex justify-center">
               <span className="h-[3px] w-[3px] rounded-full bg-[#4a4a4f]" />
             </div>
 
             {/* Screen */}
-            <div className="relative aspect-[16/10] overflow-hidden rounded-[3px] bg-white">
+            <div className="relative aspect-[16/10] overflow-hidden rounded-[3px] bg-surface">
               {/* Browser chrome */}
               <div className="absolute inset-x-0 top-0 z-10 flex h-6 items-center gap-2 border-b border-black/5 bg-[#f6f6f8] px-2.5 sm:h-7">
                 <span className="flex gap-1">
@@ -56,9 +56,9 @@ export function DeviceMockup({
                   <span className="h-[5px] w-[5px] rounded-full bg-[#febc2e]" />
                   <span className="h-[5px] w-[5px] rounded-full bg-[#28c840]" />
                 </span>
-                <span className="flex min-w-0 flex-1 items-center gap-1 rounded-full bg-white px-2 py-[2px] ring-1 ring-black/5">
+                <span className="flex min-w-0 flex-1 items-center gap-1 rounded-full bg-surface px-2 py-[2px] ring-1 ring-black/5">
                   <Lock className="h-2 w-2 shrink-0 text-[#28c840]" strokeWidth={3} />
-                  <span className="truncate text-[7px] text-[#6e6e73] sm:text-[8px]">
+                  <span className="truncate text-[7px] text-[#55575e] sm:text-[8px]">
                     {displayUrl}
                   </span>
                 </span>
@@ -85,7 +85,7 @@ export function DeviceMockup({
           {/* Base + hinge */}
           <div className="relative">
             <div className="h-[0.5rem] rounded-b-[2px] bg-gradient-to-b from-[#232326] to-[#3a3a3e] sm:h-[0.625rem]" />
-            <div className="mx-auto h-[0.3125rem] w-[94%] rounded-b-[var(--radius-sm)] bg-gradient-to-b from-[#c8c8cc] to-[#9a9aa0] shadow-[var(--shadow-lg)]">
+            <div className="mx-auto h-[0.3125rem] w-[94%] rounded-b-[var(--radius-sm)] bg-gradient-to-b from-[#c8c8cc] to-[#9a9aa0] shadow-[var(--shadow-soft)]">
               <div className="mx-auto h-[0.3125rem] w-[12%] rounded-b-[3px] bg-[#8a8a90]" />
             </div>
           </div>
@@ -94,8 +94,8 @@ export function DeviceMockup({
 
         {/* ---------------- Phone ---------------- */}
         <figure className="relative w-[22%] min-w-[68px] shrink-0 sm:w-[20%]">
-          <div className="rounded-[1.25rem] bg-gradient-to-b from-[#3a3a3e] to-[#232326] p-[3px] shadow-[var(--shadow-xl)] sm:rounded-[1.5rem] sm:p-[4px]">
-            <div className="relative aspect-[9/19.5] overflow-hidden rounded-[1.0625rem] bg-white sm:rounded-[1.25rem]">
+          <div className="rounded-[1.25rem] bg-gradient-to-b from-[#3a3a3e] to-[#232326] p-[3px] shadow-[var(--shadow-lift)] sm:rounded-[1.5rem] sm:p-[4px]">
+            <div className="relative aspect-[9/19.5] overflow-hidden rounded-[1.0625rem] bg-surface sm:rounded-[1.25rem]">
               {/* Dynamic island */}
               <div className="absolute top-[3px] left-1/2 z-10 h-[7px] w-[30%] -translate-x-1/2 rounded-full bg-[#1d1d1f] sm:top-[4px] sm:h-[9px]" />
 
@@ -143,16 +143,16 @@ function PlaceholderScreen({
       )}
     >
       <Icon
-        className={cn('text-ink-quaternary shrink-0', compact ? 'h-3 w-3' : 'h-5 w-5')}
+        className={cn('text-ink-3 shrink-0', compact ? 'h-3 w-3' : 'h-5 w-5')}
         strokeWidth={1.8}
       />
       {!compact ? (
         <>
-          <p className="text-ink-tertiary text-[0.6875rem] font-medium">
+          <p className="text-ink-3 text-[0.6875rem] font-medium">
             {unreachable ? 'Site not currently reachable' : 'Preview pending capture'}
           </p>
           {note ? (
-            <p className="text-ink-quaternary max-w-[22ch] text-[0.5625rem] leading-snug">
+            <p className="text-ink-3 max-w-[22ch] text-[0.5625rem] leading-snug">
               {note}
             </p>
           ) : null}

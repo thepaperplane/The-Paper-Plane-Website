@@ -37,24 +37,24 @@ export const CONTENT_DEFAULTS: Record<ContentKey, { label: string; page: string;
   {
     'home.hero.eyebrow': {
       page: 'home',
-      label: 'Hero — badge',
-      value: 'Compliance, defence & the software behind both',
+      label: 'Masthead — standfirst (unused in v3 layout)',
+      value: 'Advisory and engineering, held to one standard',
     },
     'home.hero.title': {
       page: 'home',
-      label: 'Hero — headline',
-      value: 'We handle the Papers,',
+      label: 'Masthead — headline, first lines',
+      value: 'Chartered advisory and software engineering,',
     },
     'home.hero.titleAccent': {
       page: 'home',
-      label: 'Hero — headline (accent line)',
-      value: 'You Handle the Takeoff',
+      label: 'Masthead — headline, italic accent line',
+      value: 'under one roof.',
     },
     'home.hero.lede': {
       page: 'home',
       label: 'Hero — supporting text',
       value:
-        'Tax architecture, scrutiny defence, incorporation and audit — run by a practice that also builds the systems your compliance depends on.',
+        'Compliance, litigation support and statutory audit — specified by the same practice that builds your platforms. The handoffs where things usually break simply do not exist here.',
     },
     'home.pillars.title': {
       page: 'home',
@@ -80,14 +80,14 @@ export const CONTENT_DEFAULTS: Record<ContentKey, { label: string; page: string;
     },
     'home.cta.title': {
       page: 'home',
-      label: 'Closing CTA — heading',
-      value: 'Start with a conversation, not a quote',
+      label: 'Closing — heading',
+      value: 'Start with a conversation, not a quote.',
     },
     'home.cta.lede': {
       page: 'home',
       label: 'Closing CTA — supporting text',
       value:
-        'Tell us what you are filing, defending or building. We will tell you what it actually involves — before anyone signs anything.',
+        'Tell us what you are filing, defending or building. You will get a straight account of what it actually involves, and what it should cost, before anyone signs anything.',
     },
     'knowledge.hero.title': {
       page: 'knowledge',

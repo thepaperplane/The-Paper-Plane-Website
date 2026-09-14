@@ -86,7 +86,7 @@ export default async function WorkPage() {
     <>
       {/* Header */}
       <Section className="pt-32 pb-14 sm:pt-40">
-        <div className="ambient-wash pointer-events-none absolute inset-0 -z-10" />
+        <div className="pointer-events-none absolute inset-0 -z-10" />
         <Container>
           <SectionHeading
             as="h1"
@@ -102,13 +102,13 @@ export default async function WorkPage() {
         <Container>
           <div className="space-y-6">
             {live.map((project) => (
-              <Card key={project.slug} className="overflow-hidden bg-white">
+              <Card key={project.slug} className="overflow-hidden bg-surface">
                 <div className="grid gap-8 p-6 sm:p-9 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-12">
                   {/* Copy */}
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
                       <Eyebrow>{project.sector}</Eyebrow>
-                      <span className="text-ink-quaternary text-[0.8125rem]">
+                      <span className="text-ink-3 text-[0.8125rem]">
                         · {project.year}
                       </span>
                     </div>
@@ -117,11 +117,11 @@ export default async function WorkPage() {
                       {project.name}
                     </h2>
 
-                    <p className="text-ink-tertiary mt-4 text-[1.0625rem] leading-relaxed">
+                    <p className="text-ink-3 mt-4 text-[1.0625rem] leading-relaxed">
                       {project.summary}
                     </p>
 
-                    <p className="text-ink-secondary mt-4 text-[0.9375rem] leading-relaxed">
+                    <p className="text-ink-2 mt-4 text-[0.9375rem] leading-relaxed">
                       {project.brief}
                     </p>
 
@@ -132,7 +132,7 @@ export default async function WorkPage() {
                             key={highlight.label}
                             className="bg-sunken rounded-[var(--radius-md)] p-3.5"
                           >
-                            <dt className="text-ink-quaternary text-[0.6875rem] font-medium">
+                            <dt className="text-ink-3 text-[0.6875rem] font-medium">
                               {highlight.label}
                             </dt>
                             <dd className="text-ink mt-1 text-[0.875rem] font-semibold">
@@ -155,7 +155,7 @@ export default async function WorkPage() {
                       href={project.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-brand-700 hover:text-brand-800 mt-7 inline-flex items-center gap-1.5 text-[0.9375rem] font-semibold transition-colors"
+                      className="text-accent hover:text-ink mt-7 inline-flex items-center gap-1.5 text-[0.9375rem] font-semibold transition-colors"
                     >
                       Visit {project.displayUrl}
                       <ExternalLink className="h-3.5 w-3.5" strokeWidth={2.2} />
@@ -163,7 +163,7 @@ export default async function WorkPage() {
                   </div>
 
                   {/* Preview */}
-                  <div className="bg-sunken rounded-[var(--radius-xl)] p-6 sm:p-8">
+                  <div className="bg-sunken rounded-[var(--radius-lg)] p-6 sm:p-8">
                     <DeviceMockup
                       name={project.name}
                       displayUrl={project.displayUrl}
@@ -191,7 +191,7 @@ export default async function WorkPage() {
 
             <div className="mt-10 grid gap-5 lg:grid-cols-2">
               {staged.map((project) => (
-                <Card key={project.slug} className="flex flex-col bg-white p-6 sm:p-7">
+                <Card key={project.slug} className="flex flex-col bg-surface p-6 sm:p-7">
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
                       <Eyebrow>{project.sector}</Eyebrow>
@@ -199,12 +199,12 @@ export default async function WorkPage() {
                         {project.name}
                       </h3>
                     </div>
-                    <Badge tone="warning" className="shrink-0">
+                    <Badge tone="caution" className="shrink-0">
                       Launching soon
                     </Badge>
                   </div>
 
-                  <p className="text-ink-tertiary mt-3 text-[0.9375rem] leading-relaxed">
+                  <p className="text-ink-3 mt-3 text-[0.9375rem] leading-relaxed">
                     {project.summary}
                   </p>
 
@@ -234,12 +234,12 @@ export default async function WorkPage() {
       {/* CTA */}
       <Section className="py-20">
         <Container>
-          <Card className="bg-white p-9 text-center sm:p-12">
+          <Card className="bg-surface p-9 text-center sm:p-12">
             <Eyebrow>Build with us</Eyebrow>
             <h2 className="text-ink mx-auto mt-4 max-w-2xl text-[length:var(--text-title-1)] leading-tight font-semibold tracking-[-0.028em]">
               A site that understands your compliance, because we do
             </h2>
-            <p className="text-ink-tertiary mx-auto mt-4 max-w-xl text-[1.0625rem] leading-relaxed">
+            <p className="text-ink-3 mx-auto mt-4 max-w-xl text-[1.0625rem] leading-relaxed">
               Invoicing that produces GST-valid documents, portals that capture what an audit
               will ask for later — specified by the people who file the returns.
             </p>
@@ -248,7 +248,7 @@ export default async function WorkPage() {
                 Start a project
                 <ArrowRight className="h-4 w-4" strokeWidth={2.2} />
               </ButtonLink>
-              <ButtonLink href="/services#digital" variant="secondary" size="lg">
+              <ButtonLink href="/services#digital" tone="outline" size="lg">
                 What we build
               </ButtonLink>
             </div>

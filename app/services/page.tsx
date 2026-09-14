@@ -1,185 +1,194 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import * as Icons from 'lucide-react';
-import { ArrowRight, Check } from 'lucide-react';
 import {
-  ACCENTS,
-  Badge,
-  ButtonLink,
-  Card,
   Container,
-  Eyebrow,
+  Heading,
+  Label,
+  Numeral,
+  Ref,
   Section,
-  SectionHeading,
-  type AccentName,
+  TextLink,
 } from '@/components/ui';
-import { PILLARS } from '@/content/services';
+import { PRACTICE, pillarsFor } from '@/content/practice';
 import { SITE, pageOg } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Services',
   description:
-    'Tax filing and GST, scrutiny defence and appeals, company incorporation, statutory audit, payroll, custom web development and brand design — the full practice, in detail.',
+    'Tax and GST compliance, scrutiny defence and appeals, incorporation, statutory audit — and the web, product, identity and automation work built alongside them.',
   alternates: { canonical: '/services' },
   openGraph: pageOg({
     title: 'Services',
     description:
-      'Six practice pillars: tax, scrutiny defence, incorporation, audit, digital infrastructure and design.',
+      'Two halves of one practice: financial and legal advisory, and digital and technology engineering.',
     path: '/services',
   }),
 };
 
+/**
+ * Services, set as an index rather than a grid of cards.
+ *
+ * The page is organised by the two halves of the practice, and both are
+ * rendered by the same loop from the same data — so neither can end up
+ * looking like the junior partner. Within each half, pillars are numbered
+ * sections and individual services are rows separated by rules.
+ */
 export default function ServicesPage() {
   return (
     <>
-      {/* Page header */}
-      <Section className="pt-32 pb-14 sm:pt-40 sm:pb-16">
-        <div className="ambient-wash pointer-events-none absolute inset-0 -z-10" />
+      <Section rhythm="lg" className="pt-[calc(4.5rem+var(--space-section))]">
         <Container>
-          <SectionHeading
-            as="h1"
-            eyebrow="Services"
-            title="Everything the practice does"
-            lede="Six disciplines that are normally bought from five different vendors. Buying them from one is the point — the handoffs are where compliance usually fails."
-          />
+          <div className="grid grid-cols-12">
+            <div className="col-span-12 lg:col-span-10">
+              <Heading
+                as="h1"
+                size="large"
+                eyebrow="Services"
+                title={
+                  <>
+                    Everything the practice does,{' '}
+                    <span className="em-serif">and nothing it does not.</span>
+                  </>
+                }
+                lede="Six disciplines normally bought from five vendors. Buying them from one practice is the entire proposition — the handoffs between vendors are where compliance usually fails."
+              />
+            </div>
+          </div>
 
-          {/* Jump nav */}
-          <nav aria-label="Service pillars" className="mt-10 flex flex-wrap gap-2">
-            {PILLARS.map((pillar) => {
-              const accent = ACCENTS[pillar.accent as AccentName];
-              return (
-                <Link
-                  key={pillar.id}
-                  href={`#${pillar.id}`}
-                  className="text-ink-secondary hover:text-ink inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-[0.875rem] font-medium shadow-[var(--shadow-xs)] ring-1 ring-[var(--color-hairline)] ring-inset transition-all hover:shadow-[var(--shadow-sm)]"
-                >
-                  <span className={`h-1.5 w-1.5 rounded-full ${accent.dot}`} />
-                  {pillar.title}
-                </Link>
-              );
-            })}
+          {/* Index of the two halves */}
+          <nav aria-label="Practice areas" className="mt-20 grid gap-px sm:grid-cols-2">
+            {PRACTICE.map((side, i) => (
+              <Link
+                key={side.id}
+                href={`#${side.id}`}
+                className="group border-t pt-6 sm:pr-10"
+              >
+                <div className="flex items-baseline gap-4">
+                  <Numeral value={i + 1} className="text-[length:var(--text-caption)]" />
+                  <Label>{side.name}</Label>
+                </div>
+                <h2 className="group-hover:text-accent mt-4 text-[length:var(--text-title-1)] transition-colors duration-300">
+                  {side.heading}
+                </h2>
+                <p className="text-ink-3 mt-3 max-w-[40ch] text-[length:var(--text-caption)] leading-relaxed">
+                  {side.statement}
+                </p>
+              </Link>
+            ))}
           </nav>
         </Container>
       </Section>
 
-      {/* Pillars */}
-      {PILLARS.map((pillar, index) => {
-        const accent = ACCENTS[pillar.accent as AccentName];
-        const Icon =
-          (Icons[pillar.icon as keyof typeof Icons] as React.ElementType) ?? Icons.Sparkles;
-
-        return (
-          <Section
-            key={pillar.id}
-            id={pillar.id}
-            tone={index % 2 === 1 ? 'sunken' : 'canvas'}
-            className="scroll-mt-24 py-16 sm:py-20"
-          >
-            <Container>
-              <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,2fr)] lg:gap-14">
-                {/* Pillar intro */}
-                <div className="lg:sticky lg:top-28 lg:self-start">
-                  <span
-                    className={`flex h-13 w-13 items-center justify-center rounded-[var(--radius-md)] p-3 ring-1 ring-inset ${accent.bg} ${accent.ring}`}
-                  >
-                    <Icon className={`h-6 w-6 ${accent.text}`} strokeWidth={1.9} />
-                  </span>
-
-                  <h2 className="text-ink mt-5 text-[length:var(--text-title-2)] font-semibold tracking-[-0.025em]">
-                    {pillar.title}
-                  </h2>
-                  <p className={`mt-2 text-[0.9375rem] font-medium ${accent.text}`}>
-                    {pillar.tagline}
-                  </p>
-                  <p className="text-ink-tertiary mt-4 text-[0.9375rem] leading-relaxed">
-                    {pillar.description}
-                  </p>
-
-                  <ButtonLink
-                    href="/contact"
-                    variant="secondary"
-                    size="sm"
-                    className="mt-6"
-                  >
-                    Discuss this
-                    <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.2} />
-                  </ButtonLink>
-                </div>
-
-                {/* Services */}
-                <div className="grid gap-4 sm:grid-cols-2">
-                  {pillar.services.map((service) => (
-                    <Card
-                      key={service.id}
-                      interactive
-                      className="flex flex-col bg-white p-6"
-                      id={service.id}
-                    >
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="min-w-0">
-                          <h3 className="text-ink text-[1.0625rem] leading-snug font-semibold">
-                            {service.title}
-                          </h3>
-                          <p className="text-ink-quaternary mt-1 text-[0.8125rem]">
-                            {service.subtitle}
-                          </p>
-                        </div>
-                        {service.badge ? (
-                          <Badge tone="brand" className="shrink-0">
-                            {service.badge}
-                          </Badge>
-                        ) : null}
-                      </div>
-
-                      <p className="text-ink-tertiary mt-4 text-[0.9375rem] leading-relaxed">
-                        {service.description}
-                      </p>
-
-                      <ul className="mt-5 space-y-2 border-t border-[var(--color-hairline)] pt-5">
-                        {service.features.map((feature) => (
-                          <li
-                            key={feature}
-                            className="text-ink-secondary flex items-start gap-2.5 text-[0.875rem]"
-                          >
-                            <Check
-                              className={`mt-0.5 h-3.5 w-3.5 shrink-0 ${accent.text}`}
-                              strokeWidth={2.6}
-                            />
-                            <span>{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </Card>
-                  ))}
+      {PRACTICE.map((side, sideIndex) => (
+        <Section
+          key={side.id}
+          id={side.id}
+          rhythm="lg"
+          tone={sideIndex % 2 === 1 ? 'sunken' : 'ground'}
+          className="scroll-mt-24 border-t"
+        >
+          <Container>
+            {/* Half header — asymmetric, numeral in the margin */}
+            <div className="grid gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-20">
+              <div className="lg:sticky lg:top-28 lg:self-start">
+                <Numeral
+                  value={sideIndex + 1}
+                  className="block text-[length:var(--text-display-2)] leading-none"
+                />
+                <Label className="mt-6 block">{side.name}</Label>
+                <h2 className="mt-3 text-[length:var(--text-title-1)]">{side.heading}</h2>
+                <p className="text-ink-2 mt-6 max-w-[38ch] text-[length:var(--text-small)] leading-[1.75]">
+                  {side.body}
+                </p>
+                <div className="mt-8">
+                  <TextLink href="/contact">Discuss this work</TextLink>
                 </div>
               </div>
-            </Container>
-          </Section>
-        );
-      })}
 
-      {/* Closing */}
-      <Section className="py-20">
-        <Container>
-          <Card className="bg-white p-9 text-center sm:p-12">
-            <Eyebrow>Not sure where you sit?</Eyebrow>
-            <h2 className="text-ink mx-auto mt-4 max-w-2xl text-[length:var(--text-title-1)] leading-tight font-semibold tracking-[-0.028em]">
-              Most engagements start with one problem and uncover three more
-            </h2>
-            <p className="text-ink-tertiary mx-auto mt-4 max-w-xl text-[1.0625rem] leading-relaxed">
-              Send us the notice, the deadline or the idea. We will tell you what it actually
-              involves and what it should cost before you commit to anything.
-            </p>
-            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-              <ButtonLink href="/contact" size="lg">
-                Book a consultation
-                <ArrowRight className="h-4 w-4" strokeWidth={2.2} />
-              </ButtonLink>
-              <ButtonLink href="/knowledge" variant="secondary" size="lg">
-                Understand the work first
-              </ButtonLink>
+              {/* Pillars and their services, as a numbered index */}
+              <div>
+                {pillarsFor(side).map((pillar, pillarIndex) => (
+                  <div key={pillar.id} id={pillar.id} className="scroll-mt-24 pb-16 last:pb-0">
+                    <div className="reveal flex items-baseline gap-4 border-t pt-6">
+                      <Numeral
+                        value={`${sideIndex + 1}.${pillarIndex + 1}`}
+                        className="text-[length:var(--text-caption)] shrink-0"
+                      />
+                      <div>
+                        <h3 className="text-[length:var(--text-title-2)]">{pillar.title}</h3>
+                        <p className="text-ink-3 mt-2 text-[length:var(--text-caption)]">
+                          {pillar.tagline}
+                        </p>
+                      </div>
+                    </div>
+
+                    <dl className="mt-8 grid gap-x-12 gap-y-9 sm:grid-cols-2">
+                      {pillar.services.map((service) => (
+                        <div key={service.id} id={service.id} className="reveal scroll-mt-24">
+                          <dt className="text-ink font-[family-name:var(--font-sans)] text-[length:var(--text-body)] font-medium tracking-[-0.01em]">
+                            {service.title}
+                          </dt>
+                          <dd className="text-ink-3 mt-1 text-[length:var(--text-caption)]">
+                            {service.subtitle}
+                          </dd>
+                          <dd className="text-ink-2 mt-3 max-w-[44ch] text-[length:var(--text-small)] leading-relaxed">
+                            {service.description}
+                          </dd>
+                          <dd className="mt-4">
+                            <ul className="space-y-1.5">
+                              {service.features.map((feature) => (
+                                <li
+                                  key={feature}
+                                  className="text-ink-3 flex gap-3 text-[length:var(--text-caption)]"
+                                >
+                                  <span
+                                    aria-hidden="true"
+                                    className="bg-faint mt-[0.55em] h-px w-3 shrink-0"
+                                  />
+                                  <span>{feature}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                ))}
+              </div>
             </div>
-          </Card>
+          </Container>
+        </Section>
+      ))}
+
+      {/* Close */}
+      <Section rhythm="lg" className="border-t">
+        <Container>
+          <div className="grid grid-cols-12">
+            <div className="reveal col-span-12 lg:col-span-8">
+              <h2 className="text-[length:var(--text-display-2)] leading-[1]">
+                Most engagements start with one problem{' '}
+                <span className="em-serif">and uncover three more.</span>
+              </h2>
+              <p className="text-ink-2 mt-8 max-w-[46ch] text-[length:var(--text-lede)] leading-[1.5]">
+                Send the notice, the deadline or the brief. You will get a straight account of
+                what it actually involves before you commit to anything.
+              </p>
+              <div className="mt-12 flex flex-wrap items-center gap-x-10 gap-y-4">
+                <TextLink href="/contact" className="text-[length:var(--text-body)]">
+                  Start a conversation
+                </TextLink>
+                <TextLink href="/knowledge" className="text-ink-3 text-[length:var(--text-body)]">
+                  Understand the work first
+                </TextLink>
+              </div>
+              <p className="text-ink-3 mt-10 text-[length:var(--text-caption)]">
+                Statutory references throughout this site are set in{' '}
+                <Ref>JetBrains Mono</Ref> — <Ref>s.148</Ref>, <Ref>GSTR-3B</Ref>,{' '}
+                <Ref>Form 3CA</Ref> — so they read as citations, not marketing.
+              </p>
+            </div>
+          </div>
         </Container>
       </Section>
     </>

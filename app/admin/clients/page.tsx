@@ -10,9 +10,9 @@ export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Clients' };
 
 const STATUS_TONE = {
-  lead: 'brand',
-  onboarding: 'warning',
-  active: 'success',
+  lead: 'accent',
+  onboarding: 'caution',
+  active: 'positive',
   dormant: 'neutral',
   closed: 'neutral',
 } as const;
@@ -65,7 +65,7 @@ export default async function ClientsPage({
           canEdit(profile.role) ? (
             <Link
               href="/admin/clients/new"
-              className="bg-brand-600 hover:bg-brand-700 inline-flex h-11 items-center gap-2 rounded-[var(--radius-md)] px-4 text-[0.9375rem] font-semibold text-white transition-colors"
+              className="bg-brand-600 hover:bg-brand-700 inline-flex h-11 items-center gap-2 rounded-[var(--radius-md)] px-4 text-[0.9375rem] font-semibold text-accent-ink transition-colors"
             >
               <Plus className="h-4 w-4" strokeWidth={2.2} />
               Add client

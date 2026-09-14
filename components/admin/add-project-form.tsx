@@ -13,7 +13,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="bg-brand-600 hover:bg-brand-700 inline-flex h-11 items-center justify-center gap-2 rounded-[var(--radius-md)] px-5 text-[0.9375rem] font-semibold text-white transition-colors disabled:opacity-60"
+      className="bg-accent hover:bg-accent-hover inline-flex h-11 items-center justify-center gap-2 rounded-[var(--radius-md)] px-5 text-[0.9375rem] font-semibold text-accent-ink transition-colors disabled:opacity-60"
     >
       {pending ? (
         <>
@@ -53,7 +53,7 @@ export function AddProjectForm() {
           >
             <div className="relative">
               <Link2
-                className="text-ink-quaternary pointer-events-none absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2"
+                className="text-ink-3 pointer-events-none absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2"
                 strokeWidth={2}
               />
               <input
@@ -70,7 +70,7 @@ export function AddProjectForm() {
           </Field>
 
           {preview ? (
-            <p className="text-ink-quaternary mt-2 text-[0.75rem]">
+            <p className="text-ink-3 mt-2 text-[0.75rem]">
               Will be saved as{' '}
               <span className="text-ink font-medium">{preview.name}</span> at{' '}
               <code className="bg-sunken rounded px-1">/work</code> · slug{' '}
@@ -114,7 +114,7 @@ export function AddProjectForm() {
 
       <div className="mt-5 flex items-center gap-4">
         <SubmitButton />
-        <p className="text-ink-quaternary text-[0.75rem]">
+        <p className="text-ink-3 text-[0.75rem]">
           Capture takes about 10–20 seconds.
         </p>
       </div>
@@ -124,19 +124,19 @@ export function AddProjectForm() {
           role="status"
           className={`mt-5 flex items-start gap-3 rounded-[var(--radius-md)] p-4 ring-1 ring-inset ${
             state.ok
-              ? 'bg-success-soft ring-success/20'
-              : 'bg-danger-soft ring-danger/20'
+              ? 'bg-positive/10 ring-positive/20'
+              : 'bg-critical/10 ring-critical/20'
           }`}
         >
           {state.ok ? (
-            <Check className="text-success mt-0.5 h-4 w-4 shrink-0" strokeWidth={2.4} />
+            <Check className="text-positive mt-0.5 h-4 w-4 shrink-0" strokeWidth={2.4} />
           ) : (
-            <AlertCircle className="text-danger mt-0.5 h-4 w-4 shrink-0" strokeWidth={2.2} />
+            <AlertCircle className="text-critical mt-0.5 h-4 w-4 shrink-0" strokeWidth={2.2} />
           )}
           <div>
             <p className="text-ink text-[0.875rem] font-medium">{state.message}</p>
             {state.detail ? (
-              <p className="text-ink-secondary mt-1 text-[0.8125rem] leading-relaxed">
+              <p className="text-ink-2 mt-1 text-[0.8125rem] leading-relaxed">
                 {state.detail}
               </p>
             ) : null}

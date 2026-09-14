@@ -13,12 +13,12 @@ import type { EnquiryRow, EnquiryState } from '@/lib/database.types';
 import { formatRelative } from '@/lib/utils';
 
 const TONE = {
-  new: 'brand',
+  new: 'accent',
   contacted: 'neutral',
-  qualified: 'success',
-  converted: 'success',
+  qualified: 'positive',
+  converted: 'positive',
   archived: 'neutral',
-  spam: 'danger',
+  spam: 'critical',
 } as const;
 
 const STATES: EnquiryState[] = [
@@ -57,7 +57,7 @@ export function EnquiryCard({
   return (
     <article
       id={enquiry.id}
-      className="scroll-mt-24 rounded-[var(--radius-lg)] border border-[var(--color-hairline)] bg-white p-5 sm:p-6"
+      className="scroll-mt-24 rounded-[var(--radius-md)] border bg-surface p-5 sm:p-6"
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
@@ -66,10 +66,10 @@ export function EnquiryCard({
             <Pill tone={TONE[enquiry.state]}>{enquiry.state}</Pill>
           </div>
 
-          <div className="text-ink-tertiary mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[0.8125rem]">
+          <div className="text-ink-3 mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[0.8125rem]">
             <a
               href={`mailto:${enquiry.email}`}
-              className="hover:text-brand-700 inline-flex items-center gap-1.5"
+              className="hover:text-accent inline-flex items-center gap-1.5"
             >
               <Mail className="h-3.5 w-3.5" strokeWidth={2} />
               {enquiry.email}
@@ -77,7 +77,7 @@ export function EnquiryCard({
             {enquiry.phone ? (
               <a
                 href={`tel:${enquiry.phone}`}
-                className="hover:text-brand-700 inline-flex items-center gap-1.5"
+                className="hover:text-accent inline-flex items-center gap-1.5"
               >
                 <Phone className="h-3.5 w-3.5" strokeWidth={2} />
                 {enquiry.phone}
@@ -89,7 +89,7 @@ export function EnquiryCard({
                 {enquiry.company}
               </span>
             ) : null}
-            <span className="text-ink-quaternary">{formatRelative(enquiry.created_at)}</span>
+            <span className="text-ink-3">{formatRelative(enquiry.created_at)}</span>
           </div>
         </div>
 
@@ -104,7 +104,7 @@ export function EnquiryCard({
                   await setEnquiryState(enquiry.id, e.target.value as EnquiryState);
                 })
               }
-              className="text-ink-secondary h-9 rounded-[var(--radius-sm)] bg-white px-2.5 text-[0.8125rem] ring-1 ring-[var(--color-hairline)] ring-inset outline-none disabled:opacity-60"
+              className="text-ink-2 h-9 rounded-[var(--radius-sm)] bg-surface px-2.5 text-[0.8125rem] ring-1 ring-[var(--hairline)] ring-inset outline-none disabled:opacity-60"
             >
               {STATES.map((value) => (
                 <option key={value} value={value}>
@@ -118,7 +118,7 @@ export function EnquiryCard({
                 type="button"
                 onClick={convert}
                 disabled={pending}
-                className="text-brand-700 hover:bg-brand-50 inline-flex h-9 items-center gap-1.5 rounded-[var(--radius-sm)] px-3 text-[0.8125rem] font-semibold transition-colors disabled:opacity-60"
+                className="text-accent hover:bg-accent-wash inline-flex h-9 items-center gap-1.5 rounded-[var(--radius-sm)] px-3 text-[0.8125rem] font-semibold transition-colors disabled:opacity-60"
               >
                 <UserPlus className="h-3.5 w-3.5" strokeWidth={2.2} />
                 Make client
@@ -129,12 +129,12 @@ export function EnquiryCard({
       </div>
 
       {enquiry.service_id ? (
-        <p className="text-ink-quaternary mt-3 text-[0.75rem]">
-          Interested in: <span className="text-ink-tertiary">{enquiry.service_id}</span>
+        <p className="text-ink-3 mt-3 text-[0.75rem]">
+          Interested in: <span className="text-ink-3">{enquiry.service_id}</span>
         </p>
       ) : null}
 
-      <p className="text-ink-secondary bg-sunken mt-4 rounded-[var(--radius-md)] p-4 text-[0.875rem] leading-relaxed whitespace-pre-wrap">
+      <p className="text-ink-2 bg-sunken mt-4 rounded-[var(--radius-md)] p-4 text-[0.875rem] leading-relaxed whitespace-pre-wrap">
         {enquiry.message}
       </p>
 
@@ -142,7 +142,7 @@ export function EnquiryCard({
         <div className="mt-4">
           <label
             htmlFor={`note-${enquiry.id}`}
-            className="text-ink-quaternary mb-1.5 block text-[0.75rem] font-medium"
+            className="text-ink-3 mb-1.5 block text-[0.75rem] font-medium"
           >
             Internal note
           </label>
@@ -161,16 +161,16 @@ export function EnquiryCard({
               })
             }
             placeholder="Not visible to the sender."
-            className="text-ink placeholder:text-ink-quaternary focus:ring-brand-500 w-full resize-y rounded-[var(--radius-md)] bg-white px-3.5 py-2.5 text-[0.875rem] ring-1 ring-[var(--color-hairline)] ring-inset outline-none focus:ring-2"
+            className="text-ink placeholder:text-ink-3 focus:ring-accent w-full resize-y rounded-[var(--radius-md)] bg-surface px-3.5 py-2.5 text-[0.875rem] ring-1 ring-[var(--hairline)] ring-inset outline-none focus:ring-2"
           />
           {noteSaved ? (
-            <p className="text-success mt-1 text-[0.75rem]">Note saved.</p>
+            <p className="text-positive mt-1 text-[0.75rem]">Note saved.</p>
           ) : null}
         </div>
       ) : null}
 
       {feedback ? (
-        <p role="alert" className="text-danger mt-3 text-[0.8125rem]">
+        <p role="alert" className="text-critical mt-3 text-[0.8125rem]">
           {feedback}
         </p>
       ) : null}

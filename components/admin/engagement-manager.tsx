@@ -10,10 +10,10 @@ import type { EngagementRow } from '@/lib/database.types';
 
 const STATE_TONE = {
   proposed: 'neutral',
-  active: 'success',
-  paused: 'warning',
-  completed: 'brand',
-  cancelled: 'danger',
+  active: 'positive',
+  paused: 'caution',
+  completed: 'accent',
+  cancelled: 'critical',
 } as const;
 
 /** Engagements are picked from the same service catalogue the public site
@@ -48,11 +48,11 @@ export function EngagementManager({
   return (
     <div>
       {engagements.length === 0 ? (
-        <p className="text-ink-tertiary px-6 py-5 text-[0.875rem]">
+        <p className="text-ink-3 px-6 py-5 text-[0.875rem]">
           No engagements recorded yet.
         </p>
       ) : (
-        <ul className="divide-y divide-[var(--color-hairline)]">
+        <ul className="divide-y divide-[var(--hairline)]">
           {engagements.map((engagement) => (
             <li key={engagement.id} className="flex items-start gap-3 px-6 py-3.5">
               <div className="min-w-0 flex-1">
@@ -62,7 +62,7 @@ export function EngagementManager({
                 <div className="mt-1 flex items-center gap-2">
                   <Pill tone={STATE_TONE[engagement.state]}>{engagement.state}</Pill>
                   {engagement.fee_amount ? (
-                    <span className="text-ink-quaternary text-[0.75rem] tabular-nums">
+                    <span className="text-ink-3 text-[0.75rem] tabular-nums">
                       {new Intl.NumberFormat('en-IN', {
                         style: 'currency',
                         currency: engagement.fee_currency || 'INR',
@@ -84,7 +84,7 @@ export function EngagementManager({
                     })
                   }
                   aria-label={`Remove ${engagement.service_name}`}
-                  className="text-ink-quaternary hover:text-danger hover:bg-danger-soft flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-colors disabled:opacity-50"
+                  className="text-ink-3 hover:text-critical hover:bg-critical/10 flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-colors disabled:opacity-50"
                 >
                   <X className="h-3.5 w-3.5" strokeWidth={2.2} />
                 </button>
@@ -95,14 +95,14 @@ export function EngagementManager({
       )}
 
       {editable ? (
-        <div className="border-t border-[var(--color-hairline)] px-6 py-4">
+        <div className="border-t border-[var(--hairline)] px-6 py-4">
           {adding ? (
             <div className="flex flex-wrap gap-2">
               <select
                 value={selected}
                 onChange={(e) => setSelected(e.target.value)}
                 aria-label="Select a service"
-                className="text-ink h-10 min-w-[12rem] flex-1 rounded-[var(--radius-sm)] bg-white px-3 text-[0.875rem] ring-1 ring-[var(--color-hairline)] ring-inset outline-none"
+                className="text-ink h-10 min-w-[12rem] flex-1 rounded-[var(--radius-sm)] bg-surface px-3 text-[0.875rem] ring-1 ring-[var(--hairline)] ring-inset outline-none"
               >
                 <option value="">Select a service…</option>
                 {PILLARS.map((pillar) => (
@@ -119,14 +119,14 @@ export function EngagementManager({
                 type="button"
                 onClick={add}
                 disabled={!selected || pending}
-                className="bg-brand-600 hover:bg-brand-700 h-10 rounded-[var(--radius-sm)] px-4 text-[0.875rem] font-semibold text-white transition-colors disabled:opacity-50"
+                className="bg-accent hover:bg-accent-hover h-10 rounded-[var(--radius-sm)] px-4 text-[0.875rem] font-semibold text-accent-ink transition-colors disabled:opacity-50"
               >
                 Add
               </button>
               <button
                 type="button"
                 onClick={() => setAdding(false)}
-                className="text-ink-tertiary hover:text-ink h-10 px-2 text-[0.875rem]"
+                className="text-ink-3 hover:text-ink h-10 px-2 text-[0.875rem]"
               >
                 Cancel
               </button>
@@ -135,7 +135,7 @@ export function EngagementManager({
             <button
               type="button"
               onClick={() => setAdding(true)}
-              className="text-brand-700 hover:text-brand-800 inline-flex items-center gap-1.5 text-[0.875rem] font-semibold"
+              className="text-accent hover:text-ink inline-flex items-center gap-1.5 text-[0.875rem] font-semibold"
             >
               <Plus className="h-3.5 w-3.5" strokeWidth={2.4} />
               Add engagement

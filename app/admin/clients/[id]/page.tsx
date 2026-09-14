@@ -13,9 +13,9 @@ import { formatDate } from '@/lib/utils';
 export const dynamic = 'force-dynamic';
 
 const STATUS_TONE = {
-  lead: 'brand',
-  onboarding: 'warning',
-  active: 'success',
+  lead: 'accent',
+  onboarding: 'caution',
+  active: 'positive',
   dormant: 'neutral',
   closed: 'neutral',
 } as const;

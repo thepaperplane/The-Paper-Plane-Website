@@ -241,27 +241,27 @@ export const CATEGORY_STYLES: Record<
 > = {
   'Income Tax': {
     label: 'Income Tax',
-    dot: 'bg-brand-500',
-    chip: 'bg-brand-50 text-brand-700 ring-brand-500/20',
+    dot: 'bg-accent',
+    chip: 'bg-accent-wash text-accent ring-accent/20',
   },
   GST: {
     label: 'GST',
-    dot: 'bg-success',
-    chip: 'bg-success-soft text-success ring-success/20',
+    dot: 'bg-positive',
+    chip: 'bg-positive/10 text-positive ring-positive/20',
   },
   Payroll: {
     label: 'Payroll',
-    dot: 'bg-warning',
-    chip: 'bg-warning-soft text-warning ring-warning/20',
+    dot: 'bg-caution',
+    chip: 'bg-caution/10 text-caution ring-caution/20',
   },
   Audit: {
     label: 'Audit',
-    dot: 'bg-brand-800',
-    chip: 'bg-brand-100 text-brand-900 ring-brand-800/20',
+    dot: 'bg-ink',
+    chip: 'bg-accent-wash text-ink ring-ink/20',
   },
   MCA: {
     label: 'MCA',
-    dot: 'bg-danger',
-    chip: 'bg-danger-soft text-danger ring-danger/20',
+    dot: 'bg-critical',
+    chip: 'bg-critical/10 text-critical ring-critical/20',
   },
 };

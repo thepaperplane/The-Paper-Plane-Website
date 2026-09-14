@@ -59,7 +59,7 @@ export default async function NewsPage({ searchParams }: { searchParams: SearchP
     <>
       {/* Header */}
       <Section className="pt-32 pb-12 sm:pt-40">
-        <div className="ambient-wash pointer-events-none absolute inset-0 -z-10" />
+        <div className="pointer-events-none absolute inset-0 -z-10" />
         <Container>
           <SectionHeading
             as="h1"
@@ -79,8 +79,8 @@ export default async function NewsPage({ searchParams }: { searchParams: SearchP
               className={cn(
                 'rounded-full px-4 py-2.5 text-[0.875rem] font-medium transition-colors sm:py-2',
                 !category
-                  ? 'bg-ink text-white'
-                  : 'text-ink-secondary hover:text-ink bg-white ring-1 ring-[var(--color-hairline)] ring-inset',
+                  ? 'bg-ink text-ground'
+                  : 'text-ink-2 hover:text-ink bg-surface ring-1 ring-[var(--hairline)] ring-inset',
               )}
             >
               All
@@ -92,8 +92,8 @@ export default async function NewsPage({ searchParams }: { searchParams: SearchP
                 className={cn(
                   'rounded-full px-4 py-2.5 text-[0.875rem] font-medium transition-colors sm:py-2',
                   category === name
-                    ? 'bg-ink text-white'
-                    : 'text-ink-secondary hover:text-ink bg-white ring-1 ring-[var(--color-hairline)] ring-inset',
+                    ? 'bg-ink text-ground'
+                    : 'text-ink-2 hover:text-ink bg-surface ring-1 ring-[var(--hairline)] ring-inset',
                 )}
               >
                 {name}
@@ -107,25 +107,25 @@ export default async function NewsPage({ searchParams }: { searchParams: SearchP
         <Container>
           {filtered.length === 0 ? (
             /* Empty state — also what shows before the first cron run */
-            <Card className="bg-white p-12 text-center">
+            <Card className="bg-surface p-12 text-center">
               <span className="bg-sunken mx-auto flex h-14 w-14 items-center justify-center rounded-full">
-                <Newspaper className="text-ink-quaternary h-6 w-6" strokeWidth={1.8} />
+                <Newspaper className="text-ink-3 h-6 w-6" strokeWidth={1.8} />
               </span>
               <h2 className="text-ink mt-5 text-[1.1875rem] font-semibold">
                 {category ? `Nothing filed under “${category}” yet` : 'The feed is warming up'}
               </h2>
-              <p className="text-ink-tertiary mx-auto mt-2.5 max-w-md text-[0.9375rem] leading-relaxed">
+              <p className="text-ink-3 mx-auto mt-2.5 max-w-md text-[0.9375rem] leading-relaxed">
                 {category
                   ? 'Try another category, or check back after the next daily refresh.'
                   : 'Headlines are collected once a day. The first edition appears after the next scheduled refresh.'}
               </p>
               <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
                 {category ? (
-                  <ButtonLink href="/news" variant="secondary">
+                  <ButtonLink href="/news" tone="outline">
                     Show everything
                   </ButtonLink>
                 ) : null}
-                <ButtonLink href="/calendar" variant="secondary">
+                <ButtonLink href="/calendar" tone="outline">
                   See the compliance calendar
                 </ButtonLink>
               </div>
@@ -134,7 +134,7 @@ export default async function NewsPage({ searchParams }: { searchParams: SearchP
             <>
               {/* Lead story */}
               {lead ? (
-                <Card interactive className="group mb-5 overflow-hidden bg-white">
+                <Card interactive className="group mb-5 overflow-hidden bg-surface">
                   <a
                     href={lead.link}
                     target="_blank"
@@ -142,30 +142,30 @@ export default async function NewsPage({ searchParams }: { searchParams: SearchP
                     className="block p-7 sm:p-9"
                   >
                     <div className="flex flex-wrap items-center gap-2">
-                      <Badge tone="brand">{lead.category}</Badge>
-                      <span className="text-ink-quaternary text-[0.8125rem]">
+                      <Badge tone="accent">{lead.category}</Badge>
+                      <span className="text-ink-3 text-[0.8125rem]">
                         {lead.source_name}
                       </span>
-                      <span className="text-ink-quaternary text-[0.8125rem]">·</span>
+                      <span className="text-ink-3 text-[0.8125rem]">·</span>
                       <time
                         dateTime={lead.published_at}
-                        className="text-ink-quaternary text-[0.8125rem]"
+                        className="text-ink-3 text-[0.8125rem]"
                       >
                         {formatRelative(lead.published_at)}
                       </time>
                     </div>
 
-                    <h2 className="text-ink group-hover:text-brand-700 mt-4 max-w-3xl text-[length:var(--text-title-2)] leading-tight font-semibold tracking-[-0.022em] transition-colors">
+                    <h2 className="text-ink group-hover:text-accent mt-4 max-w-3xl text-[length:var(--text-title-2)] leading-tight font-semibold tracking-[-0.022em] transition-colors">
                       {lead.title}
                     </h2>
 
                     {lead.summary ? (
-                      <p className="text-ink-tertiary mt-3 max-w-2xl text-[1.0625rem] leading-relaxed">
+                      <p className="text-ink-3 mt-3 max-w-2xl text-[1.0625rem] leading-relaxed">
                         {lead.summary}
                       </p>
                     ) : null}
 
-                    <span className="text-brand-700 mt-5 inline-flex items-center gap-1.5 text-[0.9375rem] font-semibold">
+                    <span className="text-accent mt-5 inline-flex items-center gap-1.5 text-[0.9375rem] font-semibold">
                       Read at {displayHost(lead.link)}
                       <ExternalLink className="h-3.5 w-3.5" strokeWidth={2.2} />
                     </span>
@@ -177,7 +177,7 @@ export default async function NewsPage({ searchParams }: { searchParams: SearchP
               <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {rest.map((item) => (
                   <li key={item.id}>
-                    <Card interactive className="group h-full bg-white">
+                    <Card interactive className="group h-full bg-surface">
                       <a
                         href={item.link}
                         target="_blank"
@@ -188,29 +188,29 @@ export default async function NewsPage({ searchParams }: { searchParams: SearchP
                           <Badge tone="neutral">{item.category}</Badge>
                           <time
                             dateTime={item.published_at}
-                            className="text-ink-quaternary text-[0.75rem]"
+                            className="text-ink-3 text-[0.75rem]"
                           >
                             {formatRelative(item.published_at)}
                           </time>
                         </div>
 
-                        <h3 className="text-ink group-hover:text-brand-700 mt-3.5 text-[1.0625rem] leading-snug font-semibold transition-colors">
+                        <h3 className="text-ink group-hover:text-accent mt-3.5 text-[1.0625rem] leading-snug font-semibold transition-colors">
                           {item.title}
                         </h3>
 
                         {item.summary ? (
-                          <p className="text-ink-tertiary mt-2.5 line-clamp-3 flex-1 text-[0.875rem] leading-relaxed">
+                          <p className="text-ink-3 mt-2.5 line-clamp-3 flex-1 text-[0.875rem] leading-relaxed">
                             {item.summary}
                           </p>
                         ) : (
                           <span className="flex-1" />
                         )}
 
-                        <div className="mt-5 flex items-center justify-between border-t border-[var(--color-hairline)] pt-3.5">
-                          <span className="text-ink-quaternary text-[0.75rem]">
+                        <div className="mt-5 flex items-center justify-between border-t border-[var(--hairline)] pt-3.5">
+                          <span className="text-ink-3 text-[0.75rem]">
                             {item.source_name}
                           </span>
-                          <ArrowUpRight className="text-ink-quaternary group-hover:text-brand-600 h-3.5 w-3.5 transition-colors" />
+                          <ArrowUpRight className="text-ink-3 group-hover:text-accent h-3.5 w-3.5 transition-colors" />
                         </div>
                       </a>
                     </Card>
@@ -218,7 +218,7 @@ export default async function NewsPage({ searchParams }: { searchParams: SearchP
                 ))}
               </ul>
 
-              <p className="text-ink-quaternary mt-10 flex items-center gap-2 text-[0.8125rem]">
+              <p className="text-ink-3 mt-10 flex items-center gap-2 text-[0.8125rem]">
                 <RefreshCw className="h-3.5 w-3.5" strokeWidth={2} />
                 Headlines refresh once a day. Summaries are extracted from each publisher&rsquo;s
                 own feed; copyright remains with the publisher and every card links to the

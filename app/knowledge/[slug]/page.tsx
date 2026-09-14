@@ -88,35 +88,35 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
       <article>
         {/* Header */}
         <Section className="pt-32 pb-10 sm:pt-40">
-          <div className="ambient-wash pointer-events-none absolute inset-0 -z-10" />
+          <div className="pointer-events-none absolute inset-0 -z-10" />
           <Container size="content">
             <Link
               href="/knowledge"
-              className="text-ink-tertiary hover:text-ink inline-flex items-center gap-1.5 text-[0.875rem] font-medium transition-colors"
+              className="text-ink-3 hover:text-ink inline-flex items-center gap-1.5 text-[0.875rem] font-medium transition-colors"
             >
               <ArrowLeft className="h-4 w-4" strokeWidth={2.2} />
               Knowledge Corner
             </Link>
 
             <div className="mt-6 flex flex-wrap items-center gap-2">
-              <Badge tone="brand">{article.category}</Badge>
-              <span className="text-ink-quaternary text-[0.8125rem]">
+              <Badge tone="accent">{article.category}</Badge>
+              <span className="text-ink-3 text-[0.8125rem]">
                 {article.readingTime}
               </span>
-              <span className="text-ink-quaternary text-[0.8125rem]">·</span>
-              <time dateTime={article.date} className="text-ink-quaternary text-[0.8125rem]">
+              <span className="text-ink-3 text-[0.8125rem]">·</span>
+              <time dateTime={article.date} className="text-ink-3 text-[0.8125rem]">
                 {formatDate(article.date)}
               </time>
             </div>
 
-            <h1 className="text-ink mt-5 text-[length:var(--text-display-s)] leading-[1.1] font-semibold tracking-[-0.03em]">
+            <h1 className="text-ink mt-5 text-[length:var(--text-display-2)] leading-[1.1] font-semibold tracking-[-0.03em]">
               {article.title}
             </h1>
 
-            <p className="text-ink-tertiary mt-5 text-lg leading-relaxed">{article.summary}</p>
+            <p className="text-ink-3 mt-5 text-lg leading-relaxed">{article.summary}</p>
 
             <div className="mt-7 flex items-center gap-3">
-              <span className="bg-brand-50 text-brand-700 ring-brand-500/15 flex h-10 w-10 items-center justify-center rounded-full text-[0.8125rem] font-semibold ring-1 ring-inset">
+              <span className="bg-accent-wash text-accent ring-accent/15 flex h-10 w-10 items-center justify-center rounded-full text-[0.8125rem] font-semibold ring-1 ring-inset">
                 {article.author
                   .split(' ')
                   .map((w) => w[0])
@@ -125,12 +125,12 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
               </span>
               <div>
                 <p className="text-ink text-[0.9375rem] font-medium">{article.author}</p>
-                <p className="text-ink-quaternary text-[0.8125rem]">{article.authorRole}</p>
+                <p className="text-ink-3 text-[0.8125rem]">{article.authorRole}</p>
               </div>
             </div>
 
             {article.reference ? (
-              <p className="bg-sunken text-ink-tertiary mt-7 rounded-[var(--radius-md)] px-4 py-3 font-[family-name:var(--font-mono)] text-[0.8125rem]">
+              <p className="bg-sunken text-ink-3 mt-7 rounded-[var(--radius-md)] px-4 py-3 font-[family-name:var(--font-mono)] text-[0.8125rem]">
                 {article.reference}
               </p>
             ) : null}
@@ -156,7 +156,7 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
                     {block.paragraphs.map((paragraph, j) => (
                       <p
                         key={j}
-                        className="text-ink-secondary text-[1.0625rem] leading-[1.75]"
+                        className="text-ink-2 text-[1.0625rem] leading-[1.75]"
                       >
                         {paragraph}
                       </p>
@@ -180,7 +180,7 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
               <h2 className="text-ink text-[1.1875rem] font-semibold tracking-[-0.015em]">
                 Does this apply to your position?
               </h2>
-              <p className="text-ink-tertiary mt-2.5 text-[0.9375rem] leading-relaxed">
+              <p className="text-ink-3 mt-2.5 text-[0.9375rem] leading-relaxed">
                 General guidance only takes you so far. If you are holding a notice or a
                 deadline, send it over and we will read it against your actual facts.
               </p>
@@ -200,13 +200,13 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
             </h2>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               {related.map((item) => (
-                <Card key={item.slug} interactive className="group bg-white">
+                <Card key={item.slug} interactive className="group bg-surface">
                   <Link href={`/knowledge/${item.slug}`} className="block p-6">
-                    <Badge tone="brand">{item.category}</Badge>
-                    <h3 className="text-ink group-hover:text-brand-700 mt-3 text-[1.0625rem] leading-snug font-semibold transition-colors">
+                    <Badge tone="accent">{item.category}</Badge>
+                    <h3 className="text-ink group-hover:text-accent mt-3 text-[1.0625rem] leading-snug font-semibold transition-colors">
                       {item.title}
                     </h3>
-                    <p className="text-ink-quaternary mt-2 text-[0.8125rem]">
+                    <p className="text-ink-3 mt-2 text-[0.8125rem]">
                       {item.readingTime}
                     </p>
                   </Link>

@@ -33,7 +33,7 @@ function SaveButton({ label }: { label: string }) {
     <button
       type="submit"
       disabled={pending}
-      className="bg-brand-600 hover:bg-brand-700 inline-flex h-11 items-center gap-2 rounded-[var(--radius-md)] px-5 text-[0.9375rem] font-semibold text-white transition-colors disabled:opacity-60"
+      className="bg-accent hover:bg-accent-hover inline-flex h-11 items-center gap-2 rounded-[var(--radius-md)] px-5 text-[0.9375rem] font-semibold text-accent-ink transition-colors disabled:opacity-60"
     >
       {pending ? (
         <>
@@ -234,7 +234,7 @@ export function ClientForm({ client }: { client?: ClientRow }) {
           <p
             role="status"
             className={`inline-flex items-center gap-1.5 text-[0.875rem] ${
-              state.ok ? 'text-success' : 'text-danger'
+              state.ok ? 'text-positive' : 'text-critical'
             }`}
           >
             {state.ok ? (

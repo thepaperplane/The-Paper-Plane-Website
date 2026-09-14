@@ -3,39 +3,40 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { ArrowUpRight, Menu, MessageCircle, Phone, X } from 'lucide-react';
 import { Logo } from '@/components/brand/logo';
+import { ThemeToggle } from '@/components/site/theme';
 import { PRIMARY_NAV, SITE, whatsappLink } from '@/lib/site';
 import { cn } from '@/lib/utils';
 
+/**
+ * Masthead.
+ *
+ * A rule rather than a shadow, a rectangle rather than a pill, and no
+ * backdrop-blur glass panel — those were the three things that made the old
+ * header read as a component-library default.
+ */
 export function SiteHeader() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Close the sheet on navigation.
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
+  useEffect(() => setOpen(false), [pathname]);
 
-  // Lock the body and allow Escape to dismiss while the sheet is open.
   useEffect(() => {
     if (!open) return;
-    const previous = document.body.style.overflow;
+    const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
-    };
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
     window.addEventListener('keydown', onKey);
     return () => {
-      document.body.style.overflow = previous;
+      document.body.style.overflow = prev;
       window.removeEventListener('keydown', onKey);
     };
   }, [open]);
@@ -47,158 +48,150 @@ export function SiteHeader() {
     <>
       <header
         className={cn(
-          'fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-[var(--ease-out-ios)]',
-          scrolled
-            ? 'border-b border-[var(--color-hairline)] bg-white/80 backdrop-blur-xl backdrop-saturate-[180%]'
-            : 'border-b border-transparent bg-white/0',
+          'fixed inset-x-0 top-0 z-50 transition-colors duration-500',
+          scrolled ? 'bg-ground/92 border-b backdrop-blur-[2px]' : 'border-b border-transparent',
         )}
       >
-        <div className="mx-auto flex h-16 w-full max-w-[80rem] items-center justify-between gap-4 px-6 sm:h-[4.5rem] sm:px-8">
-          <Link
-            href="/"
-            className="shrink-0 rounded-lg transition-opacity hover:opacity-80"
-            aria-label={`${SITE.name} — home`}
-          >
+        <div className="mx-auto flex h-[4.5rem] w-full max-w-[84rem] items-center gap-8 px-6 sm:px-10">
+          <Link href="/" aria-label={`${SITE.name} — home`} className="shrink-0">
             <Logo priority />
           </Link>
 
-          {/* Desktop navigation */}
-          <nav className="hidden min-w-0 items-center gap-0.5 lg:flex" aria-label="Primary">
+          <nav
+            className="ml-auto hidden items-center gap-7 lg:flex"
+            aria-label="Primary"
+          >
             {PRIMARY_NAV.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 aria-current={isActive(item.href) ? 'page' : undefined}
                 className={cn(
-                  'relative rounded-[var(--radius-sm)] px-3 py-2 text-[0.9375rem] font-medium whitespace-nowrap transition-colors duration-200',
-                  isActive(item.href)
-                    ? 'text-brand-700'
-                    : 'text-ink-secondary hover:text-ink hover:bg-sunken',
+                  'text-[length:var(--text-small)] whitespace-nowrap transition-colors duration-300',
+                  isActive(item.href) ? 'text-ink' : 'text-ink-3 hover:text-ink',
                 )}
               >
                 {item.short ?? item.label}
-                {isActive(item.href) ? (
-                  <span className="bg-brand-600 absolute inset-x-3 -bottom-px h-0.5 rounded-full" />
-                ) : null}
               </Link>
             ))}
           </nav>
 
-          <div className="flex items-center gap-2">
-            <a
-              href={`tel:${SITE.phoneIntl}`}
-              className="text-ink-secondary hover:text-ink hover:bg-sunken hidden h-10 items-center gap-2 rounded-[var(--radius-md)] px-3 text-[0.9375rem] font-medium whitespace-nowrap transition-colors md:inline-flex"
-            >
-              <Phone className="h-4 w-4" strokeWidth={2} />
-              <span className="hidden xl:inline">{SITE.phone}</span>
-            </a>
+          <div className="ml-auto flex items-center gap-1 lg:ml-0 lg:gap-2">
+            <ThemeToggle />
 
             <Link
               href="/contact"
-              className="bg-brand-600 hover:bg-brand-700 hidden h-10 items-center gap-1.5 rounded-[var(--radius-md)] px-4 text-[0.9375rem] font-semibold whitespace-nowrap text-white shadow-[var(--shadow-brand)] transition-all duration-300 hover:shadow-[0_18px_36px_-12px_rgba(33,111,151,0.45)] active:scale-[0.97] sm:inline-flex"
+              className="bg-accent text-accent-ink hover:bg-accent-hover hidden h-9 items-center rounded-[var(--radius-sm)] px-4 text-[length:var(--text-small)] font-medium whitespace-nowrap transition-colors duration-300 sm:inline-flex"
             >
-              Book a consultation
+              Start a conversation
             </Link>
 
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
               aria-expanded={open}
-              aria-controls="mobile-nav"
+              aria-controls="site-menu"
               aria-label={open ? 'Close menu' : 'Open menu'}
-              className="text-ink hover:bg-sunken inline-flex h-10 w-10 items-center justify-center rounded-[var(--radius-md)] transition-colors lg:hidden"
+              className="text-ink relative inline-flex h-9 w-9 items-center justify-center lg:hidden"
             >
-              {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              <span className="relative block h-3 w-5" aria-hidden="true">
+                <span
+                  className="bg-ink absolute left-0 block h-px w-full transition-all duration-400 ease-[var(--ease-out-editorial)]"
+                  style={{
+                    top: open ? '50%' : 0,
+                    transform: open ? 'rotate(45deg)' : 'none',
+                  }}
+                />
+                <span
+                  className="bg-ink absolute left-0 block h-px w-full transition-all duration-400 ease-[var(--ease-out-editorial)]"
+                  style={{
+                    bottom: open ? '50%' : 0,
+                    transform: open ? 'rotate(-45deg) translateY(-0.5px)' : 'none',
+                  }}
+                />
+              </span>
             </button>
           </div>
         </div>
       </header>
 
-      {/* Mobile sheet */}
+      {/* Mobile menu — a full-height editorial index, not a dropdown card. */}
       <div
-        id="mobile-nav"
+        id="site-menu"
+        aria-hidden={!open}
         className={cn(
           'fixed inset-0 z-40 lg:hidden',
           open ? 'pointer-events-auto' : 'pointer-events-none',
         )}
-        aria-hidden={!open}
       >
-        <button
-          type="button"
-          tabIndex={-1}
-          aria-hidden="true"
-          onClick={() => setOpen(false)}
+        <div
           className={cn(
-            'absolute inset-0 bg-[rgba(16,24,40,0.24)] backdrop-blur-sm transition-opacity duration-400',
+            'bg-ground absolute inset-0 transition-opacity duration-500 ease-[var(--ease-out-editorial)]',
             open ? 'opacity-100' : 'opacity-0',
           )}
         />
-
-        <div
+        <nav
+          aria-label="Mobile"
           className={cn(
-            'absolute inset-x-0 top-0 origin-top bg-white pt-[4.5rem] pb-8 shadow-[var(--shadow-2xl)] transition-all duration-500 ease-[var(--ease-out-ios)]',
-            open ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0',
+            'relative flex h-full flex-col px-6 pt-[6rem] pb-10 transition-all duration-500 ease-[var(--ease-out-editorial)] sm:px-10',
+            open ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-0',
           )}
         >
-          <nav className="px-6 sm:px-8" aria-label="Mobile">
-            <ul className="divide-y divide-[var(--color-hairline)]">
-              {PRIMARY_NAV.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="group flex items-center justify-between py-3.5"
-                    tabIndex={open ? 0 : -1}
-                  >
-                    <span>
-                      <span
-                        className={cn(
-                          'block text-[1.0625rem] font-semibold',
-                          isActive(item.href) ? 'text-brand-700' : 'text-ink',
-                        )}
-                      >
-                        {item.label}
-                      </span>
-                      {item.description ? (
-                        <span className="text-ink-quaternary mt-0.5 block text-[0.8125rem]">
-                          {item.description}
-                        </span>
-                      ) : null}
+          <ul className="flex-1">
+            {PRIMARY_NAV.map((item, i) => (
+              <li key={item.href} className="border-b last:border-b-0">
+                <Link
+                  href={item.href}
+                  tabIndex={open ? 0 : -1}
+                  className="flex items-baseline gap-5 py-5"
+                >
+                  <span className="numeral text-[length:var(--text-caption)] w-5 shrink-0">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span className="min-w-0">
+                    <span
+                      className={cn(
+                        'block text-[length:var(--text-title-2)] leading-tight',
+                        'font-[family-name:var(--font-display)]',
+                        isActive(item.href) ? 'text-accent' : 'text-ink',
+                      )}
+                    >
+                      {item.label}
                     </span>
-                    <ArrowUpRight className="text-ink-quaternary group-hover:text-brand-600 h-4 w-4 shrink-0 transition-colors" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
+                    {item.description ? (
+                      <span className="text-ink-3 mt-1 block text-[length:var(--text-caption)]">
+                        {item.description}
+                      </span>
+                    ) : null}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
 
-            <div className="mt-6 grid gap-2.5">
-              <Link
-                href="/contact"
-                tabIndex={open ? 0 : -1}
-                className="bg-brand-600 flex h-12 items-center justify-center rounded-[var(--radius-md)] text-base font-semibold text-white"
-              >
-                Book a consultation
-              </Link>
+          <div className="mt-8 space-y-3">
+            <Link
+              href="/contact"
+              tabIndex={open ? 0 : -1}
+              className="bg-accent text-accent-ink flex h-12 items-center justify-center rounded-[var(--radius-sm)] text-[length:var(--text-small)] font-medium"
+            >
+              Start a conversation
+            </Link>
+            <div className="text-ink-3 flex items-center justify-between text-[length:var(--text-caption)]">
+              <a href={`tel:${SITE.phoneIntl}`} tabIndex={open ? 0 : -1}>
+                {SITE.phone}
+              </a>
               <a
                 href={whatsappLink()}
                 target="_blank"
                 rel="noopener noreferrer"
                 tabIndex={open ? 0 : -1}
-                className="text-ink flex h-12 items-center justify-center gap-2 rounded-[var(--radius-md)] ring-1 ring-[var(--color-hairline-strong)] ring-inset"
               >
-                <MessageCircle className="h-4 w-4" />
-                WhatsApp us
-              </a>
-              <a
-                href={`tel:${SITE.phoneIntl}`}
-                tabIndex={open ? 0 : -1}
-                className="text-ink-tertiary flex h-11 items-center justify-center gap-2 text-[0.9375rem]"
-              >
-                <Phone className="h-4 w-4" />
-                {SITE.phone}
+                WhatsApp
               </a>
             </div>
-          </nav>
-        </div>
+          </div>
+        </nav>
       </div>
     </>
   );

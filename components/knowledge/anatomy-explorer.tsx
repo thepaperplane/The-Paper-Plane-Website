@@ -61,10 +61,10 @@ export function AnatomyExplorer() {
               tabIndex={selected ? 0 : -1}
               onClick={() => setActive(index)}
               className={cn(
-                'shrink-0 rounded-full px-4 py-2.5 text-[0.9375rem] font-medium transition-all duration-300 ease-[var(--ease-out-ios)]',
+                'shrink-0 rounded-full px-4 py-2.5 text-[0.9375rem] font-medium transition-all duration-300 ease-[var(--ease-out-editorial)]',
                 selected
-                  ? 'bg-brand-600 text-white shadow-[var(--shadow-brand)]'
-                  : 'text-ink-secondary hover:text-ink bg-white ring-1 ring-[var(--color-hairline)] ring-inset hover:shadow-[var(--shadow-sm)]',
+                  ? 'bg-accent text-accent-ink shadow-[var(--shadow-soft)]'
+                  : 'text-ink-2 hover:text-ink bg-surface ring-1 ring-[var(--hairline)] ring-inset hover:shadow-[var(--shadow-soft)]',
               )}
             >
               {item.service}
@@ -83,17 +83,17 @@ export function AnatomyExplorer() {
       >
         <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)]">
           {/* Perception vs reality */}
-          <Card className="min-w-0 bg-white p-7">
-            <p className="text-ink-quaternary text-[0.75rem] font-semibold tracking-[0.06em] uppercase">
+          <Card className="min-w-0 bg-surface p-7">
+            <p className="text-ink-3 text-[0.75rem] font-semibold tracking-[0.06em] uppercase">
               What clients think it is
             </p>
-            <p className="text-ink-tertiary mt-3 text-[1.0625rem] leading-relaxed italic">
+            <p className="text-ink-3 mt-3 text-[1.0625rem] leading-relaxed italic">
               {current.perception}
             </p>
 
-            <div className="my-6 h-px bg-[var(--color-hairline)]" />
+            <div className="my-6 h-px bg-[var(--hairline)]" />
 
-            <p className="text-brand-700 text-[0.75rem] font-semibold tracking-[0.06em] uppercase">
+            <p className="text-accent text-[0.75rem] font-semibold tracking-[0.06em] uppercase">
               What it actually is
             </p>
             <p className="text-ink mt-3 text-[1.0625rem] leading-relaxed">{current.reality}</p>
@@ -101,7 +101,7 @@ export function AnatomyExplorer() {
             {/* Scope of work — the replacement for the old hour tiles. */}
             <dl className="mt-7 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]">
               <div className="bg-sunken rounded-[var(--radius-md)] p-4">
-                <dt className="text-ink-quaternary flex items-center gap-1.5 text-[0.75rem] font-medium">
+                <dt className="text-ink-3 flex items-center gap-1.5 text-[0.75rem] font-medium">
                   <PackageCheck className="h-3.5 w-3.5 shrink-0" strokeWidth={2} />
                   What you hand over
                 </dt>
@@ -110,41 +110,41 @@ export function AnatomyExplorer() {
                 </dd>
               </div>
 
-              <div className="bg-brand-50 flex flex-col justify-center rounded-[var(--radius-md)] p-4 text-center sm:w-32">
-                <dt className="text-brand-700 flex items-center justify-center gap-1.5 text-[0.75rem] font-medium">
+              <div className="bg-accent-wash flex flex-col justify-center rounded-[var(--radius-md)] p-4 text-center sm:w-32">
+                <dt className="text-accent flex items-center justify-center gap-1.5 text-[0.75rem] font-medium">
                   <Layers className="h-3.5 w-3.5 shrink-0" strokeWidth={2} />
                   Review passes
                 </dt>
-                <dd className="text-brand-900 mt-1 text-[1.75rem] leading-none font-semibold tabular-nums">
+                <dd className="text-ink mt-1 text-[1.75rem] leading-none font-semibold tabular-nums">
                   {current.reviewLayers}
                 </dd>
-                <dd className="text-brand-700 mt-1 text-[0.6875rem] opacity-80">before filing</dd>
+                <dd className="text-accent mt-1 text-[0.6875rem] opacity-80">before filing</dd>
               </div>
             </dl>
 
-            <div className="border-brand-500/15 mt-3 rounded-[var(--radius-md)] border p-4">
-              <p className="text-ink-quaternary flex items-center gap-1.5 text-[0.75rem] font-medium">
+            <div className="border-accent/15 mt-3 rounded-[var(--radius-md)] border p-4">
+              <p className="text-ink-3 flex items-center gap-1.5 text-[0.75rem] font-medium">
                 <SlidersHorizontal className="h-3.5 w-3.5 shrink-0" strokeWidth={2} />
                 What we work through
               </p>
-              <p className="text-ink-secondary mt-1.5 text-[0.9375rem] leading-relaxed">
+              <p className="text-ink-2 mt-1.5 text-[0.9375rem] leading-relaxed">
                 {current.workScope}
               </p>
             </div>
 
             {/* Quality gates */}
             <div className="mt-6">
-              <p className="text-ink-quaternary text-[0.75rem] font-semibold tracking-[0.06em] uppercase">
+              <p className="text-ink-3 text-[0.75rem] font-semibold tracking-[0.06em] uppercase">
                 Every file clears
               </p>
               <ul className="mt-3 space-y-2">
                 {current.checkpoints.map((checkpoint) => (
                   <li
                     key={checkpoint}
-                    className="text-ink-secondary flex items-start gap-2.5 text-[0.875rem] leading-relaxed"
+                    className="text-ink-2 flex items-start gap-2.5 text-[0.875rem] leading-relaxed"
                   >
-                    <span className="bg-success/10 mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full">
-                      <Check className="text-success h-2.5 w-2.5" strokeWidth={3.2} />
+                    <span className="bg-positive/10 mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full">
+                      <Check className="text-positive h-2.5 w-2.5" strokeWidth={3.2} />
                     </span>
                     {checkpoint}
                   </li>
@@ -152,11 +152,11 @@ export function AnatomyExplorer() {
               </ul>
             </div>
 
-            <div className="bg-warning-soft ring-warning/15 mt-6 flex items-start gap-3 rounded-[var(--radius-md)] p-4 ring-1 ring-inset">
-              <ShieldAlert className="text-warning mt-0.5 h-4 w-4 shrink-0" strokeWidth={2} />
+            <div className="bg-caution/10 ring-caution/15 mt-6 flex items-start gap-3 rounded-[var(--radius-md)] p-4 ring-1 ring-inset">
+              <ShieldAlert className="text-caution mt-0.5 h-4 w-4 shrink-0" strokeWidth={2} />
               <div>
-                <p className="text-warning text-[0.75rem] font-semibold">Risk we carry for you</p>
-                <p className="text-ink-secondary mt-1 text-[0.875rem] leading-relaxed">
+                <p className="text-caution text-[0.75rem] font-semibold">Risk we carry for you</p>
+                <p className="text-ink-2 mt-1 text-[0.875rem] leading-relaxed">
                   {current.carriedRisk}
                 </p>
               </div>
@@ -164,11 +164,11 @@ export function AnatomyExplorer() {
           </Card>
 
           {/* Stages */}
-          <Card className="min-w-0 bg-white p-7">
-            <p className="text-ink-quaternary text-[0.75rem] font-semibold tracking-[0.06em] uppercase">
+          <Card className="min-w-0 bg-surface p-7">
+            <p className="text-ink-3 text-[0.75rem] font-semibold tracking-[0.06em] uppercase">
               Stage by stage
             </p>
-            <p className="text-ink-quaternary mt-1.5 text-[0.75rem]">
+            <p className="text-ink-3 mt-1.5 text-[0.75rem]">
               Percentages show how the work divides, not how long it takes.
             </p>
 
@@ -179,17 +179,17 @@ export function AnatomyExplorer() {
                   {i < current.steps.length - 1 ? (
                     <span
                       aria-hidden="true"
-                      className="absolute top-7 bottom-[-1.25rem] left-[0.6875rem] w-px bg-[var(--color-hairline)]"
+                      className="absolute top-7 bottom-[-1.25rem] left-[0.6875rem] w-px bg-[var(--hairline)]"
                     />
                   ) : null}
 
-                  <span className="bg-brand-50 text-brand-700 ring-brand-500/15 absolute top-0 left-0 flex h-6 w-6 items-center justify-center rounded-full text-[0.6875rem] font-semibold ring-1 ring-inset tabular-nums">
+                  <span className="bg-accent-wash text-accent ring-accent/15 absolute top-0 left-0 flex h-6 w-6 items-center justify-center rounded-full text-[0.6875rem] font-semibold ring-1 ring-inset tabular-nums">
                     {i + 1}
                   </span>
 
                   <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
                     <h4 className="text-ink text-[0.9375rem] font-semibold">{step.label}</h4>
-                    <span className="text-ink-quaternary text-[0.75rem] tabular-nums">
+                    <span className="text-ink-3 text-[0.75rem] tabular-nums">
                       {step.share}% of the work
                     </span>
                   </div>
@@ -201,16 +201,16 @@ export function AnatomyExplorer() {
                     aria-label={`${step.share} percent of the total work`}
                   >
                     <div
-                      className="from-brand-400 to-brand-600 h-full rounded-full bg-gradient-to-r transition-[width] duration-700 ease-[var(--ease-out-ios)]"
+                      className="from-accent to-accent h-full rounded-full bg-gradient-to-r transition-[width] duration-700 ease-[var(--ease-out-editorial)]"
                       style={{ width: `${step.share}%` }}
                     />
                   </div>
 
-                  <p className="text-ink-tertiary mt-2.5 text-[0.875rem] leading-relaxed">
+                  <p className="text-ink-3 mt-2.5 text-[0.875rem] leading-relaxed">
                     {step.detail}
                   </p>
 
-                  <p className="text-ink-quaternary mt-2 flex items-start gap-1.5 text-[0.8125rem] leading-relaxed">
+                  <p className="text-ink-3 mt-2 flex items-start gap-1.5 text-[0.8125rem] leading-relaxed">
                     <AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0" strokeWidth={2} />
                     <span>{step.risk}</span>
                   </p>
@@ -227,14 +227,14 @@ export function AnatomyExplorer() {
                 {current.timelineDrivers.map((driver) => (
                   <li
                     key={driver}
-                    className="text-ink-tertiary flex items-start gap-2.5 text-[0.875rem] leading-relaxed"
+                    className="text-ink-3 flex items-start gap-2.5 text-[0.875rem] leading-relaxed"
                   >
-                    <span className="bg-ink-quaternary/40 mt-[0.5rem] h-1 w-1 shrink-0 rounded-full" />
+                    <span className="bg-ink-3/40 mt-[0.5rem] h-1 w-1 shrink-0 rounded-full" />
                     {driver}
                   </li>
                 ))}
               </ul>
-              <p className="text-ink-quaternary mt-4 border-t border-[var(--color-hairline)] pt-3 text-[0.8125rem] leading-relaxed">
+              <p className="text-ink-3 mt-4 border-t border-[var(--hairline)] pt-3 text-[0.8125rem] leading-relaxed">
                 We agree a timeline with you in writing once we have seen the actual scope — and
                 tell you the moment anything changes it.
               </p>

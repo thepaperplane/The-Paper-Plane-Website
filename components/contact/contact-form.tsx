@@ -8,9 +8,9 @@ import { whatsappLink } from '@/lib/site';
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 
 const FIELD =
-  'w-full rounded-[var(--radius-md)] bg-white px-4 text-[0.9375rem] text-ink ' +
-  'placeholder:text-ink-quaternary ring-1 ring-inset ring-[var(--color-hairline)] ' +
-  'outline-none transition-shadow focus:ring-2 focus:ring-brand-500';
+  'w-full rounded-[var(--radius-md)] bg-surface px-4 text-[0.9375rem] text-ink ' +
+  'placeholder:text-ink-3 ring-1 ring-inset ring-[var(--hairline)] ' +
+  'outline-none transition-shadow focus:ring-2 focus:ring-accent';
 
 export function ContactForm() {
   const [status, setStatus] = useState<Status>('idle');
@@ -52,26 +52,26 @@ export function ContactForm() {
 
   if (status === 'success') {
     return (
-      <div className="bg-success-soft ring-success/20 rounded-[var(--radius-lg)] p-8 ring-1 ring-inset">
-        <span className="bg-success flex h-12 w-12 items-center justify-center rounded-full">
-          <Check className="h-6 w-6 text-white" strokeWidth={2.6} />
+      <div className="bg-positive/10 ring-positive/20 rounded-[var(--radius-lg)] p-8 ring-1 ring-inset">
+        <span className="bg-positive flex h-12 w-12 items-center justify-center rounded-full">
+          <Check className="h-6 w-6 text-ground" strokeWidth={2.6} />
         </span>
         <h3 className="text-ink mt-5 text-[1.1875rem] font-semibold">Message received</h3>
-        <p className="text-ink-secondary mt-2.5 text-[0.9375rem] leading-relaxed">{message}</p>
+        <p className="text-ink-2 mt-2.5 text-[0.9375rem] leading-relaxed">{message}</p>
 
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <a
             href={whatsappLink()}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-ink inline-flex h-11 items-center justify-center rounded-[var(--radius-md)] bg-white px-5 text-[0.9375rem] font-semibold shadow-[var(--shadow-sm)] ring-1 ring-[var(--color-hairline)] ring-inset"
+            className="text-ink inline-flex h-11 items-center justify-center rounded-[var(--radius-md)] bg-surface px-5 text-[0.9375rem] font-semibold shadow-[var(--shadow-soft)] ring-1 ring-[var(--hairline)] ring-inset"
           >
             Continue on WhatsApp
           </a>
           <button
             type="button"
             onClick={() => setStatus('idle')}
-            className="text-brand-700 hover:text-brand-800 inline-flex h-11 items-center justify-center px-2 text-[0.9375rem] font-semibold"
+            className="text-accent hover:text-ink inline-flex h-11 items-center justify-center px-2 text-[0.9375rem] font-semibold"
           >
             Send another message
           </button>
@@ -85,7 +85,7 @@ export function ContactForm() {
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="name" className="text-ink mb-1.5 block text-[0.875rem] font-medium">
-            Your name <span className="text-danger">*</span>
+            Your name <span className="text-critical">*</span>
           </label>
           <input
             id="name"
@@ -100,7 +100,7 @@ export function ContactForm() {
 
         <div>
           <label htmlFor="email" className="text-ink mb-1.5 block text-[0.875rem] font-medium">
-            Email <span className="text-danger">*</span>
+            Email <span className="text-critical">*</span>
           </label>
           <input
             id="email"
@@ -115,7 +115,7 @@ export function ContactForm() {
 
         <div>
           <label htmlFor="phone" className="text-ink mb-1.5 block text-[0.875rem] font-medium">
-            Phone <span className="text-ink-quaternary font-normal">(optional)</span>
+            Phone <span className="text-ink-3 font-normal">(optional)</span>
           </label>
           <input
             id="phone"
@@ -129,7 +129,7 @@ export function ContactForm() {
 
         <div>
           <label htmlFor="company" className="text-ink mb-1.5 block text-[0.875rem] font-medium">
-            Company <span className="text-ink-quaternary font-normal">(optional)</span>
+            Company <span className="text-ink-3 font-normal">(optional)</span>
           </label>
           <input
             id="company"
@@ -163,7 +163,7 @@ export function ContactForm() {
 
       <div className="mt-5">
         <label htmlFor="message" className="text-ink mb-1.5 block text-[0.875rem] font-medium">
-          Tell us what you need <span className="text-danger">*</span>
+          Tell us what you need <span className="text-critical">*</span>
         </label>
         <textarea
           id="message"
@@ -184,7 +184,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={status === 'submitting'}
-        className="bg-brand-600 hover:bg-brand-700 mt-7 inline-flex h-[3.25rem] w-full items-center justify-center gap-2 rounded-[var(--radius-lg)] px-7 text-base font-semibold text-white shadow-[var(--shadow-brand)] transition-all duration-300 active:scale-[0.98] disabled:opacity-60 sm:w-auto"
+        className="bg-accent hover:bg-accent-hover mt-7 inline-flex h-[3.25rem] w-full items-center justify-center gap-2 rounded-[var(--radius-lg)] px-7 text-base font-semibold text-accent-ink shadow-[var(--shadow-soft)] transition-all duration-300 active:scale-[0.98] disabled:opacity-60 sm:w-auto"
       >
         {status === 'submitting' ? (
           <>
@@ -200,12 +200,12 @@ export function ContactForm() {
       </button>
 
       {status === 'error' && message ? (
-        <p role="alert" className="text-danger mt-3 text-[0.875rem]">
+        <p role="alert" className="text-critical mt-3 text-[0.875rem]">
           {message}
         </p>
       ) : null}
 
-      <p className="text-ink-quaternary mt-5 text-[0.8125rem] leading-relaxed">
+      <p className="text-ink-3 mt-5 text-[0.8125rem] leading-relaxed">
         We reply within one working day. Nothing you send here is shared outside the practice,
         and we never add enquiry addresses to a mailing list without you asking.
       </p>

@@ -65,17 +65,17 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
 
   if (status === 'success') {
     return (
-      <div className="bg-success-soft ring-success/20 flex items-start gap-4 rounded-[var(--radius-lg)] p-6 ring-1 ring-inset">
-        <span className="bg-success flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
-          <Check className="h-5 w-5 text-white" strokeWidth={2.6} />
+      <div className="bg-positive/10 ring-positive/20 flex items-start gap-4 rounded-[var(--radius-lg)] p-6 ring-1 ring-inset">
+        <span className="bg-positive flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
+          <Check className="h-5 w-5 text-ground" strokeWidth={2.6} />
         </span>
         <div>
           <p className="text-ink text-[1.0625rem] font-semibold">You are on the list</p>
-          <p className="text-ink-secondary mt-1.5 text-[0.9375rem] leading-relaxed">{message}</p>
+          <p className="text-ink-2 mt-1.5 text-[0.9375rem] leading-relaxed">{message}</p>
           <button
             type="button"
             onClick={() => setStatus('idle')}
-            className="text-brand-700 hover:text-brand-800 mt-3 text-[0.875rem] font-semibold underline underline-offset-4"
+            className="text-accent hover:text-ink mt-3 text-[0.875rem] font-semibold underline underline-offset-4"
           >
             Subscribe another address
           </button>
@@ -89,7 +89,7 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
       <div className="grid gap-3 sm:grid-cols-2">
         <div className={compact ? 'sm:col-span-2' : ''}>
           <label htmlFor="sub-name" className="text-ink mb-1.5 block text-[0.875rem] font-medium">
-            Name <span className="text-ink-quaternary font-normal">(optional)</span>
+            Name <span className="text-ink-3 font-normal">(optional)</span>
           </label>
           <input
             id="sub-name"
@@ -98,7 +98,7 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
             autoComplete="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="text-ink placeholder:text-ink-quaternary focus:ring-brand-500 h-12 w-full rounded-[var(--radius-md)] bg-white px-4 text-[0.9375rem] ring-1 ring-[var(--color-hairline)] transition-shadow ring-inset outline-none focus:ring-2"
+            className="text-ink placeholder:text-ink-3 focus:ring-accent h-12 w-full rounded-[var(--radius-md)] bg-surface px-4 text-[0.9375rem] ring-1 ring-[var(--hairline)] transition-shadow ring-inset outline-none focus:ring-2"
             placeholder="Your name"
           />
         </div>
@@ -116,7 +116,7 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             aria-describedby="sub-help"
-            className="text-ink placeholder:text-ink-quaternary focus:ring-brand-500 h-12 w-full rounded-[var(--radius-md)] bg-white px-4 text-[0.9375rem] ring-1 ring-[var(--color-hairline)] transition-shadow ring-inset outline-none focus:ring-2"
+            className="text-ink placeholder:text-ink-3 focus:ring-accent h-12 w-full rounded-[var(--radius-md)] bg-surface px-4 text-[0.9375rem] ring-1 ring-[var(--hairline)] transition-shadow ring-inset outline-none focus:ring-2"
             placeholder="you@company.com"
           />
         </div>
@@ -133,8 +133,8 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
               className={cn(
                 'cursor-pointer rounded-full px-4 py-2 text-[0.875rem] font-medium transition-all',
                 segment === option.value
-                  ? 'bg-brand-600 text-white shadow-[var(--shadow-brand)]'
-                  : 'text-ink-secondary hover:text-ink bg-white ring-1 ring-[var(--color-hairline)] ring-inset',
+                  ? 'bg-accent text-accent-ink shadow-[var(--shadow-soft)]'
+                  : 'text-ink-2 hover:text-ink bg-surface ring-1 ring-[var(--hairline)] ring-inset',
               )}
             >
               <input
@@ -160,7 +160,7 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
       <button
         type="submit"
         disabled={status === 'submitting'}
-        className="bg-brand-600 hover:bg-brand-700 mt-6 inline-flex h-[3.25rem] w-full items-center justify-center gap-2 rounded-[var(--radius-lg)] px-7 text-base font-semibold text-white shadow-[var(--shadow-brand)] transition-all duration-300 active:scale-[0.98] disabled:opacity-60 sm:w-auto"
+        className="bg-accent hover:bg-accent-hover mt-6 inline-flex h-[3.25rem] w-full items-center justify-center gap-2 rounded-[var(--radius-lg)] px-7 text-base font-semibold text-accent-ink shadow-[var(--shadow-soft)] transition-all duration-300 active:scale-[0.98] disabled:opacity-60 sm:w-auto"
       >
         {status === 'submitting' ? (
           <>
@@ -177,12 +177,12 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
       </button>
 
       {status === 'error' && message ? (
-        <p role="alert" className="text-danger mt-3 text-[0.875rem]">
+        <p role="alert" className="text-critical mt-3 text-[0.875rem]">
           {message}
         </p>
       ) : null}
 
-      <p id="sub-help" className="text-ink-quaternary mt-4 text-[0.8125rem] leading-relaxed">
+      <p id="sub-help" className="text-ink-3 mt-4 text-[0.8125rem] leading-relaxed">
         One email a month, at the start of the month, listing what is due and when. No sales
         sequences. Unsubscribe from any email in one click.
       </p>

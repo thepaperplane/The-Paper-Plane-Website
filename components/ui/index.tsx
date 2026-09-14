@@ -3,21 +3,28 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 
 /* ==========================================================================
-   LAYOUT
+   EDITORIAL PRIMITIVES
+
+   Note what is NOT here: there is no <Card>. v2 had 35 of them and every
+   section ended up as a rounded box on a tinted ground, which is the default
+   Tailwind/shadcn look the redesign is trying to escape. Structure now comes
+   from Rule, Measure, Index and generous space.
    ========================================================================== */
+
+/* --- Layout --------------------------------------------------------------- */
 
 export function Container({
   className,
   size = 'page',
   ...props
-}: React.HTMLAttributes<HTMLDivElement> & { size?: 'page' | 'content' | 'wide' }) {
+}: React.HTMLAttributes<HTMLDivElement> & { size?: 'page' | 'text' | 'wide' | 'content' }) {
   return (
     <div
       className={cn(
-        'mx-auto w-full px-6 sm:px-8',
-        size === 'page' && 'max-w-[80rem]',
-        size === 'content' && 'max-w-[46rem]',
-        size === 'wide' && 'max-w-[94rem]',
+        'mx-auto w-full px-6 sm:px-10',
+        size === 'page' && 'max-w-[84rem]',
+        (size === 'text' || size === 'content') && 'max-w-[38rem]',
+        size === 'wide' && 'max-w-[96rem]',
         className,
       )}
       {...props}
@@ -25,17 +32,28 @@ export function Container({
   );
 }
 
+/**
+ * Sections carry one of three heights. Varying the rhythm is what stops the
+ * page reading as a stack of identical slabs.
+ */
 export function Section({
   className,
-  tone = 'canvas',
+  rhythm = 'default',
+  tone = 'ground',
   ...props
-}: React.HTMLAttributes<HTMLElement> & { tone?: 'canvas' | 'sunken' | 'ink' }) {
+}: React.HTMLAttributes<HTMLElement> & {
+  rhythm?: 'sm' | 'default' | 'lg';
+  tone?: 'ground' | 'surface' | 'sunken' | 'inverse';
+}) {
   return (
     <section
       className={cn(
-        'py-20 sm:py-28',
+        rhythm === 'sm' && 'py-[var(--space-section-sm)]',
+        rhythm === 'default' && 'py-[var(--space-section)]',
+        rhythm === 'lg' && 'py-[var(--space-section-lg)]',
+        tone === 'surface' && 'bg-surface',
         tone === 'sunken' && 'bg-sunken',
-        tone === 'ink' && 'bg-brand-950 text-white',
+        tone === 'inverse' && 'bg-inverse text-inverse-ink',
         className,
       )}
       {...props}
@@ -43,21 +61,285 @@ export function Section({
   );
 }
 
-/* ==========================================================================
-   TYPOGRAPHY
-   ========================================================================== */
+/** Full-width hairline. The primary structural device. */
+export function Rule({ className }: { className?: string }) {
+  return <div className={cn('rule', className)} role="presentation" />;
+}
 
-export function Eyebrow({
+/* --- Type ----------------------------------------------------------------- */
+
+export function Label({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) {
+  return <span className={cn('label', className)} {...props} />;
+}
+
+/** Statutory reference: s.148, GSTR-3B, Form 3CA. */
+export function Ref({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) {
+  return <span className={cn('ref text-ink-3', className)} {...props} />;
+}
+
+/** Editorial index numeral — 01, 02, 03. */
+export function Numeral({
+  value,
   className,
-  children,
-  ...props
-}: React.HTMLAttributes<HTMLParagraphElement>) {
+}: {
+  value: number | string;
+  className?: string;
+}) {
+  const text = typeof value === 'number' ? String(value).padStart(2, '0') : value;
   return (
-    <p className={cn('eyebrow', className)} {...props}>
-      {children}
-    </p>
+    <span className={cn('numeral', className)} aria-hidden="true">
+      {text}
+    </span>
   );
 }
+
+/**
+ * Section heading. Deliberately asymmetric by default — the eyebrow sits in a
+ * narrow left column with the heading beside it, rather than stacked and
+ * centred.
+ */
+export function Heading({
+  eyebrow,
+  title,
+  lede,
+  as: Tag = 'h2',
+  size = 'default',
+  className,
+}: {
+  eyebrow?: string;
+  title: React.ReactNode;
+  lede?: React.ReactNode;
+  as?: 'h1' | 'h2' | 'h3';
+  size?: 'default' | 'large';
+  className?: string;
+}) {
+  return (
+    <div className={cn('max-w-4xl', className)}>
+      {eyebrow ? (
+        <div className="mb-5 flex items-center gap-3">
+          <span className="bg-accent h-px w-6 shrink-0" />
+          <Label>{eyebrow}</Label>
+        </div>
+      ) : null}
+      <Tag
+        className={cn(
+          size === 'large'
+            ? 'text-[length:var(--text-display-2)]'
+            : 'text-[length:var(--text-title-1)]',
+        )}
+      >
+        {title}
+      </Tag>
+      {lede ? (
+        <p className="text-ink-2 mt-6 max-w-[42ch] text-[length:var(--text-lede)] leading-[1.55]">
+          {lede}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+/* --- Actions -------------------------------------------------------------- */
+
+type ButtonTone = 'accent' | 'outline' | 'quiet';
+type ButtonSize = 'sm' | 'md' | 'lg';
+
+const BASE =
+  'inline-flex items-center justify-center gap-2 font-medium whitespace-nowrap ' +
+  'transition-colors duration-300 ease-[var(--ease-out-editorial)] ' +
+  'disabled:pointer-events-none disabled:opacity-45';
+
+const TONES: Record<ButtonTone, string> = {
+  // Square-ish, not a pill — pills read as SaaS template.
+  accent: 'bg-accent text-accent-ink hover:bg-accent-hover',
+  outline: 'text-ink ring-1 ring-inset ring-[var(--hairline-strong)] hover:bg-sunken',
+  quiet: 'text-ink-2 hover:text-ink',
+};
+
+const SIZES: Record<ButtonSize, string> = {
+  sm: 'h-9 rounded-[var(--radius-sm)] px-4 text-[length:var(--text-small)]',
+  md: 'h-11 rounded-[var(--radius-sm)] px-5 text-[length:var(--text-small)]',
+  lg: 'h-12 rounded-[var(--radius-sm)] px-6 text-[length:var(--text-body)]',
+};
+
+export function Button({
+  tone = 'accent',
+  size = 'md',
+  className,
+  ...props
+}: {
+  tone?: ButtonTone;
+  size?: ButtonSize;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  return <button className={cn(BASE, TONES[tone], SIZES[size], className)} {...props} />;
+}
+
+export function ButtonLink({
+  tone = 'accent',
+  size = 'md',
+  className,
+  href,
+  external,
+  children,
+  ...props
+}: {
+  tone?: ButtonTone;
+  size?: ButtonSize;
+  href: string;
+  external?: boolean;
+  children: React.ReactNode;
+} & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>) {
+  const classes = cn(BASE, TONES[tone], SIZES[size], className);
+  if (external) {
+    return (
+      <a href={href} className={classes} target="_blank" rel="noopener noreferrer" {...props}>
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link href={href} className={classes} {...props}>
+      {children}
+    </Link>
+  );
+}
+
+/**
+ * Text link with a rule that draws in on hover — print's way of marking a
+ * link, and a deliberate replacement for the arrow-icon-on-every-card habit.
+ */
+export function TextLink({
+  href,
+  children,
+  className,
+  external,
+}: {
+  href: string;
+  children: React.ReactNode;
+  className?: string;
+  external?: boolean;
+}) {
+  const classes = cn(
+    'link-underline text-accent inline-block text-[length:var(--text-small)] font-medium',
+    className,
+  );
+  if (external) {
+    return (
+      <a href={href} className={classes} target="_blank" rel="noopener noreferrer">
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link href={href} className={classes}>
+      {children}
+    </Link>
+  );
+}
+
+/* --- Small pieces --------------------------------------------------------- */
+
+export function Tag({
+  className,
+  tone = 'neutral',
+  ...props
+}: React.HTMLAttributes<HTMLSpanElement> & {
+  tone?: 'neutral' | 'accent' | 'positive' | 'caution' | 'critical';
+}) {
+  return (
+    <span
+      className={cn(
+        'inline-flex items-center rounded-[var(--radius-xs)] px-2 py-1 text-[length:var(--text-micro)] font-medium',
+        tone === 'neutral' && 'text-ink-3 ring-1 ring-inset ring-[var(--hairline)]',
+        tone === 'accent' && 'text-accent ring-accent/30 ring-1 ring-inset',
+        tone === 'positive' && 'text-positive ring-positive/30 ring-1 ring-inset',
+        tone === 'caution' && 'text-caution ring-caution/30 ring-1 ring-inset',
+        tone === 'critical' && 'text-critical ring-critical/30 ring-1 ring-inset',
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+/**
+ * An indexed editorial row: numeral, rule, content. This replaces the
+ * three-column feature-card grid.
+ */
+export function IndexRow({
+  index,
+  title,
+  children,
+  meta,
+  href,
+  className,
+}: {
+  index: number | string;
+  title: React.ReactNode;
+  children?: React.ReactNode;
+  meta?: React.ReactNode;
+  href?: string;
+  className?: string;
+}) {
+  const inner = (
+    <div
+      className={cn(
+        'group grid grid-cols-[auto_1fr] gap-x-6 gap-y-3 py-8 sm:grid-cols-[4rem_1fr_auto] sm:gap-x-10',
+        className,
+      )}
+    >
+      <Numeral value={index} className="text-[length:var(--text-title-2)] pt-1" />
+      <div className="min-w-0">
+        <h3 className="group-hover:text-accent text-[length:var(--text-title-2)] transition-colors duration-300">
+          {title}
+        </h3>
+        {children ? (
+          <div className="text-ink-2 mt-3 max-w-[52ch] text-[length:var(--text-small)] leading-relaxed">
+            {children}
+          </div>
+        ) : null}
+      </div>
+      {meta ? (
+        <div className="text-ink-3 col-start-2 text-[length:var(--text-micro)] sm:col-start-3 sm:pt-2 sm:text-right">
+          {meta}
+        </div>
+      ) : null}
+    </div>
+  );
+
+  return href ? <Link href={href}>{inner}</Link> : inner;
+}
+
+/* ==========================================================================
+   COMPATIBILITY SURFACE
+
+   The v2 pages call Card / Badge / Eyebrow / SectionHeading. Rather than
+   leave shims that reintroduce the old look, these names now resolve to
+   editorial implementations: a Card is a bordered panel with no shadow and
+   no pill radius, a Badge is a Tag, an Eyebrow is a Label. Pages keep
+   compiling while they are converted one at a time, and nothing renders in
+   the old component-library style in the meantime.
+   ========================================================================== */
+
+export function Card({
+  className,
+  interactive,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & { interactive?: boolean }) {
+  return (
+    <div
+      className={cn(
+        'bg-surface rounded-[var(--radius-md)] border',
+        interactive && 'hover:border-[var(--hairline-strong)] transition-colors duration-300',
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+export const Badge = Tag;
+export const Eyebrow = Label;
 
 export function SectionHeading({
   eyebrow,
@@ -65,7 +347,7 @@ export function SectionHeading({
   lede,
   align = 'left',
   className,
-  as: Tag = 'h2',
+  as = 'h2',
 }: {
   eyebrow?: string;
   title: React.ReactNode;
@@ -75,177 +357,13 @@ export function SectionHeading({
   as?: 'h1' | 'h2' | 'h3';
 }) {
   return (
-    <div
-      className={cn(
-        'max-w-3xl',
-        align === 'center' && 'mx-auto text-center',
-        className,
-      )}
-    >
-      {eyebrow ? <Eyebrow className="mb-3">{eyebrow}</Eyebrow> : null}
-      <Tag
-        className={cn(
-          'text-ink font-semibold tracking-[-0.028em]',
-          Tag === 'h1'
-            ? 'text-[length:var(--text-display-m)] leading-[1.04]'
-            : 'text-[length:var(--text-display-s)] leading-[1.08]',
-        )}
-      >
-        {title}
-      </Tag>
-      {lede ? (
-        <p
-          className={cn(
-            'text-ink-tertiary mt-5 text-lg leading-relaxed',
-            align === 'center' && 'mx-auto',
-          )}
-        >
-          {lede}
-        </p>
-      ) : null}
-    </div>
-  );
-}
-
-/* ==========================================================================
-   BUTTON
-   ========================================================================== */
-
-type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'inverse';
-type ButtonSize = 'sm' | 'md' | 'lg';
-
-const BUTTON_BASE =
-  'relative inline-flex items-center justify-center gap-2 font-semibold whitespace-nowrap ' +
-  'transition-all duration-300 ease-[var(--ease-out-ios)] ' +
-  'active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 ' +
-  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500';
-
-const BUTTON_VARIANTS: Record<ButtonVariant, string> = {
-  primary:
-    'bg-brand-600 text-white shadow-[var(--shadow-brand)] hover:bg-brand-700 hover:shadow-[0_20px_40px_-12px_rgba(33,139,224,0.45)]',
-  secondary:
-    'bg-white text-ink ring-1 ring-inset ring-[var(--color-hairline-strong)] shadow-[var(--shadow-sm)] hover:bg-sunken hover:shadow-[var(--shadow-md)]',
-  ghost: 'text-ink-secondary hover:text-ink hover:bg-sunken',
-  inverse: 'bg-white text-brand-900 shadow-[var(--shadow-lg)] hover:bg-brand-50',
-};
-
-const BUTTON_SIZES: Record<ButtonSize, string> = {
-  sm: 'h-9 rounded-[var(--radius-sm)] px-4 text-[0.8125rem]',
-  md: 'h-11 rounded-[var(--radius-md)] px-5 text-[0.9375rem]',
-  lg: 'h-[3.25rem] rounded-[var(--radius-lg)] px-7 text-base',
-};
-
-type ButtonBaseProps = {
-  variant?: ButtonVariant;
-  size?: ButtonSize;
-  className?: string;
-  children: React.ReactNode;
-};
-
-export function Button({
-  variant = 'primary',
-  size = 'md',
-  className,
-  ...props
-}: ButtonBaseProps & React.ButtonHTMLAttributes<HTMLButtonElement>) {
-  return (
-    <button
-      className={cn(BUTTON_BASE, BUTTON_VARIANTS[variant], BUTTON_SIZES[size], className)}
-      {...props}
+    <Heading
+      eyebrow={eyebrow}
+      title={title}
+      lede={lede}
+      as={as}
+      size={as === 'h1' ? 'large' : 'default'}
+      className={cn(align === 'center' && 'mx-auto text-center', className)}
     />
   );
 }
-
-export function ButtonLink({
-  variant = 'primary',
-  size = 'md',
-  className,
-  href,
-  external,
-  children,
-  ...props
-}: ButtonBaseProps & {
-  href: string;
-  external?: boolean;
-} & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>) {
-  const classes = cn(BUTTON_BASE, BUTTON_VARIANTS[variant], BUTTON_SIZES[size], className);
-
-  if (external) {
-    return (
-      <a
-        href={href}
-        className={classes}
-        target="_blank"
-        rel="noopener noreferrer"
-        {...props}
-      >
-        {children}
-      </a>
-    );
-  }
-
-  return (
-    <Link href={href} className={classes} {...props}>
-      {children}
-    </Link>
-  );
-}
-
-/* ==========================================================================
-   SURFACES
-   ========================================================================== */
-
-export function Card({
-  className,
-  interactive,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement> & { interactive?: boolean }) {
-  return (
-    <div className={cn('card', interactive && 'card-interactive', className)} {...props} />
-  );
-}
-
-export function Badge({
-  className,
-  tone = 'neutral',
-  ...props
-}: React.HTMLAttributes<HTMLSpanElement> & {
-  tone?: 'neutral' | 'brand' | 'success' | 'warning' | 'danger';
-}) {
-  return (
-    <span
-      className={cn(
-        'inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.6875rem] font-semibold ring-1 ring-inset',
-        tone === 'neutral' && 'bg-sunken text-ink-tertiary ring-[var(--color-hairline)]',
-        tone === 'brand' && 'bg-brand-50 text-brand-700 ring-brand-500/20',
-        tone === 'success' && 'bg-success-soft text-success ring-success/20',
-        tone === 'warning' && 'bg-warning-soft text-warning ring-warning/20',
-        tone === 'danger' && 'bg-danger-soft text-danger ring-danger/20',
-        className,
-      )}
-      {...props}
-    />
-  );
-}
-
-/** Hairline divider with a soft fade at both ends. */
-export function Rule({ className }: { className?: string }) {
-  return <div className={cn('rule', className)} role="presentation" />;
-}
-
-/* ==========================================================================
-   ACCENT TOKENS
-   Maps a pillar's accent name onto concrete classes, so accent colour is
-   decided in one place rather than sprinkled through pages.
-   ========================================================================== */
-
-export const ACCENTS = {
-  blue: { text: 'text-brand-600', bg: 'bg-brand-50', ring: 'ring-brand-500/20', dot: 'bg-brand-500' },
-  navy: { text: 'text-brand-800', bg: 'bg-brand-100', ring: 'ring-brand-800/20', dot: 'bg-brand-800' },
-  teal: { text: 'text-success', bg: 'bg-success-soft', ring: 'ring-success/20', dot: 'bg-success' },
-  amber: { text: 'text-warning', bg: 'bg-warning-soft', ring: 'ring-warning/20', dot: 'bg-warning' },
-  violet: { text: 'text-brand-700', bg: 'bg-brand-50', ring: 'ring-brand-700/20', dot: 'bg-brand-700' },
-  rose: { text: 'text-danger', bg: 'bg-danger-soft', ring: 'ring-danger/20', dot: 'bg-danger' },
-} as const;
-
-export type AccentName = keyof typeof ACCENTS;
