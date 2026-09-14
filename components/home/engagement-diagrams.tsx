@@ -1,396 +1,367 @@
+import {
+  Bar,
+  Chip,
+  Frame,
+  Panel,
+  Pass,
+  Rule,
+  Tag,
+  Trace,
+  Value,
+  seq,
+  travel,
+} from '@/components/diagrams/kit';
+
 /**
  * Drawings for the engagement slideshow.
  *
- * Same rules as the knowledge diagrams: inline SVG on theme tokens so they
- * invert with the theme and cost no request, one idea per drawing, and no
- * motion beyond opacity and small translations on a short curve.
+ * Each states the claim its stage makes, and states it in the drawing rather
+ * than relying on the paragraph: the summary card that goes unread beside the
+ * notice that gets read; the out-of-scope column written with the same care as
+ * the in-scope one; the quarter of the work that is visible sitting on the
+ * three quarters that are not.
  *
- * Each takes `active` and settles into its final state when its stage is on
- * show; inactive stages sit at a low opacity so nothing pops in from nothing.
+ * Structure is static; only the action loops. See the DIAGRAM MOTION block in
+ * globals.css.
  */
 
-type Props = { active: boolean };
-
-const FRAME = 'h-full w-full';
-const EASE = 'var(--ease-out-editorial)';
-
-function step(i: number, active: boolean, dy = 6): React.CSSProperties {
-  return {
-    opacity: active ? 1 : 0,
-    transform: active ? 'none' : `translateY(${dy}px)`,
-    transition: `opacity .6s ${EASE} ${i * 90}ms, transform .6s ${EASE} ${i * 90}ms`,
-  };
-}
+type P = { active: boolean };
 
 /* ------------------------------------------------------------------ */
-/* 1. First read — the actual document, with the clause that matters   */
-/*    picked out of the noise.                                         */
+/* 1. First read — the document itself, not a summary of it            */
 /* ------------------------------------------------------------------ */
-export function ReadDiagram({ active }: Props) {
-  const lines = [148, 132, 156, 120, 150, 138, 110];
+export function ReadDiagram({ active }: P) {
+  const lines = [128, 112, 136, 102, 124, 116, 92];
+  const hit = 3;
   return (
-    <svg
-      viewBox="0 0 320 176"
-      className={FRAME}
-      role="img"
-      aria-label="A notice with one clause marked out of many lines of text"
+    <Frame
+      active={active}
+      cycle={6200}
+      label="A one-line summary set aside in favour of reading the full notice, where the operative clause is found"
     >
+      {/* What most people work from. */}
+      <Tag x={14} y={26}>
+        THE SUMMARY
+      </Tag>
+      <Panel x={14} y={36} w={78} h={30} tone="dashed" />
+      <Bar x={24} y={48} w={44} h={5} />
+      <Tag x={14} y={84} tone="quiet">
+        NOT READ FROM
+      </Tag>
+
+      {/* What we work from. */}
+      <Tag x={116} y={26} tone="accent">
+        THE NOTICE
+      </Tag>
       <rect
-        x="78"
-        y="14"
-        width="188"
-        height="148"
+        x={116}
+        y={36}
+        width={150}
+        height={126}
         rx="2"
         fill="var(--surface)"
-        stroke="var(--hairline-strong)"
-        strokeWidth="1"
-      />
-      {lines.map((w, i) => {
-        const marked = i === 3;
-        return (
-          <rect
-            key={i}
-            x="96"
-            y={34 + i * 18}
-            width={w}
-            height="5"
-            rx="1"
-            fill={marked ? 'var(--accent)' : 'var(--faint)'}
-            style={{
-              opacity: marked ? (active ? 1 : 0.2) : active ? 0.45 : 0.3,
-              transition: `opacity .6s ${EASE} ${marked ? 420 : i * 60}ms`,
-            }}
-          />
-        );
-      })}
-      {/* Bracket against the marked clause */}
-      <path
-        d="M 88 84 h -8 v 18 h 8"
-        fill="none"
         stroke="var(--accent)"
-        strokeWidth="1.5"
-        style={step(6, active, 0)}
+        strokeWidth="1.2"
       />
-      <rect
-        x="20"
-        y="84"
-        width="44"
-        height="5"
-        rx="1"
-        fill="var(--accent)"
-        style={step(7, active)}
-      />
-      <rect
-        x="20"
-        y="97"
-        width="30"
-        height="5"
-        rx="1"
-        fill="var(--faint)"
-        style={{ ...step(8, active), opacity: active ? 0.5 : 0 }}
-      />
-    </svg>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* 2. Scope — a written boundary. What is inside it, and the equally   */
-/*    explicit outside.                                                */
-/* ------------------------------------------------------------------ */
-export function ScopeDiagram({ active }: Props) {
-  return (
-    <svg
-      viewBox="0 0 320 176"
-      className={FRAME}
-      role="img"
-      aria-label="Work inside an agreed boundary, and named work outside it"
-    >
-      <rect
-        x="14"
-        y="26"
-        width="150"
-        height="124"
-        rx="3"
-        fill="var(--accent)"
-        fillOpacity="0.07"
-        stroke="var(--accent)"
-        strokeWidth="1.5"
-        style={step(0, active, 0)}
-      />
-      {[0, 1, 2, 3].map((i) => (
-        <g key={i} style={step(i + 1, active)}>
-          <rect x="32" y={48 + i * 24} width="8" height="8" rx="1" fill="var(--accent)" />
-          <rect
-            x="48"
-            y={50 + i * 24}
-            width={[96, 74, 88, 62][i]}
-            height="5"
-            rx="1"
-            fill="var(--ink-3)"
-            opacity="0.55"
-          />
-        </g>
-      ))}
-
-      <rect
-        x="182"
-        y="26"
-        width="124"
-        height="124"
-        rx="3"
-        fill="none"
-        stroke="var(--faint)"
-        strokeWidth="1.5"
-        strokeDasharray="4 4"
-        style={{ ...step(2, active, 0), opacity: active ? 0.8 : 0 }}
-      />
-      {[0, 1, 2].map((i) => (
-        <rect
+      {lines.map((w, i) => (
+        <Bar
           key={i}
-          x="200"
-          y={54 + i * 24}
-          width={[72, 58, 84][i]}
-          height="5"
-          rx="1"
-          fill="var(--faint)"
-          style={{ ...step(i + 3, active), opacity: active ? 0.55 : 0 }}
+          x={128}
+          y={50 + i * 16}
+          w={Math.min(w, 126)}
+          h={5}
+          tone={i === hit ? 'accent' : 'context'}
         />
       ))}
-      <path d="M 173 34 V 142" stroke="var(--hairline-strong)" strokeWidth="1" />
-    </svg>
+
+      {/* Read line by line. */}
+      <g
+        className="dg-sweep"
+        style={seq(300, { ['--fy' as string]: '0px', ['--ty' as string]: '86px' })}
+      >
+        <rect x={116} y={44} width={150} height={13} fill="var(--accent)" fillOpacity="0.1" />
+        <line x1={116} y1={57} x2={266} y2={57} stroke="var(--accent)" strokeWidth="1" />
+      </g>
+
+      <g className="dg-appear" style={seq(3000)}>
+        <path d="M 272 92 h 8 v 18 h -8" fill="none" stroke="var(--accent)" strokeWidth="1.4" />
+        <Tag x={288} y={105} tone="accent">
+          s.143(2)
+        </Tag>
+      </g>
+    </Frame>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* 3. Groundwork — the small visible deliverable over the large        */
-/*    invisible body of work that makes it defensible.                 */
+/* 2. Scope — the excluded column written as carefully as the included  */
 /* ------------------------------------------------------------------ */
-export function GroundworkDiagram({ active }: Props) {
-  const rows = [
-    [24, 52, 40, 66, 34],
-    [44, 30, 58, 36, 48],
-    [36, 62, 28, 44, 56],
-    [52, 38, 46, 30, 40],
+export function ScopeDiagram({ active }: P) {
+  const items = [
+    { label: 'GST returns', side: 0 },
+    { label: 'Ledger repair', side: 0 },
+    { label: 'Prior-year revision', side: 1 },
+    { label: 'Annual audit', side: 1 },
   ];
   return (
-    <svg
-      viewBox="0 0 320 176"
-      className={FRAME}
-      role="img"
-      aria-label="A small filed output above a large body of underlying work"
+    <Frame
+      active={active}
+      cycle={6400}
+      label="Work sorted into an agreed in-scope column and an equally explicit out-of-scope column"
     >
-      <rect
-        x="118"
-        y="16"
-        width="84"
-        height="26"
-        rx="2"
-        fill="var(--accent)"
-        style={step(0, active, -6)}
-      />
-      <rect
-        x="132"
-        y="26"
-        width="56"
-        height="5"
-        rx="1"
-        fill="var(--accent-ink)"
-        opacity="0.85"
-        style={step(1, active, -4)}
-      />
+      <Panel x={14} y={34} w={140} h={112} tone="accent" />
+      <Tag x={84} y={26} anchor="middle" tone="accent">
+        IN SCOPE
+      </Tag>
 
-      <line x1="10" y1="58" x2="310" y2="58" stroke="var(--hairline-strong)" strokeWidth="1" />
-      <text
-        x="10"
-        y="52"
-        fill="var(--ink-3)"
-        fontSize="9"
-        letterSpacing="1.4"
-        style={{ textTransform: 'uppercase' }}
-        opacity={active ? 0.8 : 0}
-      >
-        FILED
-      </text>
+      <Panel x={180} y={34} w={126} h={112} tone="dashed" />
+      <Tag x={243} y={26} anchor="middle">
+        NOT INCLUDED
+      </Tag>
+
+      {items.map((it, i) => {
+        const row = items.filter((x) => x.side === it.side).indexOf(it);
+        const x = it.side === 0 ? 28 : 194;
+        const y = 50 + row * 30;
+        return (
+          <g key={it.label}>
+            <rect
+              x={x}
+              y={y}
+              width={it.side === 0 ? 112 : 98}
+              height={20}
+              rx="2"
+              fill="var(--ink-3)"
+              fillOpacity="0.14"
+            />
+            <g
+              className="dg-travel"
+              style={travel(400 + i * 640, it.side === 0 ? 46 : -52, 46 - row * 30, 0, 0)}
+            >
+              <rect
+                x={x}
+                y={y}
+                width={it.side === 0 ? 112 : 98}
+                height={20}
+                rx="2"
+                fill={it.side === 0 ? 'var(--accent)' : 'none'}
+                fillOpacity={it.side === 0 ? 0.16 : 1}
+                stroke={it.side === 0 ? 'var(--accent)' : 'var(--hairline-strong)'}
+                strokeWidth="1.1"
+              />
+              <Tag x={x + 10} y={y + 14} tone={it.side === 0 ? 'ink' : 'quiet'}>
+                {it.label}
+              </Tag>
+            </g>
+          </g>
+        );
+      })}
+
+      <Rule x1={14} y1={160} x2={306} y2={160} />
+      <Tag x={14} y={174}>
+        AGREED IN WRITING BEFORE ANY WORK BEGINS
+      </Tag>
+    </Frame>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. Groundwork — the quarter you see, on the three quarters you do not */
+/* ------------------------------------------------------------------ */
+export function GroundworkDiagram({ active }: P) {
+  const rows = [
+    [30, 54, 38, 62],
+    [46, 34, 58, 44],
+    [38, 60, 30, 52],
+  ];
+  return (
+    <Frame
+      active={active}
+      cycle={6000}
+      label="A small filed return resting on a much larger body of reconciliation work"
+    >
+      <rect x={112} y={14} width={96} height={26} rx="2" fill="var(--accent)" />
+      <Tag x={160} y={31} anchor="middle" style={{ fill: 'var(--accent-ink)' }}>
+        THE RETURN
+      </Tag>
+
+      <Rule x1={14} y1={54} x2={306} y2={54} />
+      <Tag x={14} y={50}>
+        WHAT YOU SEE
+      </Tag>
+      <Value x={306} y={50} size={10} tone="quiet" anchor="end">
+        ~25%
+      </Value>
 
       {rows.map((row, r) => {
-        let x = 16;
+        let x = 14;
         return (
           <g key={r}>
             {row.map((w, c) => {
-              const rect = (
+              const el = (
                 <rect
                   key={c}
                   x={x}
-                  y={74 + r * 22}
-                  width={w}
-                  height="10"
-                  rx="1"
+                  y={72 + r * 24}
+                  width={w * 1.18}
+                  height={13}
+                  rx="1.5"
                   fill="var(--ink-3)"
-                  style={{
-                    opacity: active ? 0.22 + c * 0.03 : 0,
-                    transform: active ? 'none' : 'translateY(8px)',
-                    transition: `opacity .7s ${EASE} ${160 + (r * 5 + c) * 26}ms, transform .7s ${EASE} ${160 + (r * 5 + c) * 26}ms`,
-                  }}
+                  fillOpacity={0.2 + c * 0.04}
+                  className="dg-appear"
+                  style={seq(300 + (r * 4 + c) * 190, { ['--fy' as string]: '10px' })}
                 />
               );
-              x += w + 8;
-              return rect;
+              x += w * 1.18 + 7;
+              return el;
             })}
           </g>
         );
       })}
-    </svg>
+
+      <Tag x={14} y={162}>
+        RECONCILIATION · EVIDENCE · LEDGER REPAIR
+      </Tag>
+      <Value
+        x={306}
+        y={164}
+        size={12}
+        tone="accent"
+        anchor="end"
+        className="dg-appear"
+        style={seq(2700)}
+      >
+        ~75%
+      </Value>
+    </Frame>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* 4. Execution — two review gates before anything leaves the office.  */
+/* 4. Review — separate passes, and what a second pair of eyes catches  */
 /* ------------------------------------------------------------------ */
-export function ReviewDiagram({ active }: Props) {
-  const gates = [104, 186];
+export function ReviewDiagram({ active }: P) {
   return (
-    <svg
-      viewBox="0 0 320 176"
-      className={FRAME}
-      role="img"
-      aria-label="Work passing through two review checks before it is filed"
+    <Frame
+      active={active}
+      cycle={6600}
+      label="Work prepared, sent back once on review, then passed and filed"
     >
-      <path d="M 22 88 H 292" stroke="var(--hairline-strong)" strokeWidth="1" />
-      <path
-        d="M 22 88 H 292"
-        stroke="var(--accent)"
-        strokeWidth="1.5"
-        pathLength={1}
-        strokeDasharray="1"
-        strokeDashoffset={active ? 0 : 1}
-        style={{ transition: `stroke-dashoffset 1.1s ${EASE} 120ms` }}
-      />
+      <Rule x1={20} y1={80} x2={286} y2={80} />
 
-      <rect
-        x="14"
-        y="76"
-        width="26"
-        height="24"
-        rx="2"
-        fill="var(--faint)"
-        opacity="0.5"
-        style={step(0, active, 0)}
-      />
+      <Pass cx={92} cy={80} delay={600} />
+      <Tag x={92} y={112} anchor="middle">
+        PREPARE
+      </Tag>
 
-      {gates.map((x, i) => (
-        <g key={x} style={step(i + 2, active, 0)}>
-          <circle
-            cx={x}
-            cy="88"
-            r="15"
-            fill="var(--ground)"
-            stroke="var(--accent)"
-            strokeWidth="1.5"
-          />
-          <path
-            d={`M ${x - 6} 88 l 4 4 l 8 -9`}
-            fill="none"
-            stroke="var(--accent)"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <text
-            x={x}
-            y="122"
-            textAnchor="middle"
-            fill="var(--ink-3)"
-            fontSize="9"
-            letterSpacing="1.2"
-          >
-            {i === 0 ? 'PREPARE' : 'REVIEW'}
-          </text>
-        </g>
-      ))}
+      <Pass cx={192} cy={80} delay={3000} />
+      <Tag x={192} y={112} anchor="middle">
+        REVIEW
+      </Tag>
 
-      <g style={step(4, active, 0)}>
-        <rect x="264" y="70" width="36" height="36" rx="2" fill="var(--accent)" />
+      {/* Out of the preparer's hands. */}
+      <Chip x={26} y={73} delay={200} dx={50} tone="context" />
+
+      {/* The reviewer sends one back — the whole reason for the second pass. */}
+      <g className="dg-flag dg-c" style={seq(200)}>
         <path
-          d="M 274 88 l 5 5 l 11 -12"
+          d="M 176 62 q -42 -30 -84 0"
+          fill="none"
+          stroke="var(--caution)"
+          strokeWidth="1.4"
+          strokeDasharray="3 3"
+        />
+        <path
+          d="M 92 62 l 5 -6 M 92 62 l 6 5"
+          fill="none"
+          stroke="var(--caution)"
+          strokeWidth="1.4"
+          strokeLinecap="round"
+        />
+        <Tag x={134} y={44} anchor="middle" tone="caution">
+          SENT BACK ONCE
+        </Tag>
+      </g>
+
+      {/* Then through, and out. */}
+      <Chip x={210} y={73} delay={4200} dx={54} />
+      <g className="dg-appear" style={seq(4600)}>
+        <rect x={272} y={66} width={30} height={28} rx="2" fill="var(--accent)" />
+        <path
+          d="M 280 80 l 4 4 l 9 -10"
           fill="none"
           stroke="var(--accent-ink)"
-          strokeWidth="2"
+          strokeWidth="1.8"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
       </g>
-    </svg>
+      <Tag x={287} y={112} anchor="middle" tone="accent">
+        FILED
+      </Tag>
+
+      <Rule x1={20} y1={140} x2={286} y2={140} />
+      <Tag x={20} y={158}>
+        PREPARER AND REVIEWER ARE NEVER THE SAME PERSON
+      </Tag>
+    </Frame>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* 5. Aftercare — the file stays open long after the filing closes.    */
+/* 5. Aftercare — the file outlives the deadline                        */
 /* ------------------------------------------------------------------ */
-export function AftercareDiagram({ active }: Props) {
-  const ticks = Array.from({ length: 13 }, (_, i) => 22 + i * 22);
+export function AftercareDiagram({ active }: P) {
+  const ticks = Array.from({ length: 15 }, (_, i) => 22 + i * 19);
   return (
-    <svg
-      viewBox="0 0 320 176"
-      className={FRAME}
-      role="img"
-      aria-label="A filing date and a notice arriving many months later, joined by a retained file"
+    <Frame
+      active={active}
+      cycle={6600}
+      label="A return filed, then a notice arriving fourteen months later answered from the retained file"
     >
-      <line x1="14" y1="104" x2="306" y2="104" stroke="var(--hairline-strong)" strokeWidth="1" />
-      {ticks.map((x, i) => (
-        <line
-          key={x}
-          x1={x}
-          y1="100"
-          x2={x}
-          y2="108"
-          stroke="var(--faint)"
-          strokeWidth="1"
-          style={{ opacity: active ? 0.6 : 0, transition: `opacity .5s ${EASE} ${i * 34}ms` }}
-        />
+      <Rule x1={14} y1={86} x2={306} y2={86} />
+      {ticks.map((x) => (
+        <line key={x} x1={x} y1={82} x2={x} y2={90} stroke="var(--hairline)" strokeWidth="1" />
       ))}
 
-      {/* Filed */}
-      <g style={step(0, active, 0)}>
-        <line x1="22" y1="62" x2="22" y2="104" stroke="var(--accent)" strokeWidth="1.5" />
-        <circle cx="22" cy="62" r="5" fill="var(--accent)" />
-        <text x="14" y="50" fill="var(--ink-3)" fontSize="9" letterSpacing="1.2">
-          FILED
-        </text>
+      {/* Filed. */}
+      <line x1={22} y1={56} x2={22} y2={86} stroke="var(--accent)" strokeWidth="1.4" />
+      <circle cx={22} cy={56} r={4.5} fill="var(--accent)" />
+      <Tag x={14} y={44} tone="accent">
+        FILED
+      </Tag>
+
+      {/* The months passing. */}
+      <Trace d="M 22 112 H 288" delay={300} tone="structure" dashed />
+      <Tag x={22} y={128}>
+        WORKING PAPERS HELD · INDEXED · SEARCHABLE
+      </Tag>
+
+      {/* The notice, much later. */}
+      <g className="dg-flag dg-c" style={seq(200)}>
+        <line x1={288} y1={56} x2={288} y2={86} stroke="var(--caution)" strokeWidth="1.4" />
+        <circle cx={288} cy={56} r={4.5} fill="var(--caution)" />
+        <Tag x={306} y={44} anchor="end" tone="caution">
+          NOTICE · M+14
+        </Tag>
       </g>
 
-      {/* The span the file is held for */}
-      <path
-        d="M 22 132 H 286"
-        stroke="var(--accent)"
-        strokeWidth="1.5"
-        strokeDasharray="3 4"
-        pathLength={1}
-        strokeDashoffset={active ? 0 : 1}
-        style={{
-          transition: `stroke-dashoffset 1.3s ${EASE} 260ms`,
-          strokeDasharray: '1',
-          opacity: 0.55,
-        }}
-      />
-      <text
-        x="22"
-        y="150"
-        fill="var(--ink-3)"
-        fontSize="9"
-        letterSpacing="1.2"
-        style={{ opacity: active ? 0.85 : 0, transition: `opacity .6s ${EASE} 700ms` }}
+      {/* Answered from the file rather than from memory. */}
+      <Chip x={40} y={148} delay={3400} dx={222} />
+      <Tag x={14} y={168}>
+        ANSWERED FROM THE FILE
+      </Tag>
+      <Value
+        x={306}
+        y={168}
+        size={10}
+        tone="accent"
+        anchor="end"
+        className="dg-appear"
+        style={seq(4400)}
       >
-        WORKING PAPERS RETAINED
-      </text>
-
-      {/* Notice, much later */}
-      <g style={step(6, active, 0)}>
-        <line x1="286" y1="62" x2="286" y2="104" stroke="var(--caution)" strokeWidth="1.5" />
-        <rect x="272" y="48" width="28" height="22" rx="2" fill="var(--caution)" />
-        <text x="230" y="34" fill="var(--ink-3)" fontSize="9" letterSpacing="1.2">
-          NOTICE, M+14
-        </text>
-      </g>
-    </svg>
+        same day
+      </Value>
+    </Frame>
   );
 }

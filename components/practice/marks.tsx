@@ -1,3 +1,4 @@
+import { Bar, Rule, Tag, Value } from '@/components/diagrams/kit';
 import { cn } from '@/lib/utils';
 
 /**
@@ -7,27 +8,29 @@ import { cn } from '@/lib/utils';
  * so each half gets a mark of the same size, in the same ink, built from the
  * same primitives. Neither is an icon: each states that half's actual
  * argument — advisory, that a filed figure is only as good as the records
- * under it; engineering, that one team holds the whole stack rather than
- * three vendors holding a third each.
+ * under it; engineering, that one team holds the whole stack rather than three
+ * vendors holding a third each.
  *
- * These are server-rendered. The staged entrance rides on the existing scroll
- * reveal: `.mark-step` is styled in globals.css to settle once its enclosing
- * `.reveal` is shown, so there is no observer, no client bundle, and nothing
- * hidden from a crawler or from anyone with motion turned down.
+ * These play once and hold, rather than looping like the slideshow drawings.
+ * A looping animation beside a paragraph someone is trying to read is a
+ * distraction; the same vocabulary run once is an illustration. The staging
+ * rides on the existing scroll reveal via `.dg-once`, so they are server
+ * rendered with no client bundle and settle immediately under reduced motion.
  */
 
 type MarkProps = { className?: string };
 
-/** Staggers a piece of a mark without needing a client component. */
-function at(ms: number): React.CSSProperties {
-  return { ['--mark-delay' as string]: `${ms}ms` } as React.CSSProperties;
+/** Sequences a piece of a mark without needing a client component. */
+function at(ms: number, fy = 8): React.CSSProperties {
+  return { ['--d' as string]: `${ms}ms`, ['--fy' as string]: `${fy}px` } as React.CSSProperties;
 }
 
 /* ------------------------------------------------------------------ */
 /* Advisory — the filed position, and the record holding it up.        */
 /* ------------------------------------------------------------------ */
 export function AdvisoryMark({ className }: MarkProps) {
-  const records = [38, 62, 30, 74, 48, 56, 34];
+  const records = [34, 58, 26, 70, 44, 52, 30];
+
   return (
     <svg
       viewBox="0 0 320 200"
@@ -35,55 +38,66 @@ export function AdvisoryMark({ className }: MarkProps) {
       role="img"
       aria-label="A filed figure resting on a wide base of reconciled source records"
     >
-      {/* The filed position */}
-      <g className="mark-step" style={at(0)}>
-        <rect x="86" y="14" width="148" height="30" rx="2" fill="var(--accent)" />
-        <rect x="102" y="26" width="74" height="6" rx="1" fill="var(--accent-ink)" opacity="0.8" />
-        <rect x="186" y="26" width="32" height="6" rx="1" fill="var(--accent-ink)" opacity="0.45" />
+      {/* The number that goes on the return. */}
+      <g className="dg-once" style={at(0, -10)}>
+        <rect x={92} y={12} width={136} height={34} rx="2" fill="var(--accent)" />
+        <Tag x={106} y={26} style={{ fill: 'var(--accent-ink)', opacity: 0.75 }}>
+          AS FILED
+        </Tag>
+        <Value x={214} y={38} size={15} anchor="end" style={{ fill: 'var(--accent-ink)' }}>
+          4,18,600
+        </Value>
       </g>
 
-      {/* What it rests on */}
-      {[110, 160, 210].map((x, i) => (
+      {/* What it rests on. */}
+      {[122, 160, 198].map((x, i) => (
         <path
           key={x}
-          className="mark-step"
-          style={at(160 + i * 70)}
-          d={`M ${x} 48 V 74`}
+          className="dg-once-trace"
+          style={at(220 + i * 90)}
+          d={`M ${x} 46 V 72`}
           stroke="var(--hairline-strong)"
           strokeWidth="1"
-          strokeDasharray="2 3"
+          strokeDasharray="1"
+          pathLength={1}
         />
       ))}
 
-      <line x1="14" y1="82" x2="306" y2="82" stroke="var(--hairline-strong)" strokeWidth="1" />
+      <Rule x1={14} y1={78} x2={306} y2={78} />
+      <Tag x={14} y={94}>
+        EVERY FIGURE TRACED TO A RECORD
+      </Tag>
 
       {records.map((h, i) => (
         <rect
           key={i}
-          className="mark-step"
-          style={at(320 + i * 60)}
+          className="dg-once"
+          style={at(520 + i * 70, 14)}
           x={18 + i * 42}
-          y={176 - h}
-          width="26"
+          y={168 - h}
+          width={26}
           height={h}
-          rx="1"
+          rx="1.5"
           fill="var(--ink-3)"
-          opacity={0.22 + i * 0.04}
+          fillOpacity={0.2 + i * 0.035}
         />
       ))}
 
-      <line x1="14" y1="176" x2="306" y2="176" stroke="var(--hairline-strong)" strokeWidth="1" />
-      <text
-        className="mark-step"
-        style={at(760)}
-        x="14"
-        y="194"
-        fill="var(--ink-3)"
-        fontSize="9"
-        letterSpacing="1.4"
+      <Rule x1={14} y1={168} x2={306} y2={168} />
+      <Tag x={14} y={186}>
+        LEDGERS · BANK · CONTRACTS · RETURNS
+      </Tag>
+      <Value
+        x={306}
+        y={187}
+        size={10}
+        tone="quiet"
+        anchor="end"
+        className="dg-once"
+        style={at(1060)}
       >
-        RECONCILED SOURCE RECORDS
-      </text>
+        3-year retention
+      </Value>
     </svg>
   );
 }
@@ -93,87 +107,87 @@ export function AdvisoryMark({ className }: MarkProps) {
 /* ------------------------------------------------------------------ */
 export function EngineeringMark({ className }: MarkProps) {
   const layers = [
-    { y: 18, label: 'INTERFACE' },
-    { y: 76, label: 'LOGIC' },
-    { y: 134, label: 'DATA' },
+    { y: 14, label: 'INTERFACE', detail: 'What the client sees' },
+    { y: 70, label: 'LOGIC', detail: 'What the rules enforce' },
+    { y: 126, label: 'DATA', detail: 'What the filing is built from' },
   ];
+
   return (
     <svg
       viewBox="0 0 320 200"
       className={cn('h-auto w-full', className)}
       role="img"
-      aria-label="Interface, logic and data layers threaded by a single path held by one team"
+      aria-label="Interface, logic and data layers threaded by a single path held end to end by one team"
     >
       {layers.map((layer, i) => (
-        <g key={layer.label} className="mark-step" style={at(i * 120)}>
+        <g key={layer.label} className="dg-once" style={at(i * 130)}>
           <rect
-            x="14"
+            x={14}
             y={layer.y}
-            width="292"
-            height="44"
+            width={292}
+            height={44}
             rx="3"
             fill="var(--surface)"
             stroke="var(--hairline-strong)"
             strokeWidth="1"
           />
-          <text x="30" y={layer.y + 26} fill="var(--ink-3)" fontSize="9" letterSpacing="1.4">
+          <Tag x={28} y={layer.y + 20} tone="ink">
             {layer.label}
-          </text>
-          {/* Contents of the layer, sketched. */}
+          </Tag>
+          <Tag x={28} y={layer.y + 34} tone="quiet">
+            {layer.detail}
+          </Tag>
           {[0, 1, 2].map((c) => (
-            <rect
-              key={c}
-              x={132 + c * 56}
-              y={layer.y + 18}
-              width={[40, 44, 36][c]}
-              height="8"
-              rx="1"
-              fill="var(--faint)"
-              opacity="0.55"
-            />
+            <Bar key={c} x={196 + c * 34} y={layer.y + 19} w={[24, 28, 20][c]} h={7} />
           ))}
         </g>
       ))}
 
-      {/* The single path through all three — the whole point. */}
+      {/* One path through all three — the whole argument. */}
       <path
-        className="mark-step"
-        style={at(380)}
-        d="M 108 40 V 98 H 268 V 156"
+        className="dg-once-trace"
+        style={at(420)}
+        d="M 92 58 V 92 H 256 V 126"
         fill="none"
         stroke="var(--accent)"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
+        strokeDasharray="1"
+        pathLength={1}
       />
       {[
-        [108, 40],
-        [108, 98],
-        [268, 98],
-        [268, 156],
+        [92, 58],
+        [92, 92],
+        [256, 92],
+        [256, 126],
       ].map(([cx, cy], i) => (
         <circle
           key={`${cx}-${cy}`}
-          className="mark-step"
-          style={at(440 + i * 70)}
+          className="dg-once"
+          style={at(700 + i * 80, 4)}
           cx={cx}
           cy={cy}
-          r="3.5"
+          r={3.5}
           fill="var(--accent)"
         />
       ))}
 
-      <text
-        className="mark-step"
-        style={at(760)}
-        x="14"
-        y="194"
-        fill="var(--ink-3)"
-        fontSize="9"
-        letterSpacing="1.4"
-      >
+      <Rule x1={14} y1={186} x2={306} y2={186} />
+      <Tag x={14} y={182}>
         ONE TEAM, END TO END
-      </text>
+      </Tag>
+      <Value
+        x={306}
+        y={182}
+        size={10}
+        tone="accent"
+        anchor="end"
+        className="dg-once"
+        style={at(1020)}
+      >
+        0 handoffs
+      </Value>
     </svg>
   );
 }

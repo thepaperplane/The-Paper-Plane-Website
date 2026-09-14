@@ -472,6 +472,212 @@
   }
 }
 
+/* ==========================================================================
+   DIAGRAM MOTION
+   --------------------------------------------------------------------------
+   A small vocabulary shared by every drawing on the site, so they read as one
+   hand rather than sixteen separate doodles.
+
+   Two rules hold it together:
+
+   1. Structure is permanent; only the action repeats. Frames, axes, column
+      headings and labels are drawn once and stay put. What loops is the verb —
+      a line tracing between two records, a token travelling, a bar filling, a
+      scan passing down a page. A drawing where everything flickers reads as
+      decoration; one where a fixed scene is acted upon reads as an
+      explanation.
+
+   2. Elements are authored in their FINISHED state. The animation is layered
+      on top under `prefers-reduced-motion: no-preference`, so anyone who has
+      motion turned down — and any renderer that ignores CSS animation — sees
+      the completed diagram rather than an empty frame.
+
+   Each drawing sets `--cycle` for its own pace and each element sets `--d` for
+   its place in the sequence. `--dg-play` on the root <svg> pauses the whole
+   scene when its stage is not the one on show.
+   ========================================================================== */
+
+@keyframes pp-dg-appear {
+  0% {
+    opacity: 0;
+    transform: translate(var(--fx, 0px), var(--fy, 7px));
+  }
+  20%,
+  84% {
+    opacity: 1;
+    transform: translate(0px, 0px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--fx, 0px), var(--fy, 7px));
+  }
+}
+
+@keyframes pp-dg-travel {
+  0% {
+    opacity: 0;
+    transform: translate(var(--fx, 0px), var(--fy, 0px));
+  }
+  12% {
+    opacity: 1;
+    transform: translate(var(--fx, 0px), var(--fy, 0px));
+  }
+  54%,
+  84% {
+    opacity: 1;
+    transform: translate(var(--tx, 0px), var(--ty, 0px));
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--tx, 0px), var(--ty, 0px));
+  }
+}
+
+/* Stroke drawn on. Pair with pathLength="1" and stroke-dasharray="1". */
+@keyframes pp-dg-trace {
+  0% {
+    stroke-dashoffset: 1;
+  }
+  34%,
+  84% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 1;
+  }
+}
+
+@keyframes pp-dg-grow {
+  0% {
+    transform: scaleX(0);
+  }
+  40%,
+  84% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(0);
+  }
+}
+
+/* A reading head passing down a document. */
+@keyframes pp-dg-sweep {
+  0% {
+    opacity: 0;
+    transform: translateY(var(--fy, 0px));
+  }
+  8%,
+  62% {
+    opacity: 1;
+  }
+  62% {
+    transform: translateY(var(--ty, 0px));
+  }
+  74%,
+  100% {
+    opacity: 0;
+    transform: translateY(var(--ty, 0px));
+  }
+}
+
+/* The exception. Arrives late, knocks once, stays for the rest of the cycle. */
+@keyframes pp-dg-flag {
+  0%,
+  38% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  58% {
+    transform: scale(1);
+  }
+  84% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+@layer components {
+  /* SVG transforms default to a 0,0 origin, which sends anything scaled off
+     into the corner. fill-box puts the origin back on the shape itself. */
+  .dg-c {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .dg-l {
+    transform-box: fill-box;
+    transform-origin: left center;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .dg-appear,
+    .dg-travel,
+    .dg-trace,
+    .dg-grow,
+    .dg-sweep,
+    .dg-flag {
+      animation-duration: var(--cycle, 5.2s);
+      animation-delay: var(--d, 0s);
+      animation-iteration-count: infinite;
+      animation-timing-function: var(--ease-out-editorial);
+      animation-fill-mode: both;
+      animation-play-state: var(--dg-play, running);
+    }
+
+    .dg-appear {
+      animation-name: pp-dg-appear;
+    }
+    .dg-travel {
+      animation-name: pp-dg-travel;
+    }
+    .dg-trace {
+      animation-name: pp-dg-trace;
+    }
+    .dg-grow {
+      animation-name: pp-dg-grow;
+    }
+    .dg-sweep {
+      animation-name: pp-dg-sweep;
+    }
+    .dg-flag {
+      animation-name: pp-dg-flag;
+    }
+
+    /* Marks sit inside prose rather than inside a slideshow, so they play once
+       when scrolled to and then hold. A looping animation beside a paragraph
+       is a distraction; the same vocabulary, run once, is an illustration. */
+    .reveal-ready .reveal .dg-once {
+      opacity: 0;
+      transform: translate(var(--fx, 0px), var(--fy, 8px));
+    }
+
+    .reveal-ready .reveal[data-shown='true'] .dg-once {
+      opacity: 1;
+      transform: translate(0px, 0px);
+      transition:
+        opacity 0.7s var(--ease-out-editorial) var(--d, 0ms),
+        transform 0.7s var(--ease-out-editorial) var(--d, 0ms);
+    }
+
+    .reveal-ready .reveal .dg-once-trace {
+      stroke-dashoffset: 1;
+    }
+
+    .reveal-ready .reveal[data-shown='true'] .dg-once-trace {
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset 1.1s var(--ease-out-editorial) var(--d, 0ms);
+    }
+  }
+}
+
 /* Drives the walkthrough's stage timer. Timing lives in CSS rather than a
    JS interval so the clock runs on the compositor: no per-frame React render,
    and pausing is a single `animation-play-state` flip that keeps its place. */
