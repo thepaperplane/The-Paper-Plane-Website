@@ -33,7 +33,10 @@ export function Masthead({
 
         {/* Lede offset right — the asymmetry is the point. */}
         <div className="mt-14 grid grid-cols-12 gap-y-10">
-          <div className="reveal col-span-12 sm:col-span-8 sm:col-start-5 lg:col-span-6 lg:col-start-7" data-reveal-delay="120">
+          <div
+            className="reveal col-span-12 sm:col-span-8 sm:col-start-5 lg:col-span-6 lg:col-start-7"
+            data-reveal-delay="120"
+          >
             <p className="text-ink-2 text-[length:var(--text-lede)] leading-[1.5]">{lede}</p>
             <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3">
               <TextLink href="/contact">Start a conversation</TextLink>
@@ -55,11 +58,7 @@ export function Masthead({
             ['Advisory', 'Tax · GST · Audit · Litigation support'],
             ['Engineering', 'Web · Product · Identity · Automation'],
           ].map(([term, detail], i) => (
-            <div
-              key={term}
-              className="reveal pr-6"
-              data-reveal-delay={String(160 + i * 70)}
-            >
+            <div key={term} className="reveal pr-6" data-reveal-delay={String(160 + i * 70)}>
               <dt className="label">{term}</dt>
               <dd className="text-ink-2 mt-2 text-[length:var(--text-caption)] leading-snug">
                 {detail}

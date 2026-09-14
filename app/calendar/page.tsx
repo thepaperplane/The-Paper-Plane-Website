@@ -4,7 +4,7 @@ import { Card, Container, Eyebrow, Section, SectionHeading } from '@/components/
 import { CalendarView } from '@/components/calendar/calendar-view';
 import { SubscribeForm } from '@/components/calendar/subscribe-form';
 import { TURNAROUNDS } from '@/content/calendar';
-import { SITE, pageOg } from '@/lib/site';
+import { pageOg } from '@/lib/site';
 import { loadContent, pick } from '@/lib/content';
 
 export const metadata: Metadata = {

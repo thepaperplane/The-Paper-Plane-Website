@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowUpRight, ExternalLink, Newspaper, RefreshCw } from 'lucide-react';
 import { Badge, ButtonLink, Card, Container, Section, SectionHeading } from '@/components/ui';
-import { SITE, pageOg } from '@/lib/site';
+import { pageOg } from '@/lib/site';
 import { serviceClient, isSupabaseConfigured } from '@/lib/supabase';
 import type { NewsItemRow } from '@/lib/database.types';
 import { cn, displayHost, formatRelative } from '@/lib/utils';

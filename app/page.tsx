@@ -1,3 +1,4 @@
+import { Engagement } from '@/components/home/engagement';
 import { Masthead } from '@/components/home/masthead';
 import { TwoSides } from '@/components/home/two-sides';
 import { Container, Label, Numeral, Section, TextLink } from '@/components/ui';
@@ -31,8 +32,8 @@ export default async function HomePage() {
           <div className="grid grid-cols-12">
             <blockquote className="reveal col-span-12 lg:col-span-10 lg:col-start-2">
               <p className="font-[family-name:var(--font-display)] text-[length:var(--text-display-2)] leading-[1.08]">
-                Most firms hand you off — a filing agent, a lawyer, an agency, none of whom
-                speak to each other.{' '}
+                Most firms hand you off — a filing agent, a lawyer, an agency, none of whom speak to
+                each other.{' '}
                 <span className="italic opacity-70">
                   The handoff is where compliance actually fails.
                 </span>
@@ -43,9 +44,16 @@ export default async function HomePage() {
       </Section>
 
       {/* ------------------------------------------------------------------
+          The process, shown rather than asserted. This is the answer to the
+          question every prospective client actually has — what happens after
+          I send the first email — so it gets the page's only moving element.
+         ------------------------------------------------------------------ */}
+      <Engagement />
+
+      {/* ------------------------------------------------------------------
           What you are paying for — a single anatomy, not a grid of teasers.
          ------------------------------------------------------------------ */}
-      <Section>
+      <Section className="border-t">
         <Container>
           <div className="grid gap-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-24">
             <div className="reveal">
@@ -58,8 +66,8 @@ export default async function HomePage() {
               </h2>
               <p className="text-ink-2 mt-6 max-w-[40ch] text-[length:var(--text-small)] leading-[1.75]">
                 Compliance work is mostly invisible, which is why it is easy to under-price and
-                expensive to get wrong. We publish the anatomy of each engagement instead of
-                asking you to take it on trust.
+                expensive to get wrong. We publish the anatomy of each engagement instead of asking
+                you to take it on trust.
               </p>
               <div className="mt-8">
                 <TextLink href="/knowledge">Open the Knowledge Corner</TextLink>
@@ -77,8 +85,11 @@ export default async function HomePage() {
 
               <ol className="mt-12">
                 {anatomy.steps.map((step, i) => (
-                  <li key={step.label} className="grid grid-cols-[3rem_1fr_auto] gap-4 border-t py-4">
-                    <Numeral value={i + 1} className="text-[length:var(--text-caption)] pt-1" />
+                  <li
+                    key={step.label}
+                    className="grid grid-cols-[3rem_1fr_auto] gap-4 border-t py-4"
+                  >
+                    <Numeral value={i + 1} className="pt-1 text-[length:var(--text-caption)]" />
                     <span className="text-ink text-[length:var(--text-small)]">{step.label}</span>
                     <span className="text-ink-3 pt-0.5 text-right text-[length:var(--text-micro)] tabular-nums">
                       {step.share}%

@@ -17,15 +17,17 @@
 
 @theme {
   /* --- Typography ------------------------------------------------------
-     Instrument Serif  — display. High-contrast editorial serif: the
-                         considered-document voice the advisory side needs.
-     Archivo           — body and UI. Grotesque workhorse with an engineered
-                         feel that carries the technology side.
-     JetBrains Mono    — statutory references only (s.148, GSTR-3B, Form 3CA).
-                         On a compliance site this is precision, not ornament. */
-  --font-display: var(--font-instrument-serif), 'Iowan Old Style', Georgia, serif;
-  --font-sans: var(--font-archivo), 'Helvetica Neue', Arial, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, 'SF Mono', Menlo, monospace;
+     IBM Plex Serif  — display, Medium. Sturdy stems, institutional voice: an
+                       audit report rather than a magazine masthead.
+     IBM Plex Sans   — body and UI.
+     IBM Plex Mono   — statutory references only (s.148, GSTR-3B, Form 3CA).
+
+     One superfamily for all three. The advisory and engineering halves share
+     a skeleton instead of being pushed together, and the Mono is a genuine
+     sibling of the display face rather than a borrowed monospace. */
+  --font-display: var(--font-plex-serif), 'Iowan Old Style', Georgia, serif;
+  --font-sans: var(--font-plex-sans), 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, 'SF Mono', Menlo, monospace;
 
   /* Editorial scale — wide intervals so hierarchy is unmistakable. */
   --text-micro: 0.75rem;
@@ -224,9 +226,9 @@
   h2,
   h3 {
     font-family: var(--font-display);
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    line-height: 1.04;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.08;
     text-wrap: balance;
     color: var(--ink);
   }
@@ -279,7 +281,6 @@
    ========================================================================== */
 
 @layer components {
-
   /* --- Brand mark -------------------------------------------------------
      Rendered as a background-image rather than two <img> tags so only the
      variant the active theme needs is ever downloaded — a hidden <img> is
@@ -332,7 +333,7 @@
      reserved for rules and borders, exactly as its comment says. */
   .numeral {
     font-family: var(--font-display);
-    font-weight: 400;
+    font-weight: 500;
     font-variant-numeric: tabular-nums lining-nums;
     color: var(--ink-3);
     letter-spacing: -0.03em;
@@ -412,6 +413,31 @@
     }
   }
 
+  /* Staged entrance for the practice marks, without a client component.
+     Each piece carries its own --mark-delay and settles once the enclosing
+     .reveal is shown. Like .reveal itself this is visible by default and only
+     hidden once the pre-paint script has armed the observer, so a crawler — or
+     anyone whose observer never fires — sees the finished drawing. */
+  .reveal-ready .reveal .mark-step {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  .reveal-ready .reveal[data-shown='true'] .mark-step {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.7s var(--ease-out-editorial) var(--mark-delay, 0ms),
+      transform 0.7s var(--ease-out-editorial) var(--mark-delay, 0ms);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-ready .reveal .mark-step {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
   .sr-only-focusable:not(:focus):not(:focus-within) {
     position: absolute;
     width: 1px;
@@ -422,5 +448,49 @@
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border-width: 0;
+  }
+}
+
+/* ==========================================================================
+   KEYFRAMES
+   ========================================================================== */
+
+@keyframes pp-step {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pp-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Drives the walkthrough's stage timer. Timing lives in CSS rather than a
+   JS interval so the clock runs on the compositor: no per-frame React render,
+   and pausing is a single `animation-play-state` flip that keeps its place. */
+@keyframes pp-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Background utilities for the two hairline tokens, so the walkthrough's
+   progress track can use them directly. */
+@layer utilities {
+  .bg-hairline {
+    background-color: var(--hairline);
+  }
+  .bg-hairline-strong {
+    background-color: var(--hairline-strong);
   }
 }

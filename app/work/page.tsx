@@ -11,7 +11,7 @@ import {
 } from '@/components/ui';
 import { DeviceMockup } from '@/components/work/device-mockup';
 import { PROJECTS as STATIC_PROJECTS, type Project } from '@/content/portfolio';
-import { SITE, pageOg } from '@/lib/site';
+import { pageOg } from '@/lib/site';
 import { serviceClient, isSupabaseConfigured } from '@/lib/supabase';
 import { loadContent, pick } from '@/lib/content';
 

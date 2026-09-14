@@ -23,8 +23,8 @@ export function SiteFooter() {
             <Logo showTagline />
 
             <p className="text-ink-2 mt-8 max-w-[34ch] text-[length:var(--text-small)] leading-relaxed">
-              One practice for the filings and the software they depend on —
-              advisory and engineering held to the same standard.
+              One practice for the filings and the software they depend on — advisory and
+              engineering held to the same standard.
             </p>
 
             <dl className="mt-10 space-y-4">

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Archivo, Instrument_Serif, JetBrains_Mono } from 'next/font/google';
+import { IBM_Plex_Mono, IBM_Plex_Sans, IBM_Plex_Serif } from 'next/font/google';
 import { SITE, organizationJsonLd } from '@/lib/site';
 import { SiteHeader } from '@/components/site/site-header';
 import { SiteFooter } from '@/components/site/site-footer';
@@ -8,35 +8,42 @@ import { Reveal } from '@/components/site/reveal';
 import './globals.css';
 
 /* --------------------------------------------------------------------------
-   Type pairing. All three are self-hosted by next/font — no external request,
-   no layout shift, and `display: swap` with a matched fallback so the first
-   paint is never blank.
+   Type pairing — IBM Plex, one superfamily across all three roles.
 
-   Instrument Serif carries the display voice; Archivo does the reading work;
-   JetBrains Mono is reserved for statutory references.
+   Plex was drawn for the meeting point of engineering and humanism, which is
+   this practice's dual offering almost literally. Using Serif, Sans and Mono
+   from the same family means the advisory and technology halves share a
+   skeleton rather than being pushed together, and the Mono is a genuine
+   sibling of the display face rather than a borrowed monospace.
+
+   Serif Medium carries display: sturdier stems than a high-contrast editorial
+   serif, so it reads as an audit report rather than a magazine masthead.
+
+   All self-hosted by next/font — no external request, no layout shift.
    -------------------------------------------------------------------------- */
 
-const instrumentSerif = Instrument_Serif({
+const plexSerif = IBM_Plex_Serif({
   subsets: ['latin'],
-  weight: '400',
+  weight: ['400', '500', '600'],
   style: ['normal', 'italic'],
   display: 'swap',
-  variable: '--font-instrument-serif',
+  variable: '--font-plex-serif',
   adjustFontFallback: true,
 });
 
-const archivo = Archivo({
+const plexSans = IBM_Plex_Sans({
   subsets: ['latin'],
+  weight: ['400', '500', '600'],
   display: 'swap',
-  variable: '--font-archivo',
+  variable: '--font-plex-sans',
   adjustFontFallback: true,
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const plexMono = IBM_Plex_Mono({
   subsets: ['latin'],
   weight: ['400', '500'],
   display: 'swap',
-  variable: '--font-jetbrains-mono',
+  variable: '--font-plex-mono',
   adjustFontFallback: true,
 });
 
@@ -113,7 +120,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en-IN"
-      className={`${instrumentSerif.variable} ${archivo.variable} ${jetbrainsMono.variable}`}
+      className={`${plexSerif.variable} ${plexSans.variable} ${plexMono.variable}`}
       suppressHydrationWarning
     >
       <head>

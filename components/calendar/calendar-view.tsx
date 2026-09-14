@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { CalendarDays, ChevronLeft, ChevronRight, Repeat } from 'lucide-react';
+import { YearBand } from '@/components/calendar/year-band';
 import { Card } from '@/components/ui';
 import {
   CATEGORY_STYLES,
@@ -35,52 +36,36 @@ export function CalendarView({ initialMonth }: { initialMonth: number }) {
 
   return (
     <div>
-      {/* Month control */}
-      <Card className="bg-surface p-2">
-        <div className="flex items-center justify-between gap-3">
-          <button
-            type="button"
-            onClick={() => step(-1)}
-            aria-label="Previous month"
-            className="text-ink-2 hover:text-ink hover:bg-sunken flex h-10 w-10 items-center justify-center rounded-[var(--radius-sm)] transition-colors"
-          >
-            <ChevronLeft className="h-5 w-5" strokeWidth={2.2} />
-          </button>
-
-          <div className="scroll-lane no-scrollbar flex flex-1 justify-start gap-1 sm:justify-center">
-            {MONTHS.map((name, index) => {
-              const value = index + 1;
-              const selected = value === month;
-              return (
-                <button
-                  key={name}
-                  type="button"
-                  onClick={() => setMonth(value)}
-                  aria-current={selected ? 'true' : undefined}
-                  className={cn(
-                    'shrink-0 rounded-[var(--radius-sm)] px-3.5 py-2 text-[0.875rem] font-medium transition-all duration-300 ease-[var(--ease-out-editorial)]',
-                    selected
-                      ? 'bg-accent text-accent-ink shadow-[var(--shadow-soft)]'
-                      : 'text-ink-2 hover:text-ink hover:bg-sunken',
-                  )}
-                >
-                  <span className="sm:hidden">{name.slice(0, 3)}</span>
-                  <span className="hidden sm:inline">{name.slice(0, 3)}</span>
-                </button>
-              );
-            })}
+      {/* Month control — the year at a glance, doubling as the picker. */}
+      <div>
+        <div className="flex items-center justify-between gap-4">
+          <span className="text-ink-3 text-[length:var(--text-micro)] tracking-[0.14em] uppercase">
+            The statutory year
+          </span>
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() => step(-1)}
+              aria-label="Previous month"
+              className="text-ink-3 hover:text-ink hover:bg-sunken flex h-9 w-9 items-center justify-center rounded-[var(--radius-sm)] transition-colors"
+            >
+              <ChevronLeft className="h-4 w-4" strokeWidth={2} />
+            </button>
+            <button
+              type="button"
+              onClick={() => step(1)}
+              aria-label="Next month"
+              className="text-ink-3 hover:text-ink hover:bg-sunken flex h-9 w-9 items-center justify-center rounded-[var(--radius-sm)] transition-colors"
+            >
+              <ChevronRight className="h-4 w-4" strokeWidth={2} />
+            </button>
           </div>
-
-          <button
-            type="button"
-            onClick={() => step(1)}
-            aria-label="Next month"
-            className="text-ink-2 hover:text-ink hover:bg-sunken flex h-10 w-10 items-center justify-center rounded-[var(--radius-sm)] transition-colors"
-          >
-            <ChevronRight className="h-5 w-5" strokeWidth={2.2} />
-          </button>
         </div>
-      </Card>
+
+        <div className="mt-4 border-t pt-6">
+          <YearBand month={month} onSelect={setMonth} currentMonth={initialMonth} />
+        </div>
+      </div>
 
       {/* Filters */}
       <div className="mt-5 flex flex-wrap items-center gap-2">
@@ -129,7 +114,7 @@ export function CalendarView({ initialMonth }: { initialMonth: number }) {
         </h3>
 
         {events.length === 0 ? (
-          <Card className="mt-4 bg-surface p-8 text-center">
+          <Card className="bg-surface mt-4 p-8 text-center">
             <p className="text-ink-3 text-[0.9375rem]">
               No deadlines in this category for {MONTHS[month - 1]}.
             </p>
@@ -171,9 +156,7 @@ export function CalendarView({ initialMonth }: { initialMonth: number }) {
                           >
                             {event.category}
                           </span>
-                          <span className="text-ink-3 text-[0.75rem]">
-                            {event.appliesTo}
-                          </span>
+                          <span className="text-ink-3 text-[0.75rem]">{event.appliesTo}</span>
                         </div>
 
                         <h4 className="text-ink mt-2.5 text-[1.0625rem] leading-snug font-semibold">
@@ -207,15 +190,15 @@ export function CalendarView({ initialMonth }: { initialMonth: number }) {
       <div className="mt-8">
         <a
           href="/api/calendar/ics"
-          className="text-ink inline-flex h-11 items-center gap-2 rounded-[var(--radius-md)] bg-surface px-5 text-[0.9375rem] font-semibold shadow-[var(--shadow-soft)] ring-1 ring-[var(--hairline)] ring-inset transition-all hover:shadow-[var(--shadow-soft)]"
+          className="text-ink bg-surface inline-flex h-11 items-center gap-2 rounded-[var(--radius-md)] px-5 text-[0.9375rem] font-semibold shadow-[var(--shadow-soft)] ring-1 ring-[var(--hairline)] transition-all ring-inset hover:shadow-[var(--shadow-soft)]"
           download="paper-plane-compliance-calendar.ics"
         >
           <CalendarDays className="h-4 w-4" strokeWidth={2} />
           Add every date to your calendar
         </a>
         <p className="text-ink-3 mt-2.5 text-[0.8125rem]">
-          Downloads an .ics file with all {COMPLIANCE_EVENTS.length} statutory dates and
-          reminders set three days ahead.
+          Downloads an .ics file with all {COMPLIANCE_EVENTS.length} statutory dates and reminders
+          set three days ahead.
         </p>
       </div>
     </div>

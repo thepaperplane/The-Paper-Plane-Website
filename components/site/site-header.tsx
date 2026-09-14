@@ -41,8 +41,7 @@ export function SiteHeader() {
     };
   }, [open]);
 
-  const isActive = (href: string) =>
-    href === '/' ? pathname === '/' : pathname.startsWith(href);
+  const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
 
   return (
     <>
@@ -57,10 +56,7 @@ export function SiteHeader() {
             <Logo priority />
           </Link>
 
-          <nav
-            className="ml-auto hidden items-center gap-7 lg:flex"
-            aria-label="Primary"
-          >
+          <nav className="ml-auto hidden items-center gap-7 lg:flex" aria-label="Primary">
             {PRIMARY_NAV.map((item) => (
               <Link
                 key={item.href}
@@ -145,7 +141,7 @@ export function SiteHeader() {
                   tabIndex={open ? 0 : -1}
                   className="flex items-baseline gap-5 py-5"
                 >
-                  <span className="numeral text-[length:var(--text-caption)] w-5 shrink-0">
+                  <span className="numeral w-5 shrink-0 text-[length:var(--text-caption)]">
                     {String(i + 1).padStart(2, '0')}
                   </span>
                   <span className="min-w-0">

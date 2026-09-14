@@ -67,7 +67,7 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
     return (
       <div className="bg-positive/10 ring-positive/20 flex items-start gap-4 rounded-[var(--radius-lg)] p-6 ring-1 ring-inset">
         <span className="bg-positive flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
-          <Check className="h-5 w-5 text-ground" strokeWidth={2.6} />
+          <Check className="text-ground h-5 w-5" strokeWidth={2.6} />
         </span>
         <div>
           <p className="text-ink text-[1.0625rem] font-semibold">You are on the list</p>
@@ -98,7 +98,7 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
             autoComplete="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="text-ink placeholder:text-ink-3 focus:ring-accent h-12 w-full rounded-[var(--radius-md)] bg-surface px-4 text-[0.9375rem] ring-1 ring-[var(--hairline)] transition-shadow ring-inset outline-none focus:ring-2"
+            className="text-ink placeholder:text-ink-3 focus:ring-accent bg-surface h-12 w-full rounded-[var(--radius-md)] px-4 text-[0.9375rem] ring-1 ring-[var(--hairline)] transition-shadow outline-none ring-inset focus:ring-2"
             placeholder="Your name"
           />
         </div>
@@ -116,7 +116,7 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             aria-describedby="sub-help"
-            className="text-ink placeholder:text-ink-3 focus:ring-accent h-12 w-full rounded-[var(--radius-md)] bg-surface px-4 text-[0.9375rem] ring-1 ring-[var(--hairline)] transition-shadow ring-inset outline-none focus:ring-2"
+            className="text-ink placeholder:text-ink-3 focus:ring-accent bg-surface h-12 w-full rounded-[var(--radius-md)] px-4 text-[0.9375rem] ring-1 ring-[var(--hairline)] transition-shadow outline-none ring-inset focus:ring-2"
             placeholder="you@company.com"
           />
         </div>
@@ -160,7 +160,7 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
       <button
         type="submit"
         disabled={status === 'submitting'}
-        className="bg-accent hover:bg-accent-hover mt-6 inline-flex h-[3.25rem] w-full items-center justify-center gap-2 rounded-[var(--radius-lg)] px-7 text-base font-semibold text-accent-ink shadow-[var(--shadow-soft)] transition-all duration-300 active:scale-[0.98] disabled:opacity-60 sm:w-auto"
+        className="bg-accent hover:bg-accent-hover text-accent-ink mt-6 inline-flex h-[3.25rem] w-full items-center justify-center gap-2 rounded-[var(--radius-lg)] px-7 text-base font-semibold shadow-[var(--shadow-soft)] transition-all duration-300 active:scale-[0.98] disabled:opacity-60 sm:w-auto"
       >
         {status === 'submitting' ? (
           <>

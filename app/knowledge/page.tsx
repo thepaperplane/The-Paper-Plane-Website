@@ -10,10 +10,10 @@ import {
   Section,
   SectionHeading,
 } from '@/components/ui';
-import { AnatomyExplorer } from '@/components/knowledge/anatomy-explorer';
+import { Walkthrough } from '@/components/knowledge/walkthrough';
 import { DecoderSearch } from '@/components/knowledge/decoder-search';
 import { ARTICLES, MYTHS, PENALTY_EXPOSURE, TIMELINE_POSITION } from '@/content/knowledge';
-import { SITE, pageOg } from '@/lib/site';
+import { pageOg } from '@/lib/site';
 import { formatDate } from '@/lib/utils';
 import { loadContent, pick } from '@/lib/content';
 
@@ -54,10 +54,10 @@ export default async function KnowledgePage() {
           <SectionHeading
             eyebrow="Service anatomy"
             title="What you are actually paying for"
-            lede="Pick a service. The left column is what most clients believe they are buying; the right is the work that determines whether it holds up under examination."
+            lede="Pick a service, then step through it. Each stage is the work that determines whether the filing holds up under examination — and what happens when it is skipped."
           />
           <div className="mt-10">
-            <AnatomyExplorer />
+            <Walkthrough />
           </div>
 
           {/* Stated plainly so nothing above can be read as a delivery
