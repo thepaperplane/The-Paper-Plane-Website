@@ -2,7 +2,7 @@
   "name": "the-paper-plane-website",
   "version": "2.0.0",
   "private": true,
-  "description": "The Paper Plane — tech-enabled business solutions, tax architecture, and digital infrastructure.",
+  "description": "The Paper Plane \u2014 tech-enabled business solutions, tax architecture, and digital infrastructure.",
   "scripts": {
     "dev": "next dev -p 3000",
     "build": "next build",
@@ -10,16 +10,16 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write \"**/*.{ts,tsx,css,md,json}\"",
-    "db:types": "npx supabase gen types typescript --project-id seceoygaesgbjqzurbpr > lib/database.types.generated.ts"
+    "db:types": "npx supabase gen types typescript --project-id seceoygaesgbjqzurbpr > lib/database.types.generated.ts",
+    "audit": "node scripts/audit.mjs",
+    "verify": "npm run typecheck && npm run lint && npm run build"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.47.10",
     "clsx": "^2.1.1",
-    "date-fns": "^4.1.0",
     "fast-xml-parser": "^4.5.1",
     "lucide-react": "^0.468.0",
-    "motion": "^11.15.0",
     "next": "^15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -29,16 +29,18 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.2.0",
     "@tailwindcss/postcss": "^4.0.0",
     "@types/node": "^22.10.5",
     "@types/react": "^19.0.7",
     "@types/react-dom": "^19.0.3",
     "eslint": "^9.18.0",
     "eslint-config-next": "^15.1.6",
+    "playwright": "^1.63.0",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.9",
     "tailwindcss": "^4.0.0",
     "typescript": "^5.7.3",
-    "@eslint/eslintrc": "^3.2.0"
+    "wait-on": "^9.1.0"
   }
 }

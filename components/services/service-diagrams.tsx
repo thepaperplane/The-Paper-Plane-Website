@@ -331,11 +331,14 @@ function ExportImport({ className }: P) {
         <text
           x={100}
           y={35}
-          fill="var(--accent-ink)"
           textAnchor="middle"
           letterSpacing="0.7"
           data-dg-fs=""
-          style={{ fontFamily: 'var(--font-sans)', ['--dg-fs' as string]: 7 }}
+          style={{
+            fontFamily: 'var(--font-sans)',
+            fill: 'var(--accent-ink)',
+            ['--dg-fs' as string]: 7,
+          }}
         >
           LUT
         </text>
@@ -471,7 +474,7 @@ function DemandPenalty({ className }: P) {
       {/* Held while argued. */}
       <g className="dg-once" style={at(760)}>
         <path d="M 10 78 H 190" stroke="var(--hairline-strong)" strokeWidth="1" />
-        <T x={10} y={92}>
+        <T x={10} y={88}>
           RECOVERY STAYED MEANWHILE
         </T>
       </g>
@@ -543,7 +546,7 @@ function CompanyIncorporation({ className }: P) {
           <B x={16} y={20 + i * 26} w={24} delay={i * 110 + 70} />
         </g>
       ))}
-      <T x={10} y={94}>
+      <T x={10} y={89}>
         DIN · DSC · MOA
       </T>
       <Line d="M 54 46 H 86" delay={420} tone="quiet" dashed />
@@ -602,7 +605,7 @@ function Partnership({ className }: P) {
           />
         </g>
       ))}
-      <T x={24} y={92} anchor="middle">
+      <T x={24} y={88} anchor="middle">
         PARTNERS
       </T>
       <Line d="M 38 26 C 58 26 58 48 76 48" delay={300} />

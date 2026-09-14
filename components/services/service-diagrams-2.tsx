@@ -188,7 +188,7 @@ function PayrollHrms({ className }: P) {
       })}
 
       <Line d="M 10 82 H 190" delay={820} tone="quiet" dashed />
-      <T x={10} y={94}>
+      <T x={10} y={89}>
         PAYSLIP OUT, RETURNS FILED
       </T>
     </Frame>
@@ -222,7 +222,7 @@ function WebDesign({ className }: P) {
       <B x={146} y={50} w={16} delay={720} />
       <B x={146} y={58} w={20} delay={760} />
 
-      <T x={10} y={94}>
+      <T x={10} y={89}>
         ONE DESIGN, EVERY SCREEN
       </T>
     </Frame>
@@ -265,7 +265,7 @@ function WebApps({ className }: P) {
           />
         </g>
       ))}
-      <T x={10} y={94}>
+      <T x={10} y={89}>
         EACH SEES ONLY THEIR OWN
       </T>
     </Frame>
@@ -424,7 +424,7 @@ function BrandIdentity({ className }: P) {
         COLOUR
       </T>
       <Line d="M 10 84 H 190" delay={900} tone="quiet" dashed />
-      <T x={10} y={94}>
+      <T x={10} y={89}>
         ONE SET, WITH RULES
       </T>
     </Frame>
@@ -469,7 +469,7 @@ function PitchCollateral({ className }: P) {
         </g>
       ))}
       <Line d="M 10 78 H 190" delay={700} />
-      <T x={10} y={92}>
+      <T x={10} y={88}>
         BUILT TO BE READ IN ORDER
       </T>
     </Frame>
