@@ -14,6 +14,7 @@ import { Walkthrough } from '@/components/knowledge/walkthrough';
 import { DecoderSearch } from '@/components/knowledge/decoder-search';
 import { ARTICLES, MYTHS, PENALTY_EXPOSURE, TIMELINE_POSITION } from '@/content/knowledge';
 import { pageOg } from '@/lib/site';
+import { breadcrumbJsonLd, definedTermsJsonLd, faqJsonLd, jsonLdScript } from '@/lib/schema';
 import { formatDate } from '@/lib/utils';
 import { loadContent, pick } from '@/lib/content';
 import { FlightRule } from '@/components/site/flight-rule';
@@ -34,8 +35,15 @@ export const metadata: Metadata = {
 export default async function KnowledgePage() {
   const copy = await loadContent('knowledge');
 
+  const schema = jsonLdScript(
+    faqJsonLd(),
+    definedTermsJsonLd(),
+    breadcrumbJsonLd([{ name: 'Knowledge Corner', path: '/knowledge' }]),
+  );
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: schema }} />
       {/* Header */}
       <Section className="pt-[calc(4.5rem+var(--space-section-sm))] pb-14">
         <div className="pointer-events-none absolute inset-0 -z-10" />

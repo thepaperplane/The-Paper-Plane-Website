@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { IBM_Plex_Mono, IBM_Plex_Sans, IBM_Plex_Serif } from 'next/font/google';
 import { SITE, organizationJsonLd } from '@/lib/site';
+import { expertiseJsonLd, jsonLdScript, websiteJsonLd } from '@/lib/schema';
 import { SiteHeader } from '@/components/site/site-header';
 import { SiteFooter } from '@/components/site/site-footer';
 import { THEME_SCRIPT } from '@/components/site/theme';
@@ -136,7 +137,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
+          dangerouslySetInnerHTML={{
+            __html: jsonLdScript(organizationJsonLd(), websiteJsonLd(), expertiseJsonLd()),
+          }}
         />
 
         <a

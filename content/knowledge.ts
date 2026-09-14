@@ -537,29 +537,38 @@ export const DECODER: DecoderEntry[] = [
    4. MYTH VS REALITY
    ------------------------------------------------------------------------- */
 
-export const MYTHS: { myth: string; reality: string }[] = [
+/** `question` is the natural-language form used for FAQ structured data.
+    Turning a myth into a question mechanically produces "A refund means the
+    department has accepted my return?", which reads as a statement with a
+    question mark and is not what anybody types or asks aloud. */
+export const MYTHS: { myth: string; question: string; reality: string }[] = [
   {
     myth: 'A refund means the department has accepted my return.',
+    question: 'Does receiving an income tax refund mean my return has been accepted?',
     reality:
       'A refund is an automated processing outcome. Your return can still be selected for scrutiny afterwards, and reassessment can reopen the year later still.',
   },
   {
     myth: 'My supplier failed to file, so their penalty is their problem.',
+    question: 'What happens to my input tax credit if my supplier does not file their GST return?',
     reality:
       'Input credit is recovered from the person who claimed it. You carry the cost of your supplier’s default, plus interest.',
   },
   {
     myth: 'Filing a nil return is optional if I had no business.',
+    question: 'Do I have to file a return if my business had no activity this period?',
     reality:
       'Nil returns are still due. Late fees accrue on nil filings, and a break in filing history complicates every subsequent registration.',
   },
   {
     myth: 'Cheaper filing is the same service at a lower price.',
+    question: 'Is a cheaper tax filing service the same work for less money?',
     reality:
       'Filing is a commodity; reconciliation and defensibility are not. The difference in price is usually the reconciliation that was never done.',
   },
   {
     myth: 'I can fix an aggressive position later if it is questioned.',
+    question: 'Can I correct an aggressive tax position later if it gets questioned?',
     reality:
       'Positions taken in a filed return constrain every argument available afterwards. Revision windows are short and visible to the department.',
   },

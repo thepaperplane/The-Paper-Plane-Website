@@ -188,7 +188,8 @@ export async function loadContent(page?: string): Promise<Overrides> {
     const overrides: Overrides = {};
     for (const row of data) {
       const key = `${row.page}.${row.slot}` as ContentKey;
-      const value = typeof row.value === 'string' ? row.value : (row.value as { text?: string })?.text;
+      const value =
+        typeof row.value === 'string' ? row.value : (row.value as { text?: string })?.text;
       if (typeof value === 'string' && value.trim()) overrides[key] = value;
     }
     return overrides;

@@ -21,6 +21,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/contact', priority: 0.8, frequency: 'monthly' },
     { path: '/privacy', priority: 0.3, frequency: 'yearly' },
     { path: '/terms', priority: 0.3, frequency: 'yearly' },
+    { path: '/cookies', priority: 0.3, frequency: 'yearly' },
+    { path: '/accessibility', priority: 0.3, frequency: 'yearly' },
+    { path: '/security', priority: 0.3, frequency: 'yearly' },
+    { path: '/copyright', priority: 0.3, frequency: 'yearly' },
   ];
 
   return [

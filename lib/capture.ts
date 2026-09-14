@@ -151,10 +151,7 @@ export type CaptureResult = {
  * Check, capture at both viewports, upload, and return storage paths.
  * Callers persist the result against the project row.
  */
-export async function captureProject(
-  slug: string,
-  rawUrl: string,
-): Promise<CaptureResult> {
+export async function captureProject(slug: string, rawUrl: string): Promise<CaptureResult> {
   const url = normalizeSiteUrl(rawUrl);
   if (!url) {
     return { status: 'failed', httpStatus: null, error: 'That does not look like a valid URL.' };

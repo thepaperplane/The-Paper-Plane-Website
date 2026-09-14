@@ -43,7 +43,10 @@ export function TwoSides() {
                 </p>
 
                 {/* Each half's own argument, drawn. Same size on both sides. */}
-                <div className="bg-sunken mt-12 px-6 py-7 sm:px-8">
+                <div
+                  className="depth-layer glass mt-12 px-6 py-7 sm:px-8"
+                  style={{ ['--depth' as string]: 2 } as React.CSSProperties}
+                >
                   <Mark />
                 </div>
 

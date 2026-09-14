@@ -5,6 +5,7 @@ import { ServiceDiagram } from '@/components/services/service-diagram';
 import { ServiceIndex } from '@/components/services/service-index';
 import { PRACTICE, pillarsFor } from '@/content/practice';
 import { pageOg } from '@/lib/site';
+import { breadcrumbJsonLd, jsonLdScript, serviceCatalogJsonLd } from '@/lib/schema';
 import { FlightRule } from '@/components/site/flight-rule';
 
 export const metadata: Metadata = {
@@ -29,8 +30,14 @@ export const metadata: Metadata = {
  * sections and individual services are rows separated by rules.
  */
 export default function ServicesPage() {
+  const schema = jsonLdScript(
+    serviceCatalogJsonLd(),
+    breadcrumbJsonLd([{ name: 'Services', path: '/services' }]),
+  );
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: schema }} />
       <Section rhythm="sm" className="pt-[calc(4.5rem+var(--space-section-sm))]">
         <Container>
           <div className="grid grid-cols-12">

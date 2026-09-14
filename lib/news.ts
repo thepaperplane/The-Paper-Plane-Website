@@ -88,8 +88,16 @@ export function normalizeLink(raw: string): string {
     const url = new URL(raw.trim());
     url.hash = '';
     const strip = [
-      'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content',
-      'fbclid', 'gclid', 'igshid', 'from', 'ref',
+      'utm_source',
+      'utm_medium',
+      'utm_campaign',
+      'utm_term',
+      'utm_content',
+      'fbclid',
+      'gclid',
+      'igshid',
+      'from',
+      'ref',
     ];
     strip.forEach((param) => url.searchParams.delete(param));
     url.hostname = url.hostname.toLowerCase().replace(/^www\./, '');
@@ -120,7 +128,8 @@ export async function fetchFeed(
         // anonymous clients outright.
         'User-Agent':
           'PaperPlaneBot/1.0 (+https://www.thepaperplane.co.in; compliance news aggregation)',
-        Accept: 'application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.8',
+        Accept:
+          'application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.8',
       },
       cache: 'no-store',
     });

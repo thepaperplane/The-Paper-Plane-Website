@@ -6,6 +6,7 @@ import { COMPLIANCE_EVENTS } from '@/content/calendar';
 import { SERVICE_ANATOMY } from '@/content/knowledge';
 import { loadContent, pick } from '@/lib/content';
 import { ordinal } from '@/lib/utils';
+import { engagementHowToJsonLd, jsonLdScript } from '@/lib/schema';
 import { FlightRule } from '@/components/site/flight-rule';
 
 export default async function HomePage() {
@@ -15,6 +16,10 @@ export default async function HomePage() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(engagementHowToJsonLd()) }}
+      />
       <Masthead
         title={pick(copy, 'home.hero.title')}
         titleAccent={pick(copy, 'home.hero.titleAccent')}

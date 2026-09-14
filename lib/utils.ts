@@ -92,7 +92,10 @@ export function displayHost(input: string): string {
   try {
     return new URL(input).hostname.replace(/^www\./, '');
   } catch {
-    return input.replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/.*$/, '');
+    return input
+      .replace(/^https?:\/\//, '')
+      .replace(/^www\./, '')
+      .replace(/\/.*$/, '');
   }
 }
 

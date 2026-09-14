@@ -26,9 +26,7 @@ export const SITE = {
 
 /** Prefilled WhatsApp deep link. */
 export function whatsappLink(message?: string): string {
-  const text =
-    message ??
-    `Hello ${SITE.name}, I would like to discuss your services.`;
+  const text = message ?? `Hello ${SITE.name}, I would like to discuss your services.`;
   return `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(text)}`;
 }
 
@@ -127,6 +125,10 @@ export const FOOTER_NAV: { heading: string; items: NavItem[] }[] = [
       { href: '/contact', label: 'Contact' },
       { href: '/privacy', label: 'Privacy' },
       { href: '/terms', label: 'Terms' },
+      { href: '/cookies', label: 'Cookies' },
+      { href: '/accessibility', label: 'Accessibility' },
+      { href: '/security', label: 'Security' },
+      { href: '/copyright', label: 'Copyright' },
     ],
   },
 ];
