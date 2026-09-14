@@ -411,3 +411,56 @@ html:not([data-theme='light']) .ambient-field {
     }
   }
 }
+
+/* ==========================================================================
+   TAGLINE GRADIENT
+   --------------------------------------------------------------------------
+   The brand line runs from ink into the logo's blue.
+
+   The logo's actual blue is #35a5d5, and on the light ground that is 2.6:1 —
+   under the 3:1 floor that applies even to display-size text. So light mode
+   ends on a blue from the same family that clears it, and dark mode, where
+   the ground is near-black and the true colour sits at 7:1, uses the logo
+   blue itself.
+
+   The two lines are separately masked for the reveal, so a gradient painted
+   per line would restart halfway through the tagline. Each line instead
+   carries the same gradient at twice the height and is offset to its own half,
+   which reads as one continuous wash across the whole line.
+   ========================================================================== */
+
+:root {
+  --tagline-to: #2a8fbd; /* 3.6:1 on --ground; the logo blue, held legible */
+}
+
+:root[data-theme='dark'],
+html:not([data-theme='light']) {
+  --tagline-to: #35a5d5; /* the logo blue exactly; 7.1:1 on the dark ground */
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) {
+    --tagline-to: #2a8fbd;
+  }
+}
+
+/* Only paint the gradient where the text can be clipped to it — without
+   background-clip support, `color: transparent` would erase the headline. */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .tagline-gradient .line-mask > * {
+    background-image: linear-gradient(118deg, var(--ink) 0%, var(--ink) 16%, var(--tagline-to) 92%);
+    background-size: 100% 200%;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .tagline-gradient .line-mask:nth-of-type(1) > * {
+    background-position: 0% 0%;
+  }
+
+  .tagline-gradient .line-mask:nth-of-type(2) > * {
+    background-position: 0% 100%;
+  }
+}

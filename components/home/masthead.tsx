@@ -31,7 +31,7 @@ export function Masthead({
       <Container>
         <div className="grid grid-cols-12">
           <h1
-            className="reveal col-span-12 text-[length:var(--text-display-1)] leading-[0.95] lg:col-span-11"
+            className="tagline-gradient reveal col-span-12 text-[length:var(--text-display-1)] leading-[0.95] lg:col-span-11"
             data-reveal="mask"
           >
             <span className="line-mask">

@@ -328,6 +328,19 @@ export function IndexRow({
    the old component-library style in the meantime.
    ========================================================================== */
 
+/**
+ * A glass card.
+ *
+ * Static glass, not live: cards appear in lists — a month of calendar
+ * deadlines, a page of news — and twenty live backdrop filters on one screen
+ * is how you lose 60fps. They keep the fill, the rim and the depth; only the
+ * blur is dropped, and against this site's soft ambient field the difference
+ * is close to invisible.
+ *
+ * `interactive` adds the lift, which runs the snappy spring on the way up and
+ * a fast ease on the way down — press has to answer sooner than release
+ * settles, or the control feels sticky.
+ */
 export function Card({
   className,
   interactive,
@@ -336,8 +349,8 @@ export function Card({
   return (
     <div
       className={cn(
-        'bg-surface rounded-[var(--radius-md)] border',
-        interactive && 'transition-colors duration-300 hover:border-[var(--hairline-strong)]',
+        'glass glass-static rounded-[var(--radius-md)]',
+        interactive && 'glass-interactive cursor-pointer',
         className,
       )}
       {...props}

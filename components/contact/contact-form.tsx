@@ -8,9 +8,12 @@ import { whatsappLink } from '@/lib/site';
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 
 const FIELD =
-  'w-full rounded-[var(--radius-md)] bg-surface px-4 text-[0.9375rem] text-ink ' +
-  'placeholder:text-ink-3 ring-1 ring-inset ring-[var(--hairline)] ' +
-  'outline-none transition-shadow focus:ring-2 focus:ring-accent';
+  'w-full rounded-[var(--radius-md)] glass glass-static px-4 text-[0.9375rem] text-ink ' +
+  'placeholder:text-ink-3 outline-none ' +
+  'transition-[box-shadow,background-color,transform] duration-[var(--dur-control)] ' +
+  'ease-[var(--ease-standard)] ' +
+  'focus:shadow-[var(--glass-shadow-lifted),0_0_0_2px_var(--accent)] ' +
+  'motion-reduce:transition-none';
 
 export function ContactForm() {
   const [status, setStatus] = useState<Status>('idle');

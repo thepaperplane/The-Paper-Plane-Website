@@ -98,7 +98,7 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
             autoComplete="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="text-ink placeholder:text-ink-3 focus:ring-accent bg-surface h-12 w-full rounded-[var(--radius-md)] px-4 text-[0.9375rem] ring-1 ring-[var(--hairline)] transition-shadow outline-none ring-inset focus:ring-2"
+            className="text-ink placeholder:text-ink-3 glass glass-static h-12 w-full rounded-[var(--radius-md)] px-4 text-[0.9375rem] transition-[box-shadow,background-color] duration-[var(--dur-control)] ease-[var(--ease-standard)] outline-none focus:shadow-[var(--glass-shadow-lifted),0_0_0_2px_var(--accent)] motion-reduce:transition-none"
             placeholder="Your name"
           />
         </div>
@@ -116,7 +116,7 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             aria-describedby="sub-help"
-            className="text-ink placeholder:text-ink-3 focus:ring-accent bg-surface h-12 w-full rounded-[var(--radius-md)] px-4 text-[0.9375rem] ring-1 ring-[var(--hairline)] transition-shadow outline-none ring-inset focus:ring-2"
+            className="text-ink placeholder:text-ink-3 glass glass-static h-12 w-full rounded-[var(--radius-md)] px-4 text-[0.9375rem] transition-[box-shadow,background-color] duration-[var(--dur-control)] ease-[var(--ease-standard)] outline-none focus:shadow-[var(--glass-shadow-lifted),0_0_0_2px_var(--accent)] motion-reduce:transition-none"
             placeholder="you@company.com"
           />
         </div>

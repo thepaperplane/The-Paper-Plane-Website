@@ -15,7 +15,7 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t">
+    <footer className="glass glass-thin rounded-none border-t border-transparent">
       <Container className="py-[var(--space-section-sm)]">
         <div className="grid gap-14 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,2fr)] lg:gap-24">
           {/* Masthead */}
