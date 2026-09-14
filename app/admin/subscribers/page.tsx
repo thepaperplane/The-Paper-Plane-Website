@@ -46,12 +46,10 @@ export default async function SubscribersPage() {
 
   const bySegment = {
     business: subscribers.filter((s) => s.segment === 'business' && s.state === 'confirmed').length,
-    professional: subscribers.filter(
-      (s) => s.segment === 'professional' && s.state === 'confirmed',
-    ).length,
-    individual: subscribers.filter(
-      (s) => s.segment === 'individual' && s.state === 'confirmed',
-    ).length,
+    professional: subscribers.filter((s) => s.segment === 'professional' && s.state === 'confirmed')
+      .length,
+    individual: subscribers.filter((s) => s.segment === 'individual' && s.state === 'confirmed')
+      .length,
   };
 
   return (
@@ -125,8 +123,8 @@ export default async function SubscribersPage() {
 
       <p className="text-ink-quaternary mt-5 max-w-3xl text-[0.8125rem] leading-relaxed">
         Sends are idempotent: a unique constraint on (subscriber, month) means a retried or
-        duplicated cron run cannot deliver the same edition twice. Every email carries a
-        one-click unsubscribe header as well as a link.
+        duplicated cron run cannot deliver the same edition twice. Every email carries a one-click
+        unsubscribe header as well as a link.
       </p>
     </>
   );

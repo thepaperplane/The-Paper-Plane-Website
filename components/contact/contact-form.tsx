@@ -54,7 +54,7 @@ export function ContactForm() {
     return (
       <div className="bg-positive/10 ring-positive/20 rounded-[var(--radius-lg)] p-8 ring-1 ring-inset">
         <span className="bg-positive flex h-12 w-12 items-center justify-center rounded-full">
-          <Check className="h-6 w-6 text-ground" strokeWidth={2.6} />
+          <Check className="text-ground h-6 w-6" strokeWidth={2.6} />
         </span>
         <h3 className="text-ink mt-5 text-[1.1875rem] font-semibold">Message received</h3>
         <p className="text-ink-2 mt-2.5 text-[0.9375rem] leading-relaxed">{message}</p>
@@ -64,7 +64,7 @@ export function ContactForm() {
             href={whatsappLink()}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-ink inline-flex h-11 items-center justify-center rounded-[var(--radius-md)] bg-surface px-5 text-[0.9375rem] font-semibold shadow-[var(--shadow-soft)] ring-1 ring-[var(--hairline)] ring-inset"
+            className="text-ink bg-surface inline-flex h-11 items-center justify-center rounded-[var(--radius-md)] px-5 text-[0.9375rem] font-semibold shadow-[var(--shadow-soft)] ring-1 ring-[var(--hairline)] ring-inset"
           >
             Continue on WhatsApp
           </a>
@@ -184,7 +184,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={status === 'submitting'}
-        className="bg-accent hover:bg-accent-hover mt-7 inline-flex h-[3.25rem] w-full items-center justify-center gap-2 rounded-[var(--radius-lg)] px-7 text-base font-semibold text-accent-ink shadow-[var(--shadow-soft)] transition-all duration-300 active:scale-[0.98] disabled:opacity-60 sm:w-auto"
+        className="bg-accent hover:bg-accent-hover text-accent-ink mt-7 inline-flex h-[3.25rem] w-full items-center justify-center gap-2 rounded-[var(--radius-lg)] px-7 text-base font-semibold shadow-[var(--shadow-soft)] transition-all duration-300 active:scale-[0.98] disabled:opacity-60 sm:w-auto"
       >
         {status === 'submitting' ? (
           <>
@@ -206,8 +206,8 @@ export function ContactForm() {
       ) : null}
 
       <p className="text-ink-3 mt-5 text-[0.8125rem] leading-relaxed">
-        We reply within one working day. Nothing you send here is shared outside the practice,
-        and we never add enquiry addresses to a mailing list without you asking.
+        We reply within one working day. Nothing you send here is shared outside the practice, and
+        we never add enquiry addresses to a mailing list without you asking.
       </p>
     </form>
   );

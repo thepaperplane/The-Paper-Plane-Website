@@ -13,11 +13,7 @@ export function generateStaticParams(): Params[] {
   return ARTICLES.map((article) => ({ slug: article.slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<Params>;
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { slug } = await params;
   const article = getArticle(slug);
   if (!article) return { title: 'Article not found' };
@@ -87,7 +83,7 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
 
       <article>
         {/* Header */}
-        <Section className="pt-32 pb-10 sm:pt-40">
+        <Section className="pt-[calc(4.5rem+var(--space-section-sm))] pb-10">
           <div className="pointer-events-none absolute inset-0 -z-10" />
           <Container size="content">
             <Link
@@ -100,9 +96,7 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
 
             <div className="mt-6 flex flex-wrap items-center gap-2">
               <Badge tone="accent">{article.category}</Badge>
-              <span className="text-ink-3 text-[0.8125rem]">
-                {article.readingTime}
-              </span>
+              <span className="text-ink-3 text-[0.8125rem]">{article.readingTime}</span>
               <span className="text-ink-3 text-[0.8125rem]">·</span>
               <time dateTime={article.date} className="text-ink-3 text-[0.8125rem]">
                 {formatDate(article.date)}
@@ -154,10 +148,7 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
                   ) : null}
                   <div className="space-y-5">
                     {block.paragraphs.map((paragraph, j) => (
-                      <p
-                        key={j}
-                        className="text-ink-2 text-[1.0625rem] leading-[1.75]"
-                      >
+                      <p key={j} className="text-ink-2 text-[1.0625rem] leading-[1.75]">
                         {paragraph}
                       </p>
                     ))}
@@ -181,8 +172,8 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
                 Does this apply to your position?
               </h2>
               <p className="text-ink-3 mt-2.5 text-[0.9375rem] leading-relaxed">
-                General guidance only takes you so far. If you are holding a notice or a
-                deadline, send it over and we will read it against your actual facts.
+                General guidance only takes you so far. If you are holding a notice or a deadline,
+                send it over and we will read it against your actual facts.
               </p>
               <ButtonLink href="/contact" className="mt-5">
                 Talk to the practice
@@ -206,9 +197,7 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
                     <h3 className="text-ink group-hover:text-accent mt-3 text-[1.0625rem] leading-snug font-semibold transition-colors">
                       {item.title}
                     </h3>
-                    <p className="text-ink-3 mt-2 text-[0.8125rem]">
-                      {item.readingTime}
-                    </p>
+                    <p className="text-ink-3 mt-2 text-[0.8125rem]">{item.readingTime}</p>
                   </Link>
                 </Card>
               ))}

@@ -33,7 +33,7 @@ function SaveButton({ label }: { label: string }) {
     <button
       type="submit"
       disabled={pending}
-      className="bg-accent hover:bg-accent-hover inline-flex h-11 items-center gap-2 rounded-[var(--radius-md)] px-5 text-[0.9375rem] font-semibold text-accent-ink transition-colors disabled:opacity-60"
+      className="bg-accent hover:bg-accent-hover text-accent-ink inline-flex h-11 items-center gap-2 rounded-[var(--radius-md)] px-5 text-[0.9375rem] font-semibold transition-colors disabled:opacity-60"
     >
       {pending ? (
         <>

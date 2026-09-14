@@ -81,7 +81,7 @@ export function AdminShell({
   return (
     <div className="bg-sunken min-h-dvh">
       {/* Top bar (mobile) */}
-      <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-[var(--hairline)] bg-surface/90 px-4 backdrop-blur-xl lg:hidden">
+      <header className="bg-surface/90 sticky top-0 z-30 flex h-14 items-center justify-between border-b border-[var(--hairline)] px-4 backdrop-blur-xl lg:hidden">
         <Link href="/admin" className="flex items-center gap-2.5">
           <LogoMark className="h-7 w-10" />
           <span className="text-ink text-[0.9375rem] font-semibold">Admin</span>
@@ -101,7 +101,7 @@ export function AdminShell({
         {/* Sidebar */}
         <aside
           className={cn(
-            'border-r border-[var(--hairline)] bg-surface lg:sticky lg:top-0 lg:h-dvh lg:w-64 lg:shrink-0',
+            'bg-surface border-r border-[var(--hairline)] lg:sticky lg:top-0 lg:h-dvh lg:w-64 lg:shrink-0',
             open ? 'block' : 'hidden lg:block',
           )}
         >
@@ -112,9 +112,7 @@ export function AdminShell({
                 <span className="text-ink block text-[0.9375rem] font-semibold">
                   The Paper Plane
                 </span>
-                <span className="text-ink-3 mt-0.5 block text-[0.6875rem]">
-                  Admin console
-                </span>
+                <span className="text-ink-3 mt-0.5 block text-[0.6875rem]">Admin console</span>
               </div>
             </div>
 

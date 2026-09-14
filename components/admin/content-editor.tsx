@@ -56,7 +56,7 @@ export function ContentEditor({
           disabled={!editable || pending}
           onChange={(e) => setValue(e.target.value)}
           placeholder={defaultValue}
-          className="text-ink placeholder:text-ink-3 focus:ring-accent mt-2 w-full resize-y rounded-[var(--radius-md)] bg-surface px-3.5 py-2.5 text-[0.875rem] leading-relaxed ring-1 ring-[var(--hairline)] ring-inset outline-none focus:ring-2 disabled:opacity-60"
+          className="text-ink placeholder:text-ink-3 focus:ring-accent bg-surface mt-2 w-full resize-y rounded-[var(--radius-md)] px-3.5 py-2.5 text-[0.875rem] leading-relaxed ring-1 ring-[var(--hairline)] outline-none ring-inset focus:ring-2 disabled:opacity-60"
         />
       ) : (
         <input
@@ -66,7 +66,7 @@ export function ContentEditor({
           disabled={!editable || pending}
           onChange={(e) => setValue(e.target.value)}
           placeholder={defaultValue}
-          className="text-ink placeholder:text-ink-3 focus:ring-accent mt-2 h-11 w-full rounded-[var(--radius-md)] bg-surface px-3.5 text-[0.875rem] ring-1 ring-[var(--hairline)] ring-inset outline-none focus:ring-2 disabled:opacity-60"
+          className="text-ink placeholder:text-ink-3 focus:ring-accent bg-surface mt-2 h-11 w-full rounded-[var(--radius-md)] px-3.5 text-[0.875rem] ring-1 ring-[var(--hairline)] outline-none ring-inset focus:ring-2 disabled:opacity-60"
         />
       )}
 
@@ -77,7 +77,7 @@ export function ContentEditor({
               type="button"
               onClick={() => save(value)}
               disabled={!dirty || pending}
-              className="bg-accent hover:bg-accent-hover h-8 rounded-[var(--radius-xs)] px-3 text-[0.8125rem] font-semibold text-accent-ink transition-colors disabled:opacity-40"
+              className="bg-accent hover:bg-accent-hover text-accent-ink h-8 rounded-[var(--radius-xs)] px-3 text-[0.8125rem] font-semibold transition-colors disabled:opacity-40"
             >
               {pending ? 'Saving…' : 'Save'}
             </button>
@@ -100,9 +100,7 @@ export function ContentEditor({
             )}
           </>
         ) : (
-          <span className="text-ink-3 text-[0.75rem]">
-            Read-only — editor access required
-          </span>
+          <span className="text-ink-3 text-[0.75rem]">Read-only — editor access required</span>
         )}
 
         {status ? (

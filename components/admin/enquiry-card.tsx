@@ -21,22 +21,9 @@ const TONE = {
   spam: 'critical',
 } as const;
 
-const STATES: EnquiryState[] = [
-  'new',
-  'contacted',
-  'qualified',
-  'converted',
-  'archived',
-  'spam',
-];
+const STATES: EnquiryState[] = ['new', 'contacted', 'qualified', 'converted', 'archived', 'spam'];
 
-export function EnquiryCard({
-  enquiry,
-  editable,
-}: {
-  enquiry: EnquiryRow;
-  editable: boolean;
-}) {
+export function EnquiryCard({ enquiry, editable }: { enquiry: EnquiryRow; editable: boolean }) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [note, setNote] = useState(enquiry.internal_note ?? '');
@@ -57,7 +44,7 @@ export function EnquiryCard({
   return (
     <article
       id={enquiry.id}
-      className="scroll-mt-24 rounded-[var(--radius-md)] border bg-surface p-5 sm:p-6"
+      className="bg-surface scroll-mt-24 rounded-[var(--radius-md)] border p-5 sm:p-6"
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
@@ -104,7 +91,7 @@ export function EnquiryCard({
                   await setEnquiryState(enquiry.id, e.target.value as EnquiryState);
                 })
               }
-              className="text-ink-2 h-9 rounded-[var(--radius-sm)] bg-surface px-2.5 text-[0.8125rem] ring-1 ring-[var(--hairline)] ring-inset outline-none disabled:opacity-60"
+              className="text-ink-2 bg-surface h-9 rounded-[var(--radius-sm)] px-2.5 text-[0.8125rem] ring-1 ring-[var(--hairline)] outline-none ring-inset disabled:opacity-60"
             >
               {STATES.map((value) => (
                 <option key={value} value={value}>
@@ -161,11 +148,9 @@ export function EnquiryCard({
               })
             }
             placeholder="Not visible to the sender."
-            className="text-ink placeholder:text-ink-3 focus:ring-accent w-full resize-y rounded-[var(--radius-md)] bg-surface px-3.5 py-2.5 text-[0.875rem] ring-1 ring-[var(--hairline)] ring-inset outline-none focus:ring-2"
+            className="text-ink placeholder:text-ink-3 focus:ring-accent bg-surface w-full resize-y rounded-[var(--radius-md)] px-3.5 py-2.5 text-[0.875rem] ring-1 ring-[var(--hairline)] outline-none ring-inset focus:ring-2"
           />
-          {noteSaved ? (
-            <p className="text-positive mt-1 text-[0.75rem]">Note saved.</p>
-          ) : null}
+          {noteSaved ? <p className="text-positive mt-1 text-[0.75rem]">Note saved.</p> : null}
         </div>
       ) : null}
 

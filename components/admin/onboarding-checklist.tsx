@@ -59,9 +59,7 @@ export function OnboardingChecklist({
           <span className="text-ink-3 text-[0.8125rem]">
             {done} of {tasks.length} complete
           </span>
-          <span className="text-ink text-[0.8125rem] font-semibold tabular-nums">
-            {progress}%
-          </span>
+          <span className="text-ink text-[0.8125rem] font-semibold tabular-nums">{progress}%</span>
         </div>
         <div className="bg-sunken mt-2 h-1.5 overflow-hidden rounded-full">
           <div

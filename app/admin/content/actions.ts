@@ -13,10 +13,7 @@ export type ContentResult = { ok: boolean; message: string };
  * An empty value deletes the row rather than storing "", so the built-in
  * default takes over again and the site can never render a blank heading.
  */
-export async function saveContentBlock(
-  key: ContentKey,
-  value: string,
-): Promise<ContentResult> {
+export async function saveContentBlock(key: ContentKey, value: string): Promise<ContentResult> {
   await requireRole('editor');
 
   const definition = CONTENT_DEFAULTS[key];

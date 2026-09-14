@@ -48,17 +48,13 @@ export function EngagementManager({
   return (
     <div>
       {engagements.length === 0 ? (
-        <p className="text-ink-3 px-6 py-5 text-[0.875rem]">
-          No engagements recorded yet.
-        </p>
+        <p className="text-ink-3 px-6 py-5 text-[0.875rem]">No engagements recorded yet.</p>
       ) : (
         <ul className="divide-y divide-[var(--hairline)]">
           {engagements.map((engagement) => (
             <li key={engagement.id} className="flex items-start gap-3 px-6 py-3.5">
               <div className="min-w-0 flex-1">
-                <p className="text-ink text-[0.875rem] font-medium">
-                  {engagement.service_name}
-                </p>
+                <p className="text-ink text-[0.875rem] font-medium">{engagement.service_name}</p>
                 <div className="mt-1 flex items-center gap-2">
                   <Pill tone={STATE_TONE[engagement.state]}>{engagement.state}</Pill>
                   {engagement.fee_amount ? (
@@ -102,7 +98,7 @@ export function EngagementManager({
                 value={selected}
                 onChange={(e) => setSelected(e.target.value)}
                 aria-label="Select a service"
-                className="text-ink h-10 min-w-[12rem] flex-1 rounded-[var(--radius-sm)] bg-surface px-3 text-[0.875rem] ring-1 ring-[var(--hairline)] ring-inset outline-none"
+                className="text-ink bg-surface h-10 min-w-[12rem] flex-1 rounded-[var(--radius-sm)] px-3 text-[0.875rem] ring-1 ring-[var(--hairline)] outline-none ring-inset"
               >
                 <option value="">Select a service…</option>
                 {PILLARS.map((pillar) => (
@@ -119,7 +115,7 @@ export function EngagementManager({
                 type="button"
                 onClick={add}
                 disabled={!selected || pending}
-                className="bg-accent hover:bg-accent-hover h-10 rounded-[var(--radius-sm)] px-4 text-[0.875rem] font-semibold text-accent-ink transition-colors disabled:opacity-50"
+                className="bg-accent hover:bg-accent-hover text-accent-ink h-10 rounded-[var(--radius-sm)] px-4 text-[0.875rem] font-semibold transition-colors disabled:opacity-50"
               >
                 Add
               </button>

@@ -20,9 +20,13 @@ const ContactSchema = z.object({
 export async function POST(request: Request) {
   const limit = rateLimit(`contact:${clientIp(request)}`, { limit: 4, windowMs: 300_000 });
   if (!limit.ok) {
-    return apiError('Too many messages sent. Please try again shortly, or email us directly.', 429, {
-      retryAfter: limit.retryAfter,
-    });
+    return apiError(
+      'Too many messages sent. Please try again shortly, or email us directly.',
+      429,
+      {
+        retryAfter: limit.retryAfter,
+      },
+    );
   }
 
   const body = await readJson(request);

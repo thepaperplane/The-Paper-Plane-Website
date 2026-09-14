@@ -23,19 +23,29 @@ export default function AdminLoginPage() {
           </p>
         </div>
 
-        <div className="rounded-[var(--radius-lg)] bg-surface p-7 shadow-[var(--shadow-soft)]">
+        <div className="bg-surface rounded-[var(--radius-lg)] p-7 shadow-[var(--shadow-soft)]">
           {isSupabaseConfigured ? (
             // LoginForm reads ?next= via useSearchParams, which opts this
             // subtree out of prerendering — the boundary keeps the shell static.
-            <Suspense fallback={<div className="bg-sunken h-[17rem] animate-pulse rounded-[var(--radius-md)]" />}>
+            <Suspense
+              fallback={
+                <div className="bg-sunken h-[17rem] animate-pulse rounded-[var(--radius-md)]" />
+              }
+            >
               <LoginForm />
             </Suspense>
           ) : (
             <div className="text-center">
               <p className="text-ink text-[0.9375rem] font-medium">Not configured</p>
               <p className="text-ink-3 mt-2 text-[0.875rem] leading-relaxed">
-                Set <code className="bg-sunken rounded px-1 py-0.5 text-[0.8125rem]">NEXT_PUBLIC_SUPABASE_URL</code>{' '}
-                and <code className="bg-sunken rounded px-1 py-0.5 text-[0.8125rem]">NEXT_PUBLIC_SUPABASE_ANON_KEY</code>{' '}
+                Set{' '}
+                <code className="bg-sunken rounded px-1 py-0.5 text-[0.8125rem]">
+                  NEXT_PUBLIC_SUPABASE_URL
+                </code>{' '}
+                and{' '}
+                <code className="bg-sunken rounded px-1 py-0.5 text-[0.8125rem]">
+                  NEXT_PUBLIC_SUPABASE_ANON_KEY
+                </code>{' '}
                 to enable the console.
               </p>
             </div>

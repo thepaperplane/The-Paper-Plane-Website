@@ -40,10 +40,7 @@ export async function POST(request: Request) {
 
   const supabase = serviceClient();
   if (!supabase) {
-    return apiError(
-      'Subscriptions are not available right now. Please email us instead.',
-      503,
-    );
+    return apiError('Subscriptions are not available right now. Please email us instead.', 503);
   }
 
   // 3. Upsert. Re-subscribing an address that previously unsubscribed

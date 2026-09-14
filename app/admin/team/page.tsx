@@ -100,7 +100,7 @@ export default async function TeamPage() {
         <p className="text-ink-quaternary mt-5 max-w-3xl text-[0.8125rem] leading-relaxed">
           New accounts are created from the Supabase dashboard (Authentication → Users). A profile
           row is generated automatically on first sign-in, defaulting to viewer. Roles are changed
-          in the <code className="bg-white rounded px-1">profiles</code> table, and only an owner
+          in the <code className="rounded bg-white px-1">profiles</code> table, and only an owner
           can change them.
         </p>
       ) : null}

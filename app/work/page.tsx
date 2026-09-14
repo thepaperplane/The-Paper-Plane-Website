@@ -22,8 +22,7 @@ export const metadata: Metadata = {
   alternates: { canonical: '/work' },
   openGraph: pageOg({
     title: 'Work',
-    description:
-      'Client websites and platforms built in-house, shown on desktop and mobile.',
+    description: 'Client websites and platforms built in-house, shown on desktop and mobile.',
     path: '/work',
   }),
 };
@@ -85,7 +84,7 @@ export default async function WorkPage() {
   return (
     <>
       {/* Header */}
-      <Section className="pt-32 pb-14 sm:pt-40">
+      <Section className="pt-[calc(4.5rem+var(--space-section-sm))] pb-14">
         <div className="pointer-events-none absolute inset-0 -z-10" />
         <Container>
           <SectionHeading
@@ -102,15 +101,13 @@ export default async function WorkPage() {
         <Container>
           <div className="space-y-6">
             {live.map((project) => (
-              <Card key={project.slug} className="overflow-hidden bg-surface">
+              <Card key={project.slug} className="bg-surface overflow-hidden">
                 <div className="grid gap-8 p-6 sm:p-9 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-12">
                   {/* Copy */}
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
                       <Eyebrow>{project.sector}</Eyebrow>
-                      <span className="text-ink-3 text-[0.8125rem]">
-                        · {project.year}
-                      </span>
+                      <span className="text-ink-3 text-[0.8125rem]">· {project.year}</span>
                     </div>
 
                     <h2 className="text-ink mt-3 text-[length:var(--text-title-2)] leading-tight font-semibold tracking-[-0.025em]">
@@ -191,7 +188,7 @@ export default async function WorkPage() {
 
             <div className="mt-10 grid gap-5 lg:grid-cols-2">
               {staged.map((project) => (
-                <Card key={project.slug} className="flex flex-col bg-surface p-6 sm:p-7">
+                <Card key={project.slug} className="bg-surface flex flex-col p-6 sm:p-7">
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
                       <Eyebrow>{project.sector}</Eyebrow>
@@ -240,8 +237,8 @@ export default async function WorkPage() {
               A site that understands your compliance, because we do
             </h2>
             <p className="text-ink-3 mx-auto mt-4 max-w-xl text-[1.0625rem] leading-relaxed">
-              Invoicing that produces GST-valid documents, portals that capture what an audit
-              will ask for later — specified by the people who file the returns.
+              Invoicing that produces GST-valid documents, portals that capture what an audit will
+              ask for later — specified by the people who file the returns.
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <ButtonLink href="/contact" size="lg">

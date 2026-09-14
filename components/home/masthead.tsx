@@ -30,10 +30,18 @@ export function Masthead({
     <header className="pt-[calc(4.5rem+var(--space-section))] pb-[var(--space-section)]">
       <Container>
         <div className="grid grid-cols-12">
-          <h1 className="reveal col-span-12 text-[length:var(--text-display-1)] leading-[0.95] lg:col-span-11">
-            {title}
-            <br />
-            <span className="italic">{titleAccent}</span>
+          <h1
+            className="reveal col-span-12 text-[length:var(--text-display-1)] leading-[0.95] lg:col-span-11"
+            data-reveal="mask"
+          >
+            <span className="line-mask">
+              <span>{title}</span>
+            </span>
+            <span className="line-mask">
+              <span className="italic" style={{ ['--line-d' as string]: '110ms' }}>
+                {titleAccent}
+              </span>
+            </span>
           </h1>
         </div>
 
@@ -56,7 +64,7 @@ export function Masthead({
 
       {/* Standing rule + metadata strip */}
       <Container className="mt-[var(--space-section)]">
-        <div className="rule" />
+        <div className="reveal rule" data-reveal="rule" />
         <dl className="grid grid-cols-2 gap-y-6 pt-6 sm:grid-cols-4">
           {[
             ['Founded', String(SITE.foundedYear)],

@@ -21,8 +21,8 @@ export default function NotFound() {
           This one did not land
         </h1>
         <p className="text-ink-3 mx-auto mt-4 max-w-md text-lg leading-relaxed">
-          The page you are looking for has moved or never existed. Here is where everything
-          else lives.
+          The page you are looking for has moved or never existed. Here is where everything else
+          lives.
         </p>
 
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
@@ -41,7 +41,7 @@ export default function NotFound() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="text-ink-2 hover:text-ink inline-block rounded-full bg-surface px-4 py-2 text-[0.875rem] font-medium shadow-[var(--shadow-soft)] ring-1 ring-[var(--hairline)] ring-inset transition-all hover:shadow-[var(--shadow-soft)]"
+                  className="text-ink-2 hover:text-ink bg-surface inline-block rounded-full px-4 py-2 text-[0.875rem] font-medium shadow-[var(--shadow-soft)] ring-1 ring-[var(--hairline)] transition-all ring-inset hover:shadow-[var(--shadow-soft)]"
                 >
                   {item.label}
                 </Link>

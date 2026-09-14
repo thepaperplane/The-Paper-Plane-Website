@@ -92,11 +92,7 @@ export default async function EnquiriesPage({
       ) : (
         <div className="space-y-3">
           {enquiries.map((enquiry) => (
-            <EnquiryCard
-              key={enquiry.id}
-              enquiry={enquiry}
-              editable={canEdit(profile.role)}
-            />
+            <EnquiryCard key={enquiry.id} enquiry={enquiry} editable={canEdit(profile.role)} />
           ))}
         </div>
       )}

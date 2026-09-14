@@ -69,11 +69,11 @@ export function Walkthrough() {
         role="group"
         aria-roledescription="Stepped walkthrough"
         aria-describedby={`${baseId}-hint`}
-        className="mt-8 grid gap-px border-t lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]"
+        className="mt-8 grid gap-px border-t md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]"
         onKeyDown={onKeyDown}
       >
         {/* Copy */}
-        <div className="pt-10 lg:pr-16">
+        <div className="pt-10 md:pr-10 lg:pr-16">
           <div className="flex items-center gap-4">
             <span className="numeral text-[length:var(--text-title-2)]">
               {String(step + 1).padStart(2, '0')}
@@ -109,7 +109,7 @@ export function Walkthrough() {
         </div>
 
         {/* Diagram */}
-        <div className="bg-sunken flex items-center justify-center p-8 lg:p-10">
+        <div className="bg-sunken flex items-center justify-center p-6 sm:p-8 lg:p-10">
           <div className="aspect-[320/176] w-full max-w-[26rem]">
             <Diagram key={`${serviceIndex}-${step}`} active />
           </div>

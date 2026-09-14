@@ -13,7 +13,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="bg-accent hover:bg-accent-hover inline-flex h-11 items-center justify-center gap-2 rounded-[var(--radius-md)] px-5 text-[0.9375rem] font-semibold text-accent-ink transition-colors disabled:opacity-60"
+      className="bg-accent hover:bg-accent-hover text-accent-ink inline-flex h-11 items-center justify-center gap-2 rounded-[var(--radius-md)] px-5 text-[0.9375rem] font-semibold transition-colors disabled:opacity-60"
     >
       {pending ? (
         <>
@@ -71,15 +71,18 @@ export function AddProjectForm() {
 
           {preview ? (
             <p className="text-ink-3 mt-2 text-[0.75rem]">
-              Will be saved as{' '}
-              <span className="text-ink font-medium">{preview.name}</span> at{' '}
+              Will be saved as <span className="text-ink font-medium">{preview.name}</span> at{' '}
               <code className="bg-sunken rounded px-1">/work</code> · slug{' '}
               <code className="bg-sunken rounded px-1">{preview.slug}</code>
             </p>
           ) : null}
         </div>
 
-        <Field label="Display name" htmlFor="project-name" hint="Leave blank to use the derived name.">
+        <Field
+          label="Display name"
+          htmlFor="project-name"
+          hint="Leave blank to use the derived name."
+        >
           <input
             id="project-name"
             name="name"
@@ -114,18 +117,14 @@ export function AddProjectForm() {
 
       <div className="mt-5 flex items-center gap-4">
         <SubmitButton />
-        <p className="text-ink-3 text-[0.75rem]">
-          Capture takes about 10–20 seconds.
-        </p>
+        <p className="text-ink-3 text-[0.75rem]">Capture takes about 10–20 seconds.</p>
       </div>
 
       {state ? (
         <div
           role="status"
           className={`mt-5 flex items-start gap-3 rounded-[var(--radius-md)] p-4 ring-1 ring-inset ${
-            state.ok
-              ? 'bg-positive/10 ring-positive/20'
-              : 'bg-critical/10 ring-critical/20'
+            state.ok ? 'bg-positive/10 ring-positive/20' : 'bg-critical/10 ring-critical/20'
           }`}
         >
           {state.ok ? (
@@ -136,9 +135,7 @@ export function AddProjectForm() {
           <div>
             <p className="text-ink text-[0.875rem] font-medium">{state.message}</p>
             {state.detail ? (
-              <p className="text-ink-2 mt-1 text-[0.8125rem] leading-relaxed">
-                {state.detail}
-              </p>
+              <p className="text-ink-2 mt-1 text-[0.8125rem] leading-relaxed">{state.detail}</p>
             ) : null}
           </div>
         </div>

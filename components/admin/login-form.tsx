@@ -84,7 +84,7 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={busy}
-        className="bg-accent hover:bg-accent-hover inline-flex h-12 w-full items-center justify-center gap-2 rounded-[var(--radius-md)] text-[0.9375rem] font-semibold text-accent-ink transition-colors disabled:opacity-60"
+        className="bg-accent hover:bg-accent-hover text-accent-ink inline-flex h-12 w-full items-center justify-center gap-2 rounded-[var(--radius-md)] text-[0.9375rem] font-semibold transition-colors disabled:opacity-60"
       >
         {busy ? (
           <>

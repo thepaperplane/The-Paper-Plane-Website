@@ -23,10 +23,7 @@ export function DecoderSearch() {
     const q = query.trim().toLowerCase();
     if (!q) return DECODER;
     return DECODER.filter((entry) =>
-      [entry.key, entry.title, entry.act, entry.plainEnglish]
-        .join(' ')
-        .toLowerCase()
-        .includes(q),
+      [entry.key, entry.title, entry.act, entry.plainEnglish].join(' ').toLowerCase().includes(q),
     );
   }, [query]);
 
@@ -44,7 +41,7 @@ export function DecoderSearch() {
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Try 148, 143(1), GSTR-2B…"
           aria-label="Search sections and forms"
-          className="text-ink placeholder:text-ink-3 focus:ring-accent h-12 w-full rounded-[var(--radius-md)] bg-surface pr-4 pl-11 text-[0.9375rem] shadow-[var(--shadow-soft)] ring-1 ring-[var(--hairline)] transition-shadow ring-inset outline-none focus:ring-2"
+          className="text-ink placeholder:text-ink-3 focus:ring-accent bg-surface h-12 w-full rounded-[var(--radius-md)] pr-4 pl-11 text-[0.9375rem] shadow-[var(--shadow-soft)] ring-1 ring-[var(--hairline)] transition-shadow outline-none ring-inset focus:ring-2"
         />
       </div>
 
@@ -80,12 +77,10 @@ export function DecoderSearch() {
       <div aria-live="polite" className="mt-7">
         {results.length === 0 ? (
           <Card className="bg-surface p-8 text-center">
-            <p className="text-ink text-[1.0625rem] font-medium">
-              Nothing matching “{query}” yet
-            </p>
+            <p className="text-ink text-[1.0625rem] font-medium">Nothing matching “{query}” yet</p>
             <p className="text-ink-3 mt-2 text-[0.9375rem]">
-              This decoder covers the provisions we see most often. Send us the notice and we
-              will read it properly.
+              This decoder covers the provisions we see most often. Send us the notice and we will
+              read it properly.
             </p>
             <Link
               href="/contact"
@@ -101,7 +96,7 @@ export function DecoderSearch() {
               const severity = SEVERITY[entry.severity];
               return (
                 <li key={entry.key}>
-                  <Card className="h-full bg-surface p-6">
+                  <Card className="bg-surface h-full p-6">
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0">
                         <h3 className="text-ink text-[1.0625rem] leading-snug font-semibold">

@@ -36,7 +36,7 @@ export default async function KnowledgePage() {
   return (
     <>
       {/* Header */}
-      <Section className="pt-32 pb-14 sm:pt-40">
+      <Section className="pt-[calc(4.5rem+var(--space-section-sm))] pb-14">
         <div className="pointer-events-none absolute inset-0 -z-10" />
         <Container>
           <SectionHeading
@@ -62,7 +62,7 @@ export default async function KnowledgePage() {
 
           {/* Stated plainly so nothing above can be read as a delivery
               commitment for work whose scope we have not yet seen. */}
-          <Card className="mt-6 bg-surface p-7 sm:p-8">
+          <Card className="bg-surface mt-6 p-7 sm:p-8">
             <div className="flex items-start gap-4">
               <span className="bg-accent-wash ring-accent/15 flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-md)] ring-1 ring-inset">
                 <Clock className="text-accent h-4 w-4" strokeWidth={2} />
@@ -92,10 +92,10 @@ export default async function KnowledgePage() {
             lede="None of these are foolish. All of them are expensive."
           />
 
-          <ul className="mt-10 grid gap-4 lg:grid-cols-2">
+          <ul className="mt-10 grid gap-4 md:grid-cols-2">
             {MYTHS.map((item, i) => (
               <li key={item.myth}>
-                <Card className="h-full bg-surface p-6 sm:p-7">
+                <Card className="bg-surface h-full p-6 sm:p-7">
                   <div className="flex items-start gap-4">
                     <span className="bg-sunken text-ink-3 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[0.8125rem] font-semibold tabular-nums">
                       {i + 1}
@@ -127,12 +127,10 @@ export default async function KnowledgePage() {
             lede="Compliance fees are easy to compare. The exposure they exist to prevent is not — so here it is, stated plainly."
           />
 
-          <Card className="mt-10 overflow-hidden bg-surface">
+          <Card className="bg-surface mt-10 overflow-hidden">
             <div className="scroll-lane">
               <table className="w-full min-w-[46rem] border-collapse text-left">
-                <caption className="sr-only">
-                  Penalty exposure by compliance failure
-                </caption>
+                <caption className="sr-only">Penalty exposure by compliance failure</caption>
                 <thead>
                   <tr className="border-b border-[var(--hairline)]">
                     {['Trigger', 'Statute', 'Exposure', 'How it compounds'].map((heading) => (
@@ -177,8 +175,8 @@ export default async function KnowledgePage() {
           </Card>
 
           <p className="text-ink-3 mt-4 text-[0.8125rem]">
-            Figures reflect the standard statutory position and are stated before any
-            case-specific relief. They are not a substitute for advice on your own facts.
+            Figures reflect the standard statutory position and are stated before any case-specific
+            relief. They are not a substitute for advice on your own facts.
           </p>
         </Container>
       </Section>
@@ -212,9 +210,7 @@ export default async function KnowledgePage() {
                 <Link href={`/knowledge/${article.slug}`} className="flex h-full flex-col p-7">
                   <div className="flex items-center gap-2">
                     <Badge tone="accent">{article.category}</Badge>
-                    <span className="text-ink-3 text-[0.8125rem]">
-                      {article.readingTime}
-                    </span>
+                    <span className="text-ink-3 text-[0.8125rem]">{article.readingTime}</span>
                   </div>
 
                   <h3 className="text-ink group-hover:text-accent mt-4 text-[1.1875rem] leading-snug font-semibold tracking-[-0.015em] transition-colors">

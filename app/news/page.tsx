@@ -58,7 +58,7 @@ export default async function NewsPage({ searchParams }: { searchParams: SearchP
   return (
     <>
       {/* Header */}
-      <Section className="pt-32 pb-12 sm:pt-40">
+      <Section className="pt-[calc(4.5rem+var(--space-section-sm))] pb-12">
         <div className="pointer-events-none absolute inset-0 -z-10" />
         <Container>
           <SectionHeading
@@ -134,7 +134,7 @@ export default async function NewsPage({ searchParams }: { searchParams: SearchP
             <>
               {/* Lead story */}
               {lead ? (
-                <Card interactive className="group mb-5 overflow-hidden bg-surface">
+                <Card interactive className="group bg-surface mb-5 overflow-hidden">
                   <a
                     href={lead.link}
                     target="_blank"
@@ -143,14 +143,9 @@ export default async function NewsPage({ searchParams }: { searchParams: SearchP
                   >
                     <div className="flex flex-wrap items-center gap-2">
                       <Badge tone="accent">{lead.category}</Badge>
-                      <span className="text-ink-3 text-[0.8125rem]">
-                        {lead.source_name}
-                      </span>
+                      <span className="text-ink-3 text-[0.8125rem]">{lead.source_name}</span>
                       <span className="text-ink-3 text-[0.8125rem]">·</span>
-                      <time
-                        dateTime={lead.published_at}
-                        className="text-ink-3 text-[0.8125rem]"
-                      >
+                      <time dateTime={lead.published_at} className="text-ink-3 text-[0.8125rem]">
                         {formatRelative(lead.published_at)}
                       </time>
                     </div>
@@ -177,7 +172,7 @@ export default async function NewsPage({ searchParams }: { searchParams: SearchP
               <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {rest.map((item) => (
                   <li key={item.id}>
-                    <Card interactive className="group h-full bg-surface">
+                    <Card interactive className="group bg-surface h-full">
                       <a
                         href={item.link}
                         target="_blank"
@@ -186,10 +181,7 @@ export default async function NewsPage({ searchParams }: { searchParams: SearchP
                       >
                         <div className="flex items-center gap-2">
                           <Badge tone="neutral">{item.category}</Badge>
-                          <time
-                            dateTime={item.published_at}
-                            className="text-ink-3 text-[0.75rem]"
-                          >
+                          <time dateTime={item.published_at} className="text-ink-3 text-[0.75rem]">
                             {formatRelative(item.published_at)}
                           </time>
                         </div>
@@ -207,9 +199,7 @@ export default async function NewsPage({ searchParams }: { searchParams: SearchP
                         )}
 
                         <div className="mt-5 flex items-center justify-between border-t border-[var(--hairline)] pt-3.5">
-                          <span className="text-ink-3 text-[0.75rem]">
-                            {item.source_name}
-                          </span>
+                          <span className="text-ink-3 text-[0.75rem]">{item.source_name}</span>
                           <ArrowUpRight className="text-ink-3 group-hover:text-accent h-3.5 w-3.5 transition-colors" />
                         </div>
                       </a>
@@ -221,8 +211,7 @@ export default async function NewsPage({ searchParams }: { searchParams: SearchP
               <p className="text-ink-3 mt-10 flex items-center gap-2 text-[0.8125rem]">
                 <RefreshCw className="h-3.5 w-3.5" strokeWidth={2} />
                 Headlines refresh once a day. Summaries are extracted from each publisher&rsquo;s
-                own feed; copyright remains with the publisher and every card links to the
-                original.
+                own feed; copyright remains with the publisher and every card links to the original.
               </p>
             </>
           )}

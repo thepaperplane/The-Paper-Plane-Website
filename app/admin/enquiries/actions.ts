@@ -42,11 +42,7 @@ export async function convertEnquiryToClient(
   const supabase = serviceClient();
   if (!supabase) return { ok: false, message: 'Supabase service key is not configured.' };
 
-  const { data: enquiry } = await supabase
-    .from('enquiries')
-    .select('*')
-    .eq('id', id)
-    .maybeSingle();
+  const { data: enquiry } = await supabase.from('enquiries').select('*').eq('id', id).maybeSingle();
 
   if (!enquiry) return { ok: false, message: 'Enquiry not found.' };
   if (enquiry.client_id) return { ok: false, message: 'Already linked to a client.' };

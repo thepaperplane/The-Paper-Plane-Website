@@ -40,21 +40,13 @@ export function Panel({
   action?: React.ReactNode;
 }) {
   return (
-    <section
-      className={cn(
-        'rounded-[var(--radius-md)] border bg-surface',
-        className,
-      )}
-      {...props}
-    >
+    <section className={cn('bg-surface rounded-[var(--radius-md)] border', className)} {...props}>
       {title ? (
         <header className="flex items-start justify-between gap-4 border-b border-[var(--hairline)] px-6 py-4">
           <div>
             <h2 className="text-ink text-[0.9375rem] font-semibold">{title}</h2>
             {description ? (
-              <p className="text-ink-3 mt-1 text-[0.8125rem] leading-relaxed">
-                {description}
-              </p>
+              <p className="text-ink-3 mt-1 text-[0.8125rem] leading-relaxed">{description}</p>
             ) : null}
           </div>
           {action ? <div className="shrink-0">{action}</div> : null}
@@ -77,7 +69,7 @@ export function Stat({
   tone?: 'neutral' | 'accent' | 'caution' | 'critical' | 'positive';
 }) {
   return (
-    <div className="rounded-[var(--radius-md)] border bg-surface p-5">
+    <div className="bg-surface rounded-[var(--radius-md)] border p-5">
       <p className="text-ink-3 text-[0.75rem] font-medium">{label}</p>
       <p
         className={cn(

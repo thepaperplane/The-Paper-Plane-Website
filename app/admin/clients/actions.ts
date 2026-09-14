@@ -40,7 +40,11 @@ const ClientSchema = z.object({
   // lets us return a useful message instead of a constraint violation.
   pan: z
     .union([
-      z.string().trim().toUpperCase().regex(/^[A-Z]{5}[0-9]{4}[A-Z]$/, 'PAN must look like ABCDE1234F.'),
+      z
+        .string()
+        .trim()
+        .toUpperCase()
+        .regex(/^[A-Z]{5}[0-9]{4}[A-Z]$/, 'PAN must look like ABCDE1234F.'),
       z.literal(''),
     ])
     .optional(),

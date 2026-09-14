@@ -52,10 +52,7 @@ function RecaptureButton() {
 }
 
 export function ProjectRow({ project, editable }: { project: Project; editable: boolean }) {
-  const [state, recapture] = useActionState<ActionResult | null, FormData>(
-    recaptureProject,
-    null,
-  );
+  const [state, recapture] = useActionState<ActionResult | null, FormData>(recaptureProject, null);
   const [pending, startTransition] = useTransition();
 
   const previewBase = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/previews/`;
@@ -68,7 +65,11 @@ export function ProjectRow({ project, editable }: { project: Project; editable: 
   }
 
   function remove() {
-    if (!confirm(`Remove “${project.name}” from the portfolio? This also deletes its captured previews.`)) {
+    if (
+      !confirm(
+        `Remove “${project.name}” from the portfolio? This also deletes its captured previews.`,
+      )
+    ) {
       return;
     }
     startTransition(async () => {
@@ -154,7 +155,7 @@ export function ProjectRow({ project, editable }: { project: Project; editable: 
               value={project.status}
               disabled={pending}
               onChange={(e) => changeStatus(e.target.value as ProjectStatus)}
-              className="text-ink-2 h-9 rounded-[var(--radius-sm)] bg-surface px-2.5 text-[0.8125rem] ring-1 ring-[var(--hairline)] ring-inset outline-none disabled:opacity-60"
+              className="text-ink-2 bg-surface h-9 rounded-[var(--radius-sm)] px-2.5 text-[0.8125rem] ring-1 ring-[var(--hairline)] outline-none ring-inset disabled:opacity-60"
             >
               <option value="draft">Draft</option>
               <option value="staged">Staged</option>

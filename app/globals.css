@@ -46,9 +46,16 @@
      Three deliberate section heights. Uniform padding everywhere is what
      made v2 read as "safe" — nothing could be emphasised because everything
      was weighted identically. */
-  --space-section-sm: clamp(3.5rem, 3rem + 2vw, 5rem);
-  --space-section: clamp(5rem, 4rem + 5vw, 9rem);
-  --space-section-lg: clamp(7rem, 5rem + 9vw, 14rem);
+  /* Section rhythm.
+     The lower bound is what a phone gets, and it was set far too high: at
+     375px the large rhythm alone put 112px of padding above and below every
+     section, which is what made the mobile pages half again as long as the
+     desktop ones for identical content. The upper bounds are unchanged —
+     generous space is right on a wide screen and merely wasteful on a small
+     one. */
+  --space-section-sm: clamp(2.25rem, 1.75rem + 2.5vw, 5rem);
+  --space-section: clamp(3.25rem, 2.25rem + 5vw, 9rem);
+  --space-section-lg: clamp(4.5rem, 2.75rem + 8vw, 14rem);
 
   --radius-xs: 2px;
   --radius-sm: 4px;
@@ -413,6 +420,102 @@
     }
   }
 
+  /* Reveal variants.
+     ---------------------------------------------------------------------
+     One motion for everything makes a page feel like a slideshow of itself.
+     These are the four the site actually needs, selected with `data-reveal`
+     so a server-rendered element can opt in without a client component.
+
+     `mask` is the one that carries the brand. A line of display type rises
+     from behind a hard edge rather than fading in — the move a press does
+     when it sets a headline, and the reason it reads as considered rather
+     than animated. It needs two elements: the outer clips, the inner moves. */
+  .reveal-ready .reveal[data-reveal='mask'] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .line-mask {
+    display: block;
+    /* Clipping a line of type would otherwise shear the descenders and the
+       overhang on an italic, so the box is grown and pulled back. */
+    padding-block: 0.06em 0.14em;
+    margin-block: -0.06em -0.14em;
+    overflow: hidden;
+  }
+
+  .reveal-ready .reveal[data-reveal='mask'] .line-mask > * {
+    display: block;
+    transform: translateY(106%);
+    transition: transform 1s var(--ease-out-editorial) var(--line-d, 0ms);
+  }
+
+  .reveal-ready .reveal[data-reveal='mask'][data-shown='true'] .line-mask > * {
+    transform: translateY(0);
+  }
+
+  /* A rule that draws itself across, rather than appearing whole. */
+  .reveal-ready .reveal[data-reveal='rule'],
+  .reveal-ready .reveal [data-reveal-rule] {
+    opacity: 1;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 1.1s var(--ease-out-editorial) var(--line-d, 0ms);
+  }
+
+  .reveal-ready .reveal[data-reveal='rule'][data-shown='true'],
+  .reveal-ready .reveal[data-shown='true'] [data-reveal-rule] {
+    transform: scaleX(1);
+  }
+
+  /* Children arriving in sequence, without hand-written delays on each one. */
+  .reveal-ready .reveal[data-reveal='stagger'] > * {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.8s var(--ease-out-editorial),
+      transform 0.8s var(--ease-out-editorial);
+  }
+
+  .reveal-ready .reveal[data-reveal='stagger'][data-shown='true'] > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal-ready .reveal[data-reveal='stagger'] > *:nth-child(1) {
+    transition-delay: 0ms;
+  }
+  .reveal-ready .reveal[data-reveal='stagger'] > *:nth-child(2) {
+    transition-delay: 70ms;
+  }
+  .reveal-ready .reveal[data-reveal='stagger'] > *:nth-child(3) {
+    transition-delay: 140ms;
+  }
+  .reveal-ready .reveal[data-reveal='stagger'] > *:nth-child(4) {
+    transition-delay: 210ms;
+  }
+  .reveal-ready .reveal[data-reveal='stagger'] > *:nth-child(5) {
+    transition-delay: 280ms;
+  }
+  .reveal-ready .reveal[data-reveal='stagger'] > *:nth-child(n + 6) {
+    transition-delay: 350ms;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-ready .reveal[data-reveal='mask'] .line-mask > *,
+    .reveal-ready .reveal[data-reveal='stagger'] > * {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    .reveal-ready .reveal[data-reveal='rule'],
+    .reveal-ready .reveal [data-reveal-rule] {
+      transform: none;
+      transition: none;
+    }
+  }
+
   /* Staged entrance for the practice marks, without a client component.
      Each piece carries its own --mark-delay and settles once the enclosing
      .reveal is shown. Like .reveal itself this is visible by default and only
@@ -539,6 +642,19 @@
 @media (min-width: 640px) {
   :root {
     --dg-scale: 1;
+  }
+}
+
+/* A mark fills its column, so it is hardly shrunk at all and needs much less
+   compensation than a diagram inside a padded panel. Giving both the same
+   boost is what drove the mark labels into each other. */
+.dg-mark {
+  --dg-scale: 1;
+}
+
+@media (max-width: 639px) {
+  .dg-mark {
+    --dg-scale: 1.15;
   }
 }
 

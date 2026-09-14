@@ -336,7 +336,7 @@ export function ArchiveDiagram({ active }: P) {
 /* inspect — a document read closely, one clause located                */
 /* ------------------------------------------------------------------ */
 export function InspectDiagram({ active }: P) {
-  const lines = [140, 120, 148, 108, 136, 126, 96];
+  const lines = [124, 106, 132, 96, 120, 112, 84];
   const hit = 3;
   return (
     <Frame
@@ -344,10 +344,12 @@ export function InspectDiagram({ active }: P) {
       cycle={5600}
       label="A notice read line by line until the operative clause is located"
     >
+      {/* The notice sits right, leaving a real column for the finding rather
+          than a few units of margin that long words ran straight out of. */}
       <rect
-        x={92}
+        x={124}
         y={14}
-        width={172}
+        width={182}
         height={148}
         rx="2"
         fill="var(--surface)"
@@ -355,7 +357,7 @@ export function InspectDiagram({ active }: P) {
         strokeWidth="1"
       />
       {lines.map((w, i) => (
-        <Bar key={i} x={106} y={34 + i * 18} w={w} h={5} tone={i === hit ? 'accent' : 'context'} />
+        <Bar key={i} x={138} y={34 + i * 18} w={w} h={5} tone={i === hit ? 'accent' : 'context'} />
       ))}
 
       {/* The reading head. */}
@@ -363,28 +365,26 @@ export function InspectDiagram({ active }: P) {
         className="dg-sweep"
         style={seq(200, { ['--fy' as string]: '0px', ['--ty' as string]: '90px' })}
       >
-        <rect x={92} y={28} width={172} height={14} fill="var(--accent)" fillOpacity="0.1" />
-        <line x1={92} y1={42} x2={264} y2={42} stroke="var(--accent)" strokeWidth="1" />
+        <rect x={124} y={28} width={182} height={14} fill="var(--accent)" fillOpacity="0.1" />
+        <line x1={124} y1={42} x2={306} y2={42} stroke="var(--accent)" strokeWidth="1" />
       </g>
 
-      {/* What it found. */}
+      {/* What it found. 20 units of leading, left aligned in its own column. */}
       <g className="dg-appear" style={seq(2600)}>
-        <path d="M 86 84 h -8 v 20 h 8" fill="none" stroke="var(--accent)" strokeWidth="1.4" />
-        <Tag x={72} y={80} anchor="end" tone="accent">
+        <path d="M 118 82 h -6 v 24 h 6" fill="none" stroke="var(--accent)" strokeWidth="1.4" />
+        <Tag x={14} y={80} tone="accent">
           s.148
         </Tag>
-        <Tag x={72} y={100} anchor="end">
+        <Tag x={14} y={100}>
           LIMITATION
         </Tag>
-        <Tag x={72} y={112} anchor="end">
+        <Tag x={14} y={120}>
           EXPIRED
         </Tag>
       </g>
-      <Value x={276} y={100} size={10} tone="quiet" anchor="start">
-        7/7
-      </Value>
-      <Tag x={276} y={112}>
-        READ
+
+      <Tag x={14} y={158}>
+        7 OF 7 READ
       </Tag>
     </Frame>
   );
@@ -465,9 +465,10 @@ export function AssembleDiagram({ active }: P) {
 /* compare — two regimes, and the cost of choosing wrong                */
 /* ------------------------------------------------------------------ */
 export function CompareDiagram({ active }: P) {
+  const BASE = 146;
   const cols = [
-    { x: 46, label: 'OLD REGIME', h: 96, value: '3,64,000', win: false },
-    { x: 190, label: 'NEW REGIME', h: 62, value: '3,15,800', win: true },
+    { x: 46, label: 'OLD REGIME', h: 60, value: '3,64,000', win: false },
+    { x: 190, label: 'NEW REGIME', h: 40, value: '3,15,800', win: true },
   ];
   return (
     <Frame
@@ -475,7 +476,21 @@ export function CompareDiagram({ active }: P) {
       cycle={5600}
       label="Two tax regimes computed side by side, with the cheaper one and the difference"
     >
-      <Rule x1={14} y1={132} x2={306} y2={132} />
+      {/* The saving gets its own band across the top, separated by a rule.
+          Sharing the upper area with the taller bar's figure put the two
+          numbers on top of each other once the small-screen scale was applied. */}
+      <g className="dg-appear" style={seq(1900)}>
+        <Tag x={14} y={20}>
+          DIFFERENCE
+        </Tag>
+        <Value x={14} y={52} size={13} tone="accent">
+          −48,200
+        </Value>
+      </g>
+      <Pass cx={286} cy={32} delay={1600} r={11} />
+      <Rule x1={14} y1={64} x2={306} y2={64} />
+
+      <Rule x1={14} y1={BASE} x2={306} y2={BASE} />
       {cols.map((c, i) => (
         <g key={c.label}>
           <g
@@ -490,7 +505,7 @@ export function CompareDiagram({ active }: P) {
           >
             <rect
               x={c.x}
-              y={132 - c.h}
+              y={BASE - c.h}
               width={84}
               height={c.h}
               rx="2"
@@ -500,31 +515,18 @@ export function CompareDiagram({ active }: P) {
           </g>
           <Value
             x={c.x + 42}
-            y={126 - c.h}
+            y={BASE - c.h - 8}
             size={11}
             anchor="middle"
             tone={c.win ? 'accent' : 'quiet'}
           >
             {c.value}
           </Value>
-          <Tag x={c.x + 42} y={150} anchor="middle" tone={c.win ? 'ink' : 'quiet'}>
+          <Tag x={c.x + 42} y={166} anchor="middle" tone={c.win ? 'ink' : 'quiet'}>
             {c.label}
           </Tag>
         </g>
       ))}
-
-      <Pass cx={232} cy={26} delay={1600} r={11} />
-      <g className="dg-appear" style={seq(2300)}>
-        <path
-          d="M 132 18 H 210"
-          stroke="var(--hairline-strong)"
-          strokeWidth="1"
-          strokeDasharray="2 3"
-        />
-        <Value x={120} y={22} size={11} anchor="end" tone="accent">
-          −48,200
-        </Value>
-      </g>
     </Frame>
   );
 }

@@ -41,9 +41,9 @@ export function LegalPage({
 
       <Section rhythm="lg" className="border-t">
         <Container>
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,3fr)_minmax(0,8fr)] lg:gap-20">
+          <div className="grid gap-12 md:grid-cols-[minmax(0,3fr)_minmax(0,8fr)] md:gap-12 lg:gap-20">
             {/* Index */}
-            <nav aria-label="On this page" className="lg:sticky lg:top-28 lg:self-start">
+            <nav aria-label="On this page" className="md:sticky md:top-28 md:self-start">
               <Label className="block">On this page</Label>
               <ol className="mt-6 space-y-0">
                 {sections.map((s, i) => (

@@ -44,7 +44,10 @@ export default async function AdminOverview({
         .select('id', { count: 'exact', head: true })
         .eq('state', 'confirmed'),
       supabase.from('news_items').select('id', { count: 'exact', head: true }),
-      supabase.from('news_sources').select('id', { count: 'exact', head: true }).gt('error_count', 0),
+      supabase
+        .from('news_sources')
+        .select('id', { count: 'exact', head: true })
+        .gt('error_count', 0),
       supabase
         .from('enquiries')
         .select('id, name, email, state, created_at')
@@ -84,7 +87,7 @@ export default async function AdminOverview({
           <p className="text-ink text-[0.875rem] font-medium">Service key not configured</p>
           <p className="text-ink-secondary mt-1 text-[0.8125rem] leading-relaxed">
             Counts and lists below stay empty until{' '}
-            <code className="bg-white/60 rounded px-1">SUPABASE_SERVICE_ROLE_KEY</code> is set.
+            <code className="rounded bg-white/60 px-1">SUPABASE_SERVICE_ROLE_KEY</code> is set.
           </p>
         </div>
       ) : null}
@@ -133,9 +136,7 @@ export default async function AdminOverview({
                       {enquiry.name}
                     </Link>
                   </td>
-                  <td className="text-ink-tertiary px-6 py-3.5 text-[0.875rem]">
-                    {enquiry.email}
-                  </td>
+                  <td className="text-ink-tertiary px-6 py-3.5 text-[0.875rem]">{enquiry.email}</td>
                   <td className="px-6 py-3.5">
                     <Pill tone={ENQUIRY_TONE[enquiry.state] ?? 'neutral'}>{enquiry.state}</Pill>
                   </td>

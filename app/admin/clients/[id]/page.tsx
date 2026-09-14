@@ -20,11 +20,7 @@ const STATUS_TONE = {
   closed: 'neutral',
 } as const;
 
-export default async function ClientDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function ClientDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const profile = await requireProfile();
   const editable = canEdit(profile.role);
@@ -94,10 +90,7 @@ export default async function ClientDetailPage({
         </Panel>
 
         <div className="space-y-6">
-          <Panel
-            title="Onboarding"
-            description="The standard first-month sequence."
-          >
+          <Panel title="Onboarding" description="The standard first-month sequence.">
             <OnboardingChecklist
               clientId={id}
               tasks={(tasks ?? []) as OnboardingTaskRow[]}

@@ -160,12 +160,12 @@ export function Slideshow({
         className={cn(
           'grid items-center gap-10 lg:gap-16',
           mediaFirst
-            ? 'lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]'
-            : 'lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)]',
+            ? 'md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]'
+            : 'md:grid-cols-[minmax(0,6fr)_minmax(0,5fr)]',
         )}
       >
         {/* Words */}
-        <div className={cn('order-2', mediaFirst ? 'lg:order-2' : 'lg:order-1')}>
+        <div className={cn('order-2', mediaFirst ? 'md:order-2' : 'md:order-1')}>
           <div className="flex items-center gap-4">
             <span className="numeral text-[length:var(--text-title-2)]">
               {String(index + 1).padStart(2, '0')}
@@ -208,7 +208,7 @@ export function Slideshow({
         <div
           className={cn(
             'bg-sunken order-1 flex items-center justify-center p-8 sm:p-10',
-            mediaFirst ? 'lg:order-1' : 'lg:order-2',
+            mediaFirst ? 'md:order-1' : 'md:order-2',
           )}
         >
           <div className="aspect-[320/176] w-full max-w-[26rem]">

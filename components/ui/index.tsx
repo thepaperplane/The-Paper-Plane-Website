@@ -117,12 +117,16 @@ export function Heading({
       ) : null}
       <Tag
         className={cn(
+          'reveal',
           size === 'large'
             ? 'text-[length:var(--text-display-2)]'
             : 'text-[length:var(--text-title-1)]',
         )}
+        data-reveal="mask"
       >
-        {title}
+        <span className="line-mask">
+          <span>{title}</span>
+        </span>
       </Tag>
       {lede ? (
         <p className="text-ink-2 mt-6 max-w-[42ch] text-[length:var(--text-lede)] leading-[1.55]">

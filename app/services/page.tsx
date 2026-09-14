@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { Container, Heading, Label, Numeral, Ref, Section, TextLink } from '@/components/ui';
 import { PRACTICE_MARKS } from '@/components/practice/marks';
+import { ServiceIndex } from '@/components/services/service-index';
 import { PRACTICE, pillarsFor } from '@/content/practice';
 import { pageOg } from '@/lib/site';
 
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 export default function ServicesPage() {
   return (
     <>
-      <Section rhythm="lg" className="pt-[calc(4.5rem+var(--space-section))]">
+      <Section rhythm="sm" className="pt-[calc(4.5rem+var(--space-section-sm))]">
         <Container>
           <div className="grid grid-cols-12">
             <div className="col-span-12 lg:col-span-10">
@@ -47,26 +47,11 @@ export default function ServicesPage() {
               />
             </div>
           </div>
-
-          {/* Index of the two halves */}
-          <nav aria-label="Practice areas" className="mt-20 grid gap-px sm:grid-cols-2">
-            {PRACTICE.map((side, i) => (
-              <Link key={side.id} href={`#${side.id}`} className="group border-t pt-6 sm:pr-10">
-                <div className="flex items-baseline gap-4">
-                  <Numeral value={i + 1} className="text-[length:var(--text-caption)]" />
-                  <Label>{side.name}</Label>
-                </div>
-                <h2 className="group-hover:text-accent mt-4 text-[length:var(--text-title-1)] transition-colors duration-300">
-                  {side.heading}
-                </h2>
-                <p className="text-ink-3 mt-3 max-w-[40ch] text-[length:var(--text-caption)] leading-relaxed">
-                  {side.statement}
-                </p>
-              </Link>
-            ))}
-          </nav>
         </Container>
       </Section>
+
+      {/* The list first. The argument for it can wait until after. */}
+      <ServiceIndex />
 
       {PRACTICE.map((side, sideIndex) => {
         const Mark = PRACTICE_MARKS[side.id];
@@ -80,8 +65,8 @@ export default function ServicesPage() {
           >
             <Container>
               {/* Half header — asymmetric, numeral in the margin */}
-              <div className="grid gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-20">
-                <div className="lg:sticky lg:top-28 lg:self-start">
+              <div className="grid gap-10 md:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] md:gap-12 lg:gap-20">
+                <div className="md:sticky md:top-28 md:self-start">
                   <Numeral
                     value={sideIndex + 1}
                     className="block text-[length:var(--text-display-2)] leading-none"

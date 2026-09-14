@@ -12,8 +12,7 @@ export const metadata: Metadata = {
   alternates: { canonical: '/contact' },
   openGraph: pageOg({
     title: 'Contact',
-    description:
-      'Start a conversation about compliance, defence or digital infrastructure.',
+    description: 'Start a conversation about compliance, defence or digital infrastructure.',
     path: '/contact',
   }),
 };
@@ -27,7 +26,7 @@ export default async function ContactPage() {
 
   return (
     <>
-      <Section className="pt-32 pb-14 sm:pt-40">
+      <Section className="pt-[calc(4.5rem+var(--space-section-sm))] pb-14">
         <div className="pointer-events-none absolute inset-0 -z-10" />
         <Container>
           <SectionHeading
@@ -57,9 +56,7 @@ export default async function ContactPage() {
                         <Phone className="text-accent h-4 w-4" strokeWidth={2} />
                       </span>
                       <span>
-                        <span className="text-ink-3 block text-[0.75rem] font-medium">
-                          Phone
-                        </span>
+                        <span className="text-ink-3 block text-[0.75rem] font-medium">Phone</span>
                         <span className="text-ink group-hover:text-accent block text-[0.9375rem] font-semibold transition-colors">
                           {SITE.phone}
                         </span>
@@ -73,9 +70,7 @@ export default async function ContactPage() {
                         <Mail className="text-accent h-4 w-4" strokeWidth={2} />
                       </span>
                       <span className="min-w-0">
-                        <span className="text-ink-3 block text-[0.75rem] font-medium">
-                          Email
-                        </span>
+                        <span className="text-ink-3 block text-[0.75rem] font-medium">Email</span>
                         <span className="text-ink group-hover:text-accent block truncate text-[0.9375rem] font-semibold transition-colors">
                           {SITE.email}
                         </span>

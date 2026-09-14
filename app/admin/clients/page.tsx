@@ -65,7 +65,7 @@ export default async function ClientsPage({
           canEdit(profile.role) ? (
             <Link
               href="/admin/clients/new"
-              className="bg-brand-600 hover:bg-brand-700 inline-flex h-11 items-center gap-2 rounded-[var(--radius-md)] px-4 text-[0.9375rem] font-semibold text-accent-ink transition-colors"
+              className="bg-brand-600 hover:bg-brand-700 text-accent-ink inline-flex h-11 items-center gap-2 rounded-[var(--radius-md)] px-4 text-[0.9375rem] font-semibold transition-colors"
             >
               <Plus className="h-4 w-4" strokeWidth={2.2} />
               Add client
@@ -86,7 +86,7 @@ export default async function ClientsPage({
             defaultValue={q ?? ''}
             placeholder="Search by name"
             aria-label="Search clients"
-            className="text-ink placeholder:text-ink-quaternary focus:ring-brand-500 h-11 w-full rounded-[var(--radius-md)] bg-white pr-4 pl-10 text-[0.9375rem] ring-1 ring-[var(--color-hairline)] ring-inset outline-none focus:ring-2"
+            className="text-ink placeholder:text-ink-quaternary focus:ring-brand-500 h-11 w-full rounded-[var(--radius-md)] bg-white pr-4 pl-10 text-[0.9375rem] ring-1 ring-[var(--color-hairline)] outline-none ring-inset focus:ring-2"
           />
         </div>
 
@@ -94,7 +94,7 @@ export default async function ClientsPage({
           name="status"
           defaultValue={status ?? ''}
           aria-label="Filter by status"
-          className="text-ink-secondary h-11 rounded-[var(--radius-md)] bg-white px-3 text-[0.9375rem] ring-1 ring-[var(--color-hairline)] ring-inset outline-none"
+          className="text-ink-secondary h-11 rounded-[var(--radius-md)] bg-white px-3 text-[0.9375rem] ring-1 ring-[var(--color-hairline)] outline-none ring-inset"
         >
           <option value="">All statuses</option>
           <option value="lead">Lead</option>

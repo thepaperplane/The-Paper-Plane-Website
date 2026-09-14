@@ -1,13 +1,6 @@
 import type { Metadata } from 'next';
 import { ArrowRight, Building2, Code2, Globe, Layers, ShieldCheck, Users } from 'lucide-react';
-import {
-  ButtonLink,
-  Card,
-  Container,
-  Eyebrow,
-  Section,
-  SectionHeading,
-} from '@/components/ui';
+import { ButtonLink, Card, Container, Eyebrow, Section, SectionHeading } from '@/components/ui';
 import { PILLARS } from '@/content/services';
 import { SITE, pageOg } from '@/lib/site';
 import { loadContent, pick } from '@/lib/content';
@@ -54,7 +47,7 @@ export default async function AboutPage() {
   return (
     <>
       {/* Header */}
-      <Section className="pt-32 pb-14 sm:pt-40">
+      <Section className="pt-[calc(4.5rem+var(--space-section-sm))] pb-14">
         <div className="pointer-events-none absolute inset-0 -z-10" />
         <Container>
           <SectionHeading
@@ -74,18 +67,18 @@ export default async function AboutPage() {
               Most growing companies carry two unrelated problems at once. Their statutory
               compliance is fragmented across a filing agent, a consultant and a part-time
               accountant, none of whom hold the whole picture. And their operations run on
-              spreadsheets and disconnected tools that no one designed, quietly producing the
-              errors that surface during an audit two years later.
+              spreadsheets and disconnected tools that no one designed, quietly producing the errors
+              that surface during an audit two years later.
             </p>
             <p className="text-ink-2 text-[1.0625rem] leading-[1.75]">
-              These look like separate problems. They are the same problem. A reconciliation
-              that is never automated is a reconciliation that is never done properly. A filing
-              produced from data nobody can trace is a filing nobody can defend.
+              These look like separate problems. They are the same problem. A reconciliation that is
+              never automated is a reconciliation that is never done properly. A filing produced
+              from data nobody can trace is a filing nobody can defend.
             </p>
             <p className="text-ink-2 text-[1.0625rem] leading-[1.75]">
               So the practice was built to hold both. The people who understand what a scrutiny
-              officer will ask for are the same people who specify the system that captures it.
-              That is an unusual combination, and it is the entire point.
+              officer will ask for are the same people who specify the system that captures it. That
+              is an unusual combination, and it is the entire point.
             </p>
           </div>
         </Container>
@@ -103,9 +96,7 @@ export default async function AboutPage() {
                   <Icon className="text-accent h-5 w-5" strokeWidth={1.9} />
                 </span>
                 <h3 className="text-ink mt-5 text-[1.0625rem] font-semibold">{title}</h3>
-                <p className="text-ink-3 mt-2.5 text-[0.9375rem] leading-relaxed">
-                  {body}
-                </p>
+                <p className="text-ink-3 mt-2.5 text-[0.9375rem] leading-relaxed">{body}</p>
               </Card>
             ))}
           </div>
@@ -125,9 +116,7 @@ export default async function AboutPage() {
             {PILLARS.map((pillar) => (
               <Card key={pillar.id} className="bg-surface p-6">
                 <h3 className="text-ink text-[1rem] font-semibold">{pillar.title}</h3>
-                <p className="text-ink-3 mt-2 text-[0.875rem] leading-relaxed">
-                  {pillar.tagline}
-                </p>
+                <p className="text-ink-3 mt-2 text-[0.875rem] leading-relaxed">{pillar.tagline}</p>
               </Card>
             ))}
           </div>
@@ -144,9 +133,9 @@ export default async function AboutPage() {
                 Remote-first, and deliberately so
               </h2>
               <p className="text-ink-3 mt-5 text-lg leading-relaxed">
-                Every statutory portal we work in is online. Every document we need moves
-                digitally. Running without a public office removes overhead that clients would
-                otherwise pay for, and removes geography as a constraint on who we can serve.
+                Every statutory portal we work in is online. Every document we need moves digitally.
+                Running without a public office removes overhead that clients would otherwise pay
+                for, and removes geography as a constraint on who we can serve.
               </p>
               <p className="text-ink-3 mt-4 text-lg leading-relaxed">
                 What replaces a reception desk is responsiveness: a named contact, a stated

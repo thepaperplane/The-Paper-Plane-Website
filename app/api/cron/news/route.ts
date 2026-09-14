@@ -61,7 +61,12 @@ export async function GET(request: Request) {
           })
           .eq('id', source.id);
 
-        return { source: source.name, ok: true as const, parsed: items.length, inserted: count ?? 0 };
+        return {
+          source: source.name,
+          ok: true as const,
+          parsed: items.length,
+          inserted: count ?? 0,
+        };
       } catch (error) {
         const message = error instanceof Error ? error.message : 'Unknown error';
         console.error(`[cron/news] ${source.name} failed:`, message);

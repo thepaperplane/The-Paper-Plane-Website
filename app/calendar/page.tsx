@@ -36,7 +36,7 @@ export default async function CalendarPage() {
   return (
     <>
       {/* Header */}
-      <Section className="pt-32 pb-12 sm:pt-40">
+      <Section className="pt-[calc(4.5rem+var(--space-section-sm))] pb-12">
         <div className="pointer-events-none absolute inset-0 -z-10" />
         <Container>
           <SectionHeading
@@ -78,10 +78,7 @@ export default async function CalendarPage() {
                   'Extensions and notifications flagged when they are announced',
                   'One-click unsubscribe in every email',
                 ].map((item) => (
-                  <li
-                    key={item}
-                    className="text-ink-2 flex items-start gap-2.5 text-[0.9375rem]"
-                  >
+                  <li key={item} className="text-ink-2 flex items-start gap-2.5 text-[0.9375rem]">
                     <span className="bg-accent mt-2 h-1.5 w-1.5 shrink-0 rounded-full" />
                     {item}
                   </li>
@@ -107,7 +104,7 @@ export default async function CalendarPage() {
 
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {TURNAROUNDS.map((item) => (
-              <Card key={item.section} className="flex flex-col bg-surface p-6">
+              <Card key={item.section} className="bg-surface flex flex-col p-6">
                 <div className="flex items-start justify-between gap-3">
                   <span className="text-ink-3 font-[family-name:var(--font-mono)] text-[0.75rem]">
                     {item.section}
@@ -118,9 +115,7 @@ export default async function CalendarPage() {
                 <h3 className="text-ink mt-3 text-[1.0625rem] leading-snug font-semibold">
                   {item.service}
                 </h3>
-                <p className="text-accent mt-1.5 text-[0.9375rem] font-semibold">
-                  {item.duration}
-                </p>
+                <p className="text-accent mt-1.5 text-[0.9375rem] font-semibold">{item.duration}</p>
                 <p className="text-ink-3 mt-3 flex-1 text-[0.875rem] leading-relaxed">
                   {item.detail}
                 </p>

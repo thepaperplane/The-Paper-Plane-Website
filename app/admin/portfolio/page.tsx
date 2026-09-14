@@ -69,9 +69,9 @@ export default async function AdminPortfolioPage() {
         <ExternalLink className="mt-0.5 h-3.5 w-3.5 shrink-0" strokeWidth={2} />
         <span>
           Previews are captured images rather than live iframes. Most client sites send
-          frame-blocking headers, so an embedded live view would render an empty box — captures
-          look identical, load far faster, and keep working regardless of the client&rsquo;s
-          header policy.
+          frame-blocking headers, so an embedded live view would render an empty box — captures look
+          identical, load far faster, and keep working regardless of the client&rsquo;s header
+          policy.
         </span>
       </p>
     </>

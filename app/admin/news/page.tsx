@@ -19,11 +19,7 @@ export default async function AdminNewsPage() {
   if (supabase) {
     const [{ data: s }, { data: r }, { count }] = await Promise.all([
       supabase.from('news_sources').select('*').order('name'),
-      supabase
-        .from('news_items')
-        .select('*')
-        .order('published_at', { ascending: false })
-        .limit(15),
+      supabase.from('news_items').select('*').order('published_at', { ascending: false }).limit(15),
       supabase.from('news_items').select('id', { count: 'exact', head: true }),
     ]);
 
@@ -63,7 +59,8 @@ export default async function AdminNewsPage() {
             <p className="text-ink-secondary mt-1 text-[0.8125rem] leading-relaxed">
               The daily job runs on Vercel Cron. Trigger it manually with{' '}
               <code className="rounded bg-white/60 px-1">
-                curl -H &quot;Authorization: Bearer $CRON_SECRET&quot; https://your-domain/api/cron/news
+                curl -H &quot;Authorization: Bearer $CRON_SECRET&quot;
+                https://your-domain/api/cron/news
               </code>
             </p>
           </div>
@@ -89,9 +86,7 @@ export default async function AdminNewsPage() {
             {sources.map((source) => (
               <tr key={source.id} className="hover:bg-sunken/60 transition-colors">
                 <td className="px-6 py-3.5">
-                  <span className="text-ink block text-[0.875rem] font-medium">
-                    {source.name}
-                  </span>
+                  <span className="text-ink block text-[0.875rem] font-medium">{source.name}</span>
                   <span className="text-ink-quaternary block max-w-[18rem] truncate text-[0.75rem]">
                     {source.feed_url}
                   </span>

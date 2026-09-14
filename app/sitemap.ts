@@ -6,7 +6,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? SITE.url;
   const now = new Date();
 
-  const staticRoutes: { path: string; priority: number; frequency: MetadataRoute.Sitemap[number]['changeFrequency'] }[] = [
+  const staticRoutes: {
+    path: string;
+    priority: number;
+    frequency: MetadataRoute.Sitemap[number]['changeFrequency'];
+  }[] = [
     { path: '', priority: 1, frequency: 'weekly' },
     { path: '/services', priority: 0.9, frequency: 'monthly' },
     { path: '/knowledge', priority: 0.9, frequency: 'weekly' },

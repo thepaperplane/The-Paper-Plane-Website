@@ -34,17 +34,18 @@ export function AdvisoryMark({ className }: MarkProps) {
   return (
     <svg
       viewBox="0 0 320 200"
-      className={cn('h-auto w-full', className)}
+      className={cn('dg-mark h-auto w-full', className)}
       role="img"
       aria-label="A filed figure resting on a wide base of reconciled source records"
     >
-      {/* The number that goes on the return. */}
+      {/* The number that goes on the return. The label sits above the plate
+          rather than inside it — at small sizes the two ran into each other. */}
       <g className="dg-once" style={at(0, -10)}>
-        <rect x={92} y={12} width={136} height={34} rx="2" fill="var(--accent)" />
-        <Tag x={106} y={26} style={{ fill: 'var(--accent-ink)', opacity: 0.75 }}>
+        <Tag x={160} y={14} anchor="middle">
           AS FILED
         </Tag>
-        <Value x={214} y={38} size={15} anchor="end" style={{ fill: 'var(--accent-ink)' }}>
+        <rect x={92} y={22} width={136} height={34} rx="2" fill="var(--accent)" />
+        <Value x={160} y={45} size={15} anchor="middle" style={{ fill: 'var(--accent-ink)' }}>
           4,18,600
         </Value>
       </g>
@@ -55,7 +56,7 @@ export function AdvisoryMark({ className }: MarkProps) {
           key={x}
           className="dg-once-trace"
           style={at(220 + i * 90)}
-          d={`M ${x} 46 V 72`}
+          d={`M ${x} 56 V 72`}
           stroke="var(--hairline-strong)"
           strokeWidth="1"
           strokeDasharray="1"
@@ -85,19 +86,8 @@ export function AdvisoryMark({ className }: MarkProps) {
 
       <Rule x1={14} y1={168} x2={306} y2={168} />
       <Tag x={14} y={186}>
-        LEDGERS · BANK · CONTRACTS
+        LEDGERS · BANK · CONTRACTS · RETURNS
       </Tag>
-      <Value
-        x={306}
-        y={187}
-        size={10}
-        tone="quiet"
-        anchor="end"
-        className="dg-once"
-        style={at(1060)}
-      >
-        3-year retention
-      </Value>
     </svg>
   );
 }
@@ -115,7 +105,7 @@ export function EngineeringMark({ className }: MarkProps) {
   return (
     <svg
       viewBox="0 0 320 200"
-      className={cn('h-auto w-full', className)}
+      className={cn('dg-mark h-auto w-full', className)}
       role="img"
       aria-label="Interface, logic and data layers threaded by a single path held end to end by one team"
     >
@@ -131,10 +121,10 @@ export function EngineeringMark({ className }: MarkProps) {
             stroke="var(--hairline-strong)"
             strokeWidth="1"
           />
-          <Tag x={28} y={layer.y + 20} tone="ink">
+          <Tag x={28} y={layer.y + 17} tone="ink">
             {layer.label}
           </Tag>
-          <Tag x={28} y={layer.y + 34} tone="quiet">
+          <Tag x={28} y={layer.y + 36} tone="quiet">
             {layer.detail}
           </Tag>
           {[0, 1, 2].map((c) => (
