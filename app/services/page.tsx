@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Container, Heading, Label, Numeral, Ref, Section, TextLink } from '@/components/ui';
 import { PRACTICE_MARKS } from '@/components/practice/marks';
+import { ServiceDiagram } from '@/components/services/service-diagram';
 import { ServiceIndex } from '@/components/services/service-index';
 import { PRACTICE, pillarsFor } from '@/content/practice';
 import { pageOg } from '@/lib/site';
@@ -115,9 +116,10 @@ export default function ServicesPage() {
                         </div>
                       </div>
 
-                      <dl className="mt-8 grid gap-x-12 gap-y-9 sm:grid-cols-2">
+                      <dl className="mt-8 grid gap-x-12 gap-y-9 lg:grid-cols-2">
                         {pillar.services.map((service) => (
                           <div key={service.id} id={service.id} className="reveal scroll-mt-24">
+                            <ServiceDiagram id={service.id} />
                             <dt className="text-ink font-[family-name:var(--font-sans)] text-[length:var(--text-body)] font-medium tracking-[-0.01em]">
                               {service.title}
                             </dt>

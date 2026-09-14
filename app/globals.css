@@ -748,6 +748,38 @@
   }
 }
 
+/* Service drawings size themselves from the column they are in, not from the
+   viewport. A viewport query cannot know that the two-column service grid
+   renders a 200-unit frame at 304px on a desktop and 144px on a tablet — the
+   same breakpoint, less than half the size, labels at 5px. A container query
+   asks the only question that matters: how wide is this drawing actually
+   being drawn? */
+.dg-mini-wrap {
+  container-type: inline-size;
+}
+
+.dg-mini {
+  --dg-scale: 1;
+}
+
+@container (max-width: 200px) {
+  .dg-mini {
+    --dg-scale: 1.7;
+  }
+}
+
+@container (min-width: 201px) and (max-width: 260px) {
+  .dg-mini {
+    --dg-scale: 1.45;
+  }
+}
+
+@container (min-width: 261px) and (max-width: 330px) {
+  .dg-mini {
+    --dg-scale: 1.2;
+  }
+}
+
 svg [data-dg-fs] {
   font-size: calc(var(--dg-fs) * var(--dg-scale) * 1px);
 }
