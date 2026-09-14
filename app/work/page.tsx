@@ -14,6 +14,7 @@ import { PROJECTS as STATIC_PROJECTS, type Project } from '@/content/portfolio';
 import { pageOg } from '@/lib/site';
 import { serviceClient, isSupabaseConfigured } from '@/lib/supabase';
 import { loadContent, pick } from '@/lib/content';
+import { FlightRule } from '@/components/site/flight-rule';
 
 export const metadata: Metadata = {
   title: 'Work',
@@ -95,6 +96,10 @@ export default async function WorkPage() {
           />
         </Container>
       </Section>
+
+      <Container>
+        <FlightRule className="py-2" />
+      </Container>
 
       {/* Live projects */}
       <Section className="pt-0 pb-8">

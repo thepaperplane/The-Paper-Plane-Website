@@ -4,6 +4,7 @@ import { ButtonLink, Card, Container, Eyebrow, Section, SectionHeading } from '@
 import { PILLARS } from '@/content/services';
 import { SITE, pageOg } from '@/lib/site';
 import { loadContent, pick } from '@/lib/content';
+import { FlightRule } from '@/components/site/flight-rule';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -58,6 +59,10 @@ export default async function AboutPage() {
           />
         </Container>
       </Section>
+
+      <Container>
+        <FlightRule className="py-2" />
+      </Container>
 
       {/* Story */}
       <Section className="pt-0 pb-16">

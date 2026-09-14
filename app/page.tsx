@@ -6,6 +6,7 @@ import { COMPLIANCE_EVENTS } from '@/content/calendar';
 import { SERVICE_ANATOMY } from '@/content/knowledge';
 import { loadContent, pick } from '@/lib/content';
 import { ordinal } from '@/lib/utils';
+import { FlightRule } from '@/components/site/flight-rule';
 
 export default async function HomePage() {
   const copy = await loadContent('home');
@@ -42,6 +43,10 @@ export default async function HomePage() {
           </div>
         </Container>
       </Section>
+
+      <Container>
+        <FlightRule className="py-4" />
+      </Container>
 
       {/* ------------------------------------------------------------------
           The process, shown rather than asserted. This is the answer to the

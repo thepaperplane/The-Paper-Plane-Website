@@ -420,6 +420,96 @@
     }
   }
 
+  /* Flight divider.
+     ---------------------------------------------------------------------
+     The trajectory draws itself, then the mark runs it once. Both are gated
+     on the same `data-shown` as every other reveal, so the divider animates
+     when you reach it rather than while it is off screen.
+
+     The plane is moved on two axes by two nested elements rather than by
+     `offset-path`. A motion path takes fixed pixel coordinates, so it cannot
+     follow an SVG that is stretched to the width of its container — the plane
+     would drift off the line at every viewport but one. Horizontal travel on
+     the outer element and vertical travel on the inner, given different
+     easings, describe the same arc and scale with the container for free.
+     Percentages here match the 1200x80 user space of the SVG: the curve
+     starts at y=64 (80%) and ends at y=10 (12.5%). */
+  .flight-path {
+    stroke-dashoffset: 1;
+  }
+
+  .reveal-ready .reveal[data-shown='true'] .flight-path {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1.6s var(--ease-out-editorial);
+  }
+
+  .flight-plane {
+    position: absolute;
+    top: 0;
+    left: calc(100% - 1.125rem);
+    height: 100%;
+    width: 1.125rem;
+  }
+
+  .flight-plane > * {
+    position: absolute;
+    top: 12.5%;
+    display: block;
+    rotate: -2deg;
+  }
+
+  .reveal-ready .reveal .flight-plane {
+    left: 0;
+    opacity: 0;
+  }
+
+  .reveal-ready .reveal .flight-plane > * {
+    top: 78%;
+    rotate: -13deg;
+  }
+
+  /* Horizontal travel is linear — a constant ground speed — and the climb
+     carries the easing. The bezier is not a taste decision: it is sampled
+     from the curve the plane is meant to be following, which rises to 28% of
+     its total by a quarter of the way across, 75% by half and 94% by three
+     quarters. An ease-out here, the obvious choice, lifts the plane clear of
+     its own trajectory in the first third. */
+  .reveal-ready .reveal[data-shown='true'] .flight-plane {
+    left: calc(100% - 1.125rem);
+    opacity: 1;
+    transition:
+      left 1.9s linear,
+      opacity 0.35s linear;
+  }
+
+  .reveal-ready .reveal[data-shown='true'] .flight-plane > * {
+    top: 12.5%;
+    rotate: -2deg;
+    transition:
+      top 1.9s cubic-bezier(0.4, 0.1, 0.25, 1),
+      rotate 1.9s cubic-bezier(0.4, 0.1, 0.25, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flight-path {
+      stroke-dashoffset: 0;
+    }
+
+    .reveal-ready .reveal .flight-plane,
+    .reveal-ready .reveal[data-shown='true'] .flight-plane {
+      left: calc(100% - 1.125rem);
+      opacity: 1;
+      transition: none;
+    }
+
+    .reveal-ready .reveal .flight-plane > *,
+    .reveal-ready .reveal[data-shown='true'] .flight-plane > * {
+      top: 12.5%;
+      rotate: -2deg;
+      transition: none;
+    }
+  }
+
   /* Reveal variants.
      ---------------------------------------------------------------------
      One motion for everything makes a page feel like a slideshow of itself.

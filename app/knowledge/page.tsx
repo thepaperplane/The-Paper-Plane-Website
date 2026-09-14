@@ -16,6 +16,7 @@ import { ARTICLES, MYTHS, PENALTY_EXPOSURE, TIMELINE_POSITION } from '@/content/
 import { pageOg } from '@/lib/site';
 import { formatDate } from '@/lib/utils';
 import { loadContent, pick } from '@/lib/content';
+import { FlightRule } from '@/components/site/flight-rule';
 
 export const metadata: Metadata = {
   title: 'Knowledge Corner',
@@ -47,6 +48,10 @@ export default async function KnowledgePage() {
           />
         </Container>
       </Section>
+
+      <Container>
+        <FlightRule className="py-2" />
+      </Container>
 
       {/* 1 — Service anatomy */}
       <Section tone="sunken" id="anatomy" className="scroll-mt-24 py-16 sm:py-20">

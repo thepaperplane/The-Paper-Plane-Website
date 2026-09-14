@@ -4,6 +4,7 @@ import { PRACTICE_MARKS } from '@/components/practice/marks';
 import { ServiceIndex } from '@/components/services/service-index';
 import { PRACTICE, pillarsFor } from '@/content/practice';
 import { pageOg } from '@/lib/site';
+import { FlightRule } from '@/components/site/flight-rule';
 
 export const metadata: Metadata = {
   title: 'Services',
@@ -52,6 +53,10 @@ export default function ServicesPage() {
 
       {/* The list first. The argument for it can wait until after. */}
       <ServiceIndex />
+
+      <Container>
+        <FlightRule className="py-6" />
+      </Container>
 
       {PRACTICE.map((side, sideIndex) => {
         const Mark = PRACTICE_MARKS[side.id];
