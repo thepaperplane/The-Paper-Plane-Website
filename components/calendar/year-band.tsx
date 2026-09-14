@@ -41,7 +41,11 @@ export function YearBand({
 
   return (
     <div>
-      <div className="flex items-end gap-1 sm:gap-1.5" role="group" aria-label="Select a month">
+      {/* 2px gutters on a phone. Twelve columns across 311px of content with
+          any more than that drops each one under the 24px minimum tap size,
+          and scrolling the band sideways would cost the at-a-glance year that
+          is the entire point of it. */}
+      <div className="flex items-end gap-[2px] sm:gap-1.5" role="group" aria-label="Select a month">
         {columns.map((col) => {
           const selected = col.value === month;
           const isCurrent = col.value === currentMonth;

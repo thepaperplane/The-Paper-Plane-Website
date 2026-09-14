@@ -62,7 +62,12 @@ export function SequenceControls({
         </button>
       </div>
 
-      <ol className="flex flex-1 items-center gap-2" aria-label="Stages">
+      {/* Own row on a phone. Sharing one row with the arrows and the pause
+          control squeezed each marker to 23px wide, under the 24px minimum. */}
+      <ol
+        className="order-last flex basis-full items-center gap-2 sm:order-none sm:flex-1 sm:basis-0"
+        aria-label="Stages"
+      >
         {stages.map((s, i) => (
           <li key={s.label} className="min-w-0 flex-1">
             <button
@@ -95,7 +100,7 @@ export function SequenceControls({
       <button
         type="button"
         onClick={toggle}
-        className="text-ink-3 hover:text-ink text-[length:var(--text-micro)] tracking-[0.12em] uppercase transition-colors"
+        className="tap text-ink-3 hover:text-ink text-[length:var(--text-micro)] tracking-[0.12em] uppercase transition-colors"
       >
         {playing ? 'Pause' : 'Play'}
       </button>

@@ -65,7 +65,7 @@ export function AdvisoryMark({ className }: MarkProps) {
 
       <Rule x1={14} y1={78} x2={306} y2={78} />
       <Tag x={14} y={94}>
-        EVERY FIGURE TRACED TO A RECORD
+        EVERY FIGURE TRACEABLE
       </Tag>
 
       {records.map((h, i) => (
@@ -85,7 +85,7 @@ export function AdvisoryMark({ className }: MarkProps) {
 
       <Rule x1={14} y1={168} x2={306} y2={168} />
       <Tag x={14} y={186}>
-        LEDGERS · BANK · CONTRACTS · RETURNS
+        LEDGERS · BANK · CONTRACTS
       </Tag>
       <Value
         x={306}

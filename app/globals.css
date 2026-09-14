@@ -438,6 +438,32 @@
     }
   }
 
+  /* Touch target.
+     ---------------------------------------------------------------------
+     The editorial style is bare text links with no chrome, which lands them
+     at about 22px tall — under the 24x24 CSS px that WCAG 2.5.8 requires, and
+     well under what a thumb wants. Padding would push the layout around
+     everywhere, so the target is grown with a pseudo-element instead: the
+     text stays exactly where it was and only the hit area changes.
+
+     36px rather than the 44px Apple and Google suggest, because these links
+     sit in wrapped rows 16px apart and a 44px target would overlap its
+     neighbour — a tap landing on the wrong link is worse than a small one.
+     Stacked lists get real padding instead; see the footer. */
+  .tap {
+    position: relative;
+  }
+
+  .tap::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    top: 50%;
+    height: 100%;
+    min-height: 36px;
+    translate: 0 -50%;
+  }
+
   .sr-only-focusable:not(:focus):not(:focus-within) {
     position: absolute;
     width: 1px;
@@ -496,6 +522,29 @@
    its place in the sequence. `--dg-play` on the root <svg> pauses the whole
    scene when its stage is not the one on show.
    ========================================================================== */
+
+/* Diagram type sizing.
+   --------------------------------------------------------------------------
+   Text inside an SVG is measured in user units, so it shrinks with the frame:
+   a 320-unit drawing rendered at 416px puts a 9-unit label at 11.7px, but the
+   same label on a phone, where the frame is about 280px, lands at 7.9px.
+
+   Rather than pick one size that is wrong at both ends, each frame carries a
+   scale that compensates for how far it has been shrunk. Labels then land at
+   roughly the same optical size on a phone as on a desktop. */
+:root {
+  --dg-scale: 1.45;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --dg-scale: 1;
+  }
+}
+
+svg [data-dg-fs] {
+  font-size: calc(var(--dg-fs) * var(--dg-scale) * 1px);
+}
 
 @keyframes pp-dg-appear {
   0% {

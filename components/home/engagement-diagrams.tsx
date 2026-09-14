@@ -85,7 +85,7 @@ export function ReadDiagram({ active }: P) {
 
       <g className="dg-appear" style={seq(3000)}>
         <path d="M 272 92 h 8 v 18 h -8" fill="none" stroke="var(--accent)" strokeWidth="1.4" />
-        <Tag x={288} y={105} tone="accent">
+        <Tag x={306} y={122} anchor="end" tone="accent">
           s.143(2)
         </Tag>
       </g>
@@ -100,7 +100,7 @@ export function ScopeDiagram({ active }: P) {
   const items = [
     { label: 'GST returns', side: 0 },
     { label: 'Ledger repair', side: 0 },
-    { label: 'Prior-year revision', side: 1 },
+    { label: 'Prior years', side: 1 },
     { label: 'Annual audit', side: 1 },
   ];
   return (
@@ -159,7 +159,7 @@ export function ScopeDiagram({ active }: P) {
 
       <Rule x1={14} y1={160} x2={306} y2={160} />
       <Tag x={14} y={174}>
-        AGREED IN WRITING BEFORE ANY WORK BEGINS
+        AGREED IN WRITING FIRST
       </Tag>
     </Frame>
   );
@@ -220,7 +220,7 @@ export function GroundworkDiagram({ active }: P) {
       })}
 
       <Tag x={14} y={162}>
-        RECONCILIATION · EVIDENCE · LEDGER REPAIR
+        RECONCILIATION &amp; EVIDENCE
       </Tag>
       <Value
         x={306}
@@ -302,7 +302,7 @@ export function ReviewDiagram({ active }: P) {
 
       <Rule x1={20} y1={140} x2={286} y2={140} />
       <Tag x={20} y={158}>
-        PREPARER AND REVIEWER ARE NEVER THE SAME PERSON
+        NEVER THE SAME PERSON
       </Tag>
     </Frame>
   );
@@ -334,7 +334,7 @@ export function AftercareDiagram({ active }: P) {
       {/* The months passing. */}
       <Trace d="M 22 112 H 288" delay={300} tone="structure" dashed />
       <Tag x={22} y={128}>
-        WORKING PAPERS HELD · INDEXED · SEARCHABLE
+        PAPERS HELD &amp; INDEXED
       </Tag>
 
       {/* The notice, much later. */}

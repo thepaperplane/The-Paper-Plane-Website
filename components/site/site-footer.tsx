@@ -30,16 +30,16 @@ export function SiteFooter() {
             <dl className="mt-10 space-y-4">
               <div>
                 <dt className="label mb-1.5">Direct</dt>
-                <dd className="flex flex-col gap-1">
+                <dd className="flex flex-col gap-0">
                   <a
                     href={`tel:${SITE.phoneIntl}`}
-                    className="link-underline text-ink w-fit text-[length:var(--text-small)]"
+                    className="link-underline text-ink block w-fit py-2.5 text-[length:var(--text-small)]"
                   >
                     {SITE.phone}
                   </a>
                   <a
                     href={`mailto:${SITE.email}`}
-                    className="link-underline text-ink w-fit text-[length:var(--text-small)]"
+                    className="link-underline text-ink block w-fit py-2.5 text-[length:var(--text-small)]"
                   >
                     {SITE.email}
                   </a>
@@ -47,7 +47,7 @@ export function SiteFooter() {
                     href={whatsappLink()}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="link-underline text-ink w-fit text-[length:var(--text-small)]"
+                    className="link-underline text-ink block w-fit py-2.5 text-[length:var(--text-small)]"
                   >
                     WhatsApp
                   </a>
@@ -65,12 +65,14 @@ export function SiteFooter() {
             {FOOTER_NAV.map((group) => (
               <nav key={group.heading} aria-label={group.heading}>
                 <Label>{group.heading}</Label>
-                <ul className="mt-5 space-y-3">
+                {/* Padded rows rather than `.tap`: these are stacked, so an
+                    expanded overlay would overlap the link above and below. */}
+                <ul className="mt-3 space-y-0">
                   {group.items.map((item) => (
                     <li key={item.href + item.label}>
                       <Link
                         href={item.href}
-                        className="text-ink-2 hover:text-ink text-[length:var(--text-small)] transition-colors duration-300"
+                        className="text-ink-2 hover:text-ink block py-2.5 text-[length:var(--text-small)] transition-colors duration-300"
                       >
                         {item.label}
                       </Link>

@@ -63,7 +63,7 @@ export function SiteHeader() {
                 href={item.href}
                 aria-current={isActive(item.href) ? 'page' : undefined}
                 className={cn(
-                  'text-[length:var(--text-small)] whitespace-nowrap transition-colors duration-300',
+                  'tap text-[length:var(--text-small)] whitespace-nowrap transition-colors duration-300',
                   isActive(item.href) ? 'text-ink' : 'text-ink-3 hover:text-ink',
                 )}
               >
@@ -174,13 +174,14 @@ export function SiteHeader() {
               Start a conversation
             </Link>
             <div className="text-ink-3 flex items-center justify-between text-[length:var(--text-caption)]">
-              <a href={`tel:${SITE.phoneIntl}`} tabIndex={open ? 0 : -1}>
+              <a href={`tel:${SITE.phoneIntl}`} className="tap" tabIndex={open ? 0 : -1}>
                 {SITE.phone}
               </a>
               <a
                 href={whatsappLink()}
                 target="_blank"
                 rel="noopener noreferrer"
+                className="tap"
                 tabIndex={open ? 0 : -1}
               >
                 WhatsApp

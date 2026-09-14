@@ -109,9 +109,9 @@ export function CalendarView({ initialMonth }: { initialMonth: number }) {
 
       {/* Timeline */}
       <div className="mt-8" aria-live="polite">
-        <h3 className="text-ink-3 text-[0.75rem] font-semibold tracking-[0.06em] uppercase">
+        <h2 className="text-ink-3 text-[0.75rem] font-semibold tracking-[0.06em] uppercase">
           {MONTHS[month - 1]} — {events.length} {events.length === 1 ? 'deadline' : 'deadlines'}
-        </h3>
+        </h2>
 
         {events.length === 0 ? (
           <Card className="bg-surface mt-4 p-8 text-center">
@@ -159,9 +159,9 @@ export function CalendarView({ initialMonth }: { initialMonth: number }) {
                           <span className="text-ink-3 text-[0.75rem]">{event.appliesTo}</span>
                         </div>
 
-                        <h4 className="text-ink mt-2.5 text-[1.0625rem] leading-snug font-semibold">
+                        <h3 className="text-ink mt-2.5 text-[1.0625rem] leading-snug font-semibold">
                           {event.title}
-                        </h4>
+                        </h3>
                         <p className="text-ink-3 mt-2 text-[0.9375rem] leading-relaxed">
                           {event.description}
                         </p>

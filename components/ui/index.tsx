@@ -78,13 +78,7 @@ export function Ref({ className, ...props }: React.HTMLAttributes<HTMLSpanElemen
 }
 
 /** Editorial index numeral — 01, 02, 03. */
-export function Numeral({
-  value,
-  className,
-}: {
-  value: number | string;
-  className?: string;
-}) {
+export function Numeral({ value, className }: { value: number | string; className?: string }) {
   const text = typeof value === 'number' ? String(value).padStart(2, '0') : value;
   return (
     <span className={cn('numeral', className)} aria-hidden="true">
@@ -220,7 +214,7 @@ export function TextLink({
   external?: boolean;
 }) {
   const classes = cn(
-    'link-underline text-accent inline-block text-[length:var(--text-small)] font-medium',
+    'link-underline tap text-accent inline-block text-[length:var(--text-small)] font-medium',
     className,
   );
   if (external) {
@@ -250,7 +244,7 @@ export function Tag({
     <span
       className={cn(
         'inline-flex items-center rounded-[var(--radius-xs)] px-2 py-1 text-[length:var(--text-micro)] font-medium',
-        tone === 'neutral' && 'text-ink-3 ring-1 ring-inset ring-[var(--hairline)]',
+        tone === 'neutral' && 'text-ink-3 ring-1 ring-[var(--hairline)] ring-inset',
         tone === 'accent' && 'text-accent ring-accent/30 ring-1 ring-inset',
         tone === 'positive' && 'text-positive ring-positive/30 ring-1 ring-inset',
         tone === 'caution' && 'text-caution ring-caution/30 ring-1 ring-inset',
@@ -288,7 +282,7 @@ export function IndexRow({
         className,
       )}
     >
-      <Numeral value={index} className="text-[length:var(--text-title-2)] pt-1" />
+      <Numeral value={index} className="pt-1 text-[length:var(--text-title-2)]" />
       <div className="min-w-0">
         <h3 className="group-hover:text-accent text-[length:var(--text-title-2)] transition-colors duration-300">
           {title}
@@ -330,7 +324,7 @@ export function Card({
     <div
       className={cn(
         'bg-surface rounded-[var(--radius-md)] border',
-        interactive && 'hover:border-[var(--hairline-strong)] transition-colors duration-300',
+        interactive && 'transition-colors duration-300 hover:border-[var(--hairline-strong)]',
         className,
       )}
       {...props}

@@ -118,11 +118,11 @@ export function Tag({
       x={x}
       y={y}
       fill={fill}
-      fontSize="9"
       letterSpacing="1.1"
       textAnchor={anchor}
       className={className}
-      style={{ fontFamily: 'var(--font-sans)', ...style }}
+      data-dg-fs=""
+      style={{ fontFamily: 'var(--font-sans)', ['--dg-fs' as string]: 9, ...style }}
     >
       {children}
     </text>
@@ -163,10 +163,10 @@ export function Value({
       x={x}
       y={y}
       fill={fill}
-      fontSize={size}
       textAnchor={anchor}
       className={className}
-      style={{ fontFamily: 'var(--font-mono)', ...style }}
+      data-dg-fs=""
+      style={{ fontFamily: 'var(--font-mono)', ['--dg-fs' as string]: size, ...style }}
     >
       {children}
     </text>
