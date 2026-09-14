@@ -460,8 +460,7 @@ export const DECODER: DecoderEntry[] = [
     key: '142(1)',
     title: 'Section 142(1) — inquiry notice',
     act: 'Income Tax Act, 1961',
-    plainEnglish:
-      'The officer is asking for documents or explanations before deciding anything.',
+    plainEnglish: 'The officer is asking for documents or explanations before deciding anything.',
     whatToDo:
       'Produce exactly what is asked, in the format asked, inside the deadline. Volunteering more is rarely wise.',
     clock: 'Typically 15 days from receipt.',
@@ -505,9 +504,9 @@ export const DECODER: DecoderEntry[] = [
     title: 'Section 44AB — tax audit',
     act: 'Income Tax Act, 1961',
     plainEnglish:
-      'Above a turnover threshold, a chartered accountant must audit and certify your accounts.',
+      'Above a turnover threshold, a practising chartered accountant must audit and certify your accounts. That certification is theirs to give, not ours.',
     whatToDo:
-      'Close the books early. The audit report is due before the return, not with it.',
+      'Close the books early and have them verified, so the audit is an examination rather than a reconstruction. The report is due before the return, not with it.',
     clock: 'Report by 30 September; return by 31 October.',
     severity: 'attention',
   },

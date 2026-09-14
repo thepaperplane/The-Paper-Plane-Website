@@ -17,7 +17,7 @@ import './globals.css';
    sibling of the display face rather than a borrowed monospace.
 
    Serif Medium carries display: sturdier stems than a high-contrast editorial
-   serif, so it reads as an audit report rather than a magazine masthead.
+   serif, so it reads as a working document rather than a magazine masthead.
 
    All self-hosted by next/font — no external request, no layout shift.
    -------------------------------------------------------------------------- */
@@ -59,11 +59,12 @@ export const metadata: Metadata = {
   creator: SITE.name,
   publisher: SITE.name,
   keywords: [
-    'chartered accountant India',
+    'GST compliance India',
     'GST compliance',
     'income tax scrutiny defence',
     'company incorporation',
-    'statutory audit',
+    'book-keeping services',
+    'internal audit',
     'compliance calendar',
     'web application development',
     'UI UX design',

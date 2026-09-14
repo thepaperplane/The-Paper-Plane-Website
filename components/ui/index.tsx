@@ -72,7 +72,7 @@ export function Label({ className, ...props }: React.HTMLAttributes<HTMLSpanElem
   return <span className={cn('label', className)} {...props} />;
 }
 
-/** Statutory reference: s.148, GSTR-3B, Form 3CA. */
+/** Statutory reference: s.148, GSTR-3B, GSTR-2B. */
 export function Ref({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) {
   return <span className={cn('ref text-ink-3', className)} {...props} />;
 }

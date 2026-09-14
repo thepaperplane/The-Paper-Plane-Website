@@ -7,13 +7,7 @@
  *    which is both correct positioning and avoids dating the copy.
  */
 
-export type PillarId =
-  | 'tax'
-  | 'scrutiny'
-  | 'incorporation'
-  | 'audit'
-  | 'digital'
-  | 'design';
+export type PillarId = 'tax' | 'scrutiny' | 'incorporation' | 'books' | 'digital' | 'design';
 
 export type Service = {
   id: string;
@@ -217,25 +211,38 @@ export const PILLARS: Pillar[] = [
     ],
   },
   {
-    id: 'audit',
-    title: 'Audit & Financial Systems',
-    tagline: 'Assurance, and the books worth assuring',
+    id: 'books',
+    title: 'Books & Audit Readiness',
+    tagline: 'Books kept so that an audit is a formality',
     description:
-      'Statutory and internal audit, tax audit under section 44AB, cloud accounting migration, and payroll architecture.',
+      'Book-keeping, monthly verification and internal audit, so the accounts are already in order when someone comes to examine them. Statutory audit and tax audit under section 44AB are reserved to a practising chartered accountant and are not carried out here — this is the work that makes those straightforward.',
     icon: 'ShieldCheck',
     accent: 'violet',
     services: [
       {
-        id: 'statutory-audit',
-        title: 'Statutory & internal audit',
-        subtitle: 'Companies Act and section 44AB',
+        id: 'bookkeeping',
+        title: 'Book-keeping & monthly verification',
+        subtitle: 'Closed every month, not every March',
         description:
-          'Verification of financial statements, statutory compliance, tax audit, and evaluation of internal controls.',
+          'Day-to-day book-keeping with a proper monthly close: bank and ledger reconciled, vouchers matched to entries, and the month signed off before the next one starts.',
         features: [
-          'Form 3CA/3CB and 3CD',
-          'Companies Act statutory audit',
-          'Internal controls review',
-          'Stock and inventory verification',
+          'Bank and ledger reconciled monthly',
+          'Every entry matched to its voucher',
+          'Month-end close checklist',
+          'Receivables and payables ageing',
+        ],
+      },
+      {
+        id: 'internal-audit',
+        title: 'Internal audit & controls review',
+        subtitle: 'Finding it before anyone else does',
+        description:
+          'An internal examination of your own records and processes — which entries are unsupported, where a process is letting errors through, and what to correct before the accounts go anywhere else.',
+        features: [
+          'Sample testing of entries and vouchers',
+          'Gaps in process and control',
+          'Stock and fixed-asset verification',
+          'Written findings, with the fix for each',
         ],
       },
       {
@@ -243,12 +250,12 @@ export const PILLARS: Pillar[] = [
         title: 'Accounting systems & migration',
         subtitle: 'Zoho Books, Tally Prime, QuickBooks',
         description:
-          'Migration to cloud accounting, chart of accounts design, multi-currency ledgers and automated bank feeds.',
+          'Moving your accounts onto software that suits the business, with a chart of accounts that matches how you actually operate and bank feeds that fill themselves in.',
         features: [
-          'Platform setup and migration',
-          'Automated bank feed integration',
-          'Custom chart of accounts',
-          'Inventory and cost-centre tagging',
+          'Setup and migration from your current books',
+          'Bank statements imported automatically',
+          'Chart of accounts built around your business',
+          'Stock and cost-centre tagging',
         ],
       },
       {
@@ -256,12 +263,12 @@ export const PILLARS: Pillar[] = [
         title: 'Payroll & HRMS',
         subtitle: 'PF, ESI, professional tax and Form 16',
         description:
-          'Monthly payroll processing, salary structures optimised for legitimate tax efficiency, and statutory returns.',
+          'Monthly payroll run end to end — salary structures arranged for legitimate tax efficiency, statutory deductions filed on time, and payslips out without anyone chasing.',
         features: [
-          'Tax-optimised salary structure',
-          'PF and ESI monthly filings',
+          'Salary structures arranged tax-efficiently',
+          'PF and ESI filed monthly',
           'Professional tax compliance',
-          'Automated payslips and Form 16',
+          'Payslips and Form 16 issued automatically',
         ],
       },
     ],
@@ -269,9 +276,9 @@ export const PILLARS: Pillar[] = [
   {
     id: 'digital',
     title: 'Digital Infrastructure',
-    tagline: 'The software your compliance actually runs on',
+    tagline: 'The software your business actually runs on',
     description:
-      'Production web platforms, financial SaaS, internal portals and workflow automation — built by the same firm that understands the filings.',
+      'Websites, customer portals, billing systems and the small automations that remove repetitive work — built by the same people who handle your filings.',
     icon: 'Code2',
     accent: 'navy',
     services: [
@@ -280,26 +287,26 @@ export const PILLARS: Pillar[] = [
         title: 'Web design & front-end',
         subtitle: 'Marketing sites and product surfaces',
         description:
-          'Fast, accessible, server-rendered sites with considered motion — not page-builder output.',
+          'A site that loads quickly, reads well on a phone, and is built properly rather than assembled from a template.',
         features: [
-          'Server-rendered for search visibility',
-          'WCAG AA accessible by default',
-          'Core Web Vitals budgeted up front',
-          'Design system, not one-off pages',
+          'Built to be found on Google',
+          'Readable for everyone, screen readers included',
+          'Fast on a phone and a slow connection',
+          'One consistent look across every page',
         ],
-        badge: 'In-house build',
+        badge: 'Built in-house',
       },
       {
         id: 'web-apps',
         title: 'Custom web applications',
-        subtitle: 'Full-stack portals and dashboards',
+        subtitle: 'Portals and dashboards for your team',
         description:
-          'Type-safe applications with authentication, role-based access, audit trails and real-time dashboards.',
+          'Private systems for your staff or your customers — everyone signs in, everyone sees only what they should, and every change leaves a record.',
         features: [
-          'Type-safe modular codebases',
-          'Role-based access control',
-          'Real-time data pipelines',
-          'Managed cloud hosting',
+          'Built to be maintained, not rewritten',
+          'Each person sees only what they should',
+          'Figures update as they change',
+          'Hosted, backed up and monitored for you',
         ],
       },
       {
@@ -307,25 +314,25 @@ export const PILLARS: Pillar[] = [
         title: 'Financial SaaS & commerce',
         subtitle: 'Billing, invoicing and payments',
         description:
-          'Invoice engines, recurring subscription portals, payment gateway integration and customer-facing ledgers.',
+          'Invoices that go out correctly the first time, subscriptions that bill themselves, and a place customers can see what they owe and what they have paid.',
         features: [
-          'Razorpay and Stripe integration',
-          'GST-compliant invoice engine',
-          'Customer portal and receipts',
-          'Subscription ledger sync',
+          'Card, UPI and netbanking payments',
+          'Invoices that satisfy GST rules',
+          'A portal where customers find their receipts',
+          'Recurring billing kept in step with the books',
         ],
       },
       {
         id: 'automation',
         title: 'Workflow automation & AI',
-        subtitle: 'Document intelligence and assistants',
+        subtitle: 'Taking the repetitive work off people',
         description:
-          'Document parsing, data extraction, automated status checks and internal assistants that remove manual re-keying.',
+          'Software that reads figures off invoices and bank statements, checks them against your records, and tells someone when they do not agree.',
         features: [
-          'Document OCR and extraction',
-          'Automated reconciliation routines',
-          'Lead capture and messaging bots',
-          'Internal knowledge base search',
+          'Reads figures off invoices and statements',
+          'Matches them against your books automatically',
+          'Enquiries captured and answered quickly',
+          'Your own documents, searchable',
         ],
       },
     ],
@@ -344,12 +351,12 @@ export const PILLARS: Pillar[] = [
         title: 'Identity & brand marks',
         subtitle: 'Marks, type and guidelines',
         description:
-          'Geometric logo systems, typography architecture, colour scales, and the guidelines that keep them consistent.',
+          'A logo, typefaces and colours that work together, with simple rules so everything you produce afterwards still looks like you.',
         features: [
-          'Vector and dimensional logo marks',
-          'Typography architecture',
-          'Colour palette and tonal scales',
-          'Usage guidelines and asset kits',
+          'A logo that works at every size',
+          'Typefaces chosen to pair',
+          'A colour palette that holds together',
+          'Simple rules, and every file you need',
         ],
       },
       {
@@ -374,7 +381,7 @@ export const PILLARS: Pillar[] = [
         features: [
           'Structural and unboxing packaging',
           'High-resolution print catalogues',
-          'Social visual architecture',
+          'A consistent look across social posts',
           'Trade event displays',
         ],
       },

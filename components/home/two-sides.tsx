@@ -61,16 +61,6 @@ export function TwoSides() {
                   ))}
                 </ul>
 
-                {/* A concrete proof point instead of a marketing claim. */}
-                <div className="mt-10 flex items-start gap-5">
-                  <span className="text-accent shrink-0 font-[family-name:var(--font-display)] text-[length:var(--text-title-2)] leading-none">
-                    {side.proof.figure}
-                  </span>
-                  <p className="text-ink-3 max-w-[34ch] text-[length:var(--text-caption)] leading-relaxed">
-                    {side.proof.caption}
-                  </p>
-                </div>
-
                 <div className="mt-10">
                   <TextLink href={side.href}>Explore {side.name.toLowerCase()}</TextLink>
                 </div>

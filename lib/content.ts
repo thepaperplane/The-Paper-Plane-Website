@@ -58,7 +58,7 @@ export const CONTENT_DEFAULTS: Record<ContentKey, { label: string; page: string;
       page: 'home',
       label: 'Hero — supporting text',
       value:
-        'Compliance, litigation support and statutory audit — specified by the same practice that builds your platforms. The handoffs where things usually break simply do not exist here.',
+        'Compliance, representation and books kept audit-ready — specified by the same practice that builds your software. The handoffs where things usually break simply do not exist here.',
     },
     'home.pillars.title': {
       page: 'home',

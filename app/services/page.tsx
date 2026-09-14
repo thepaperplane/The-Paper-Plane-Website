@@ -9,7 +9,7 @@ import { FlightRule } from '@/components/site/flight-rule';
 export const metadata: Metadata = {
   title: 'Services',
   description:
-    'Tax and GST compliance, scrutiny defence and appeals, incorporation, statutory audit — and the web, product, identity and automation work built alongside them.',
+    'Tax and GST compliance, scrutiny defence and appeals, incorporation, book-keeping and audit readiness — and the web, product, identity and automation work built alongside them.',
   alternates: { canonical: '/services' },
   openGraph: pageOg({
     title: 'Services',
@@ -178,7 +178,7 @@ export default function ServicesPage() {
               </div>
               <p className="text-ink-3 mt-10 text-[length:var(--text-caption)]">
                 Statutory references throughout this site are set in <Ref>JetBrains Mono</Ref> —{' '}
-                <Ref>s.148</Ref>, <Ref>GSTR-3B</Ref>, <Ref>Form 3CA</Ref> — so they read as
+                <Ref>s.148</Ref>, <Ref>GSTR-3B</Ref>, <Ref>GSTR-2B</Ref> — so they read as
                 citations, not marketing.
               </p>
             </div>

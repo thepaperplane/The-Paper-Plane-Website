@@ -1,62 +1,79 @@
-import { Bar, Rule, Tag, Value } from '@/components/diagrams/kit';
+import { Rule, Tag, Value } from '@/components/diagrams/kit';
 import { cn } from '@/lib/utils';
 
 /**
  * One drawing per half of the practice.
  *
- * The site's claim is that advisory and engineering carry equal weight here,
- * so each half gets a mark of the same size, in the same ink, built from the
- * same primitives. Neither is an icon: each states that half's actual
- * argument — advisory, that a filed figure is only as good as the records
- * under it; engineering, that one team holds the whole stack rather than three
- * vendors holding a third each.
+ * Each has to answer a client's question rather than describe a system. The
+ * advisory mark answers "what do you actually do all year" — the books are
+ * closed and verified every month, so nothing has to be reconstructed in
+ * March. The engineering mark answers "what happens if I hire you to build
+ * something" — one team from the first sketch to the live site.
  *
- * These play once and hold, rather than looping like the slideshow drawings.
- * A looping animation beside a paragraph someone is trying to read is a
- * distraction; the same vocabulary run once is an illustration. The staging
- * rides on the existing scroll reveal via `.dg-once`, so they are server
- * rendered with no client bundle and settle immediately under reduced motion.
+ * The pair these replace were drawn from the inside out: a filed figure over a
+ * bar chart, and three layers labelled INTERFACE, LOGIC and DATA. Both were
+ * accurate and neither was any use to the person reading them. Nobody hiring a
+ * web developer is asking about the logic layer.
+ *
+ * They play once and hold rather than looping. A loop beside a paragraph
+ * someone is reading is a distraction; the same vocabulary, run once as they
+ * scroll to it, is an illustration. The staging rides on the existing scroll
+ * reveal, so these are server rendered with no client JavaScript and settle
+ * immediately under reduced motion.
  */
 
 type MarkProps = { className?: string };
 
 /** Sequences a piece of a mark without needing a client component. */
-function at(ms: number, fy = 8): React.CSSProperties {
-  return { ['--d' as string]: `${ms}ms`, ['--fy' as string]: `${fy}px` } as React.CSSProperties;
+function at(ms: number, fy = 8, fx = 0): React.CSSProperties {
+  return {
+    ['--d' as string]: `${ms}ms`,
+    ['--fy' as string]: `${fy}px`,
+    ['--fx' as string]: `${fx}px`,
+  } as React.CSSProperties;
 }
 
 /* ------------------------------------------------------------------ */
-/* Advisory — the filed position, and the record holding it up.        */
+/* Advisory — the month closed, twelve times a year.                   */
 /* ------------------------------------------------------------------ */
 export function AdvisoryMark({ className }: MarkProps) {
-  const records = [34, 58, 26, 70, 44, 52, 30];
+  const slips = [0, 1, 2, 3];
+  const months = Array.from({ length: 12 }, (_, i) => i);
 
   return (
     <svg
       viewBox="0 0 320 200"
       className={cn('dg-mark h-auto w-full', className)}
       role="img"
-      aria-label="A filed figure resting on a wide base of reconciled source records"
+      aria-label="Vouchers matched into a verified ledger each month, and twelve months closed across the year"
     >
-      {/* The number that goes on the return. The label sits above the plate
-          rather than inside it — at small sizes the two ran into each other. */}
-      <g className="dg-once" style={at(0, -10)}>
-        <Tag x={160} y={14} anchor="middle">
-          AS FILED
-        </Tag>
-        <rect x={92} y={22} width={136} height={34} rx="2" fill="var(--accent)" />
-        <Value x={160} y={45} size={15} anchor="middle" style={{ fill: 'var(--accent-ink)' }}>
-          4,18,600
-        </Value>
-      </g>
+      <Tag x={14} y={18}>
+        EVERY MONTH
+      </Tag>
 
-      {/* What it rests on. */}
-      {[122, 160, 198].map((x, i) => (
+      {/* What arrives: slips, bills, statements. */}
+      {slips.map((i) => (
+        <rect
+          key={i}
+          className="dg-once"
+          style={at(i * 90, 0, -10)}
+          x={14}
+          y={34 + i * 17}
+          width={52 - (i % 2) * 10}
+          height={10}
+          rx="1.5"
+          fill="var(--ink-3)"
+          fillOpacity="0.26"
+        />
+      ))}
+
+      {/* Matched across, one line at a time. */}
+      {slips.map((i) => (
         <path
-          key={x}
+          key={`t${i}`}
           className="dg-once-trace"
-          style={at(220 + i * 90)}
-          d={`M ${x} 56 V 72`}
+          style={at(220 + i * 100)}
+          d={`M 72 ${39 + i * 17} H 114`}
           stroke="var(--hairline-strong)"
           strokeWidth="1"
           strokeDasharray="1"
@@ -64,42 +81,98 @@ export function AdvisoryMark({ className }: MarkProps) {
         />
       ))}
 
-      <Rule x1={14} y1={78} x2={306} y2={78} />
-      <Tag x={14} y={94}>
-        EVERY FIGURE TRACEABLE
-      </Tag>
-
-      {records.map((h, i) => (
+      {/* Into a ledger that balances. */}
+      <rect
+        x={120}
+        y={28}
+        width={108}
+        height={78}
+        rx="3"
+        fill="var(--surface)"
+        stroke="var(--hairline-strong)"
+        strokeWidth="1"
+      />
+      {slips.map((i) => (
         <rect
-          key={i}
+          key={`l${i}`}
           className="dg-once"
-          style={at(520 + i * 70, 14)}
-          x={18 + i * 42}
-          y={168 - h}
-          width={26}
-          height={h}
-          rx="1.5"
-          fill="var(--ink-3)"
-          fillOpacity={0.2 + i * 0.035}
+          style={at(420 + i * 100, 6)}
+          x={132}
+          y={42 + i * 16}
+          width={84 - (i % 2) * 18}
+          height={8}
+          rx="1"
+          fill="var(--accent)"
         />
       ))}
 
-      <Rule x1={14} y1={168} x2={306} y2={168} />
-      <Tag x={14} y={186}>
-        LEDGERS · BANK · CONTRACTS · RETURNS
+      {/* Signed off before the next month starts. */}
+      <g className="dg-once" style={at(880, 0)}>
+        <circle
+          cx={270}
+          cy={67}
+          r={18}
+          fill="var(--ground)"
+          stroke="var(--accent)"
+          strokeWidth="1.4"
+        />
+        <path
+          d="M 262 67 l 5 5 l 11 -12"
+          fill="none"
+          stroke="var(--accent)"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+
+      <Rule x1={14} y1={124} x2={306} y2={124} />
+      <Tag x={14} y={142}>
+        TWELVE CLOSES A YEAR
+      </Tag>
+      <Value
+        x={306}
+        y={143}
+        size={10}
+        tone="accent"
+        anchor="end"
+        className="dg-once"
+        style={at(1660)}
+      >
+        12 / 12
+      </Value>
+
+      {/* The year, month by month. */}
+      {months.map((m) => (
+        <rect
+          key={m}
+          className="dg-once"
+          style={at(1000 + m * 55, 5)}
+          x={14 + m * 24.6}
+          y={152}
+          width={20}
+          height={16}
+          rx="2"
+          fill="var(--accent)"
+          fillOpacity={0.35 + (m % 3) * 0.12}
+        />
+      ))}
+
+      <Tag x={14} y={192}>
+        NOT RECONSTRUCTED IN MARCH
       </Tag>
     </svg>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* Engineering — one stack, held end to end.                           */
+/* Engineering — first sketch to live site, one team.                  */
 /* ------------------------------------------------------------------ */
 export function EngineeringMark({ className }: MarkProps) {
-  const layers = [
-    { y: 14, label: 'INTERFACE', detail: 'What the client sees' },
-    { y: 70, label: 'LOGIC', detail: 'What the rules enforce' },
-    { y: 126, label: 'DATA', detail: 'What the filing is built from' },
+  const stages = [
+    { x: 14, label: 'SKETCH' },
+    { x: 118, label: 'DESIGN' },
+    { x: 222, label: 'LIVE' },
   ];
 
   return (
@@ -107,76 +180,137 @@ export function EngineeringMark({ className }: MarkProps) {
       viewBox="0 0 320 200"
       className={cn('dg-mark h-auto w-full', className)}
       role="img"
-      aria-label="Interface, logic and data layers threaded by a single path held end to end by one team"
+      aria-label="A project moving from a rough sketch to a finished design to a live site, handled by one team throughout"
     >
-      {layers.map((layer, i) => (
-        <g key={layer.label} className="dg-once" style={at(i * 130)}>
-          <rect
-            x={14}
-            y={layer.y}
-            width={292}
-            height={44}
-            rx="3"
-            fill="var(--surface)"
-            stroke="var(--hairline-strong)"
-            strokeWidth="1"
-          />
-          <Tag x={28} y={layer.y + 17} tone="ink">
-            {layer.label}
-          </Tag>
-          <Tag x={28} y={layer.y + 36} tone="quiet">
-            {layer.detail}
-          </Tag>
-          {[0, 1, 2].map((c) => (
-            <Bar key={c} x={196 + c * 34} y={layer.y + 19} w={[24, 28, 20][c]} h={7} />
-          ))}
-        </g>
-      ))}
+      <Tag x={14} y={18}>
+        HOW A PROJECT RUNS
+      </Tag>
 
-      {/* One path through all three — the whole argument. */}
+      {/* 1. A rough sketch. */}
+      <g className="dg-once" style={at(0)}>
+        <rect
+          x={14}
+          y={34}
+          width={84}
+          height={76}
+          rx="3"
+          fill="none"
+          stroke="var(--hairline-strong)"
+          strokeWidth="1.2"
+          strokeDasharray="4 4"
+        />
+        {[0, 1, 2].map((i) => (
+          <rect
+            key={i}
+            x={26}
+            y={48 + i * 18}
+            width={[58, 44, 52][i]}
+            height={7}
+            rx="1"
+            fill="var(--ink-3)"
+            fillOpacity="0.24"
+          />
+        ))}
+      </g>
+
+      {/* 2. The finished design. */}
+      <g className="dg-once" style={at(320)}>
+        <rect
+          x={118}
+          y={34}
+          width={84}
+          height={76}
+          rx="3"
+          fill="var(--surface)"
+          stroke="var(--accent)"
+          strokeWidth="1.2"
+        />
+        <rect x={118} y={34} width={84} height={14} rx="3" fill="var(--accent)" />
+        {[0, 1, 2].map((i) => (
+          <rect
+            key={i}
+            x={130}
+            y={60 + i * 16}
+            width={[60, 46, 54][i]}
+            height={7}
+            rx="1"
+            fill="var(--accent)"
+            fillOpacity={0.55 - i * 0.12}
+          />
+        ))}
+      </g>
+
+      {/* 3. Live, on the things people actually use. */}
+      <g className="dg-once" style={at(640)}>
+        <rect
+          x={222}
+          y={38}
+          width={62}
+          height={44}
+          rx="2"
+          fill="var(--surface)"
+          stroke="var(--ink-3)"
+          strokeWidth="1.2"
+        />
+        <rect x={222} y={38} width={62} height={8} rx="2" fill="var(--accent)" />
+        <rect x={214} y={84} width={78} height={4} rx="2" fill="var(--ink-3)" fillOpacity="0.45" />
+        <rect
+          x={290}
+          y={56}
+          width={18}
+          height={32}
+          rx="3"
+          fill="var(--surface)"
+          stroke="var(--ink-3)"
+          strokeWidth="1.2"
+        />
+        <rect x={290} y={56} width={18} height={5} rx="2" fill="var(--accent)" />
+      </g>
+
+      {/* The single line running the whole way — the actual claim. */}
       <path
         className="dg-once-trace"
-        style={at(420)}
-        d="M 92 58 V 92 H 256 V 126"
+        style={at(180)}
+        d="M 56 118 H 264"
         fill="none"
         stroke="var(--accent)"
         strokeWidth="1.5"
         strokeLinecap="round"
-        strokeLinejoin="round"
         strokeDasharray="1"
         pathLength={1}
       />
-      {[
-        [92, 58],
-        [92, 92],
-        [256, 92],
-        [256, 126],
-      ].map(([cx, cy], i) => (
+      {[56, 160, 264].map((cx, i) => (
         <circle
-          key={`${cx}-${cy}`}
+          key={cx}
           className="dg-once"
-          style={at(700 + i * 80, 4)}
+          style={at(420 + i * 150, 4)}
           cx={cx}
-          cy={cy}
-          r={3.5}
+          cy={118}
+          r={4}
           fill="var(--accent)"
         />
       ))}
 
-      <Rule x1={14} y1={186} x2={306} y2={186} />
-      <Tag x={14} y={182}>
-        ONE TEAM, END TO END
+      {stages.map((s) => (
+        <Tag key={s.label} x={s.x + 42} y={140} anchor="middle">
+          {s.label}
+        </Tag>
+      ))}
+
+      <Rule x1={14} y1={162} x2={306} y2={162} />
+      <Tag x={14} y={182} tone="ink">
+        ONE TEAM, START TO FINISH
       </Tag>
       <Value
         x={306}
-        y={182}
+        y={183}
         size={10}
         tone="accent"
         anchor="end"
         className="dg-once"
-        style={at(1020)}
+        style={at(1050)}
       >
-        0 handoffs
+        no handoffs
       </Value>
     </svg>
   );

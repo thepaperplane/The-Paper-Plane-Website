@@ -9,12 +9,7 @@
  * implying these dates are guaranteed.
  */
 
-export type ComplianceCategory =
-  | 'Income Tax'
-  | 'GST'
-  | 'Payroll'
-  | 'Audit'
-  | 'MCA';
+export type ComplianceCategory = 'Income Tax' | 'GST' | 'Payroll' | 'Audit' | 'MCA';
 
 export type ComplianceEvent = {
   id: string;
@@ -102,7 +97,7 @@ export const COMPLIANCE_EVENTS: ComplianceEvent[] = [
     title: 'Tax audit report — Form 3CA/3CB-3CD',
     category: 'Audit',
     description:
-      'Upload of the audit report certified by a practising chartered accountant.',
+      'Signed and uploaded by a practising chartered accountant — not work this practice carries out. Listed because it is your deadline, and because the books have to be closed well before it.',
     statute: 'Income Tax Act, 1961 — s.44AB',
     penalty: 'Penalty under s.271B: 0.5% of turnover, capped at ₹1,50,000.',
     appliesTo: 'Entities crossing the audit threshold',
@@ -140,8 +135,7 @@ export const COMPLIANCE_EVENTS: ComplianceEvent[] = [
     cadence: 'annual',
     title: 'MCA Form MGT-7 — annual return',
     category: 'MCA',
-    description:
-      'Annual return covering shareholding, board meetings and director particulars.',
+    description: 'Annual return covering shareholding, board meetings and director particulars.',
     statute: 'Companies Act, 2013 — s.92',
     penalty: '₹100 per day of delay.',
     appliesTo: 'Every registered company',

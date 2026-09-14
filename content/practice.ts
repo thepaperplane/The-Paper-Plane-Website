@@ -25,8 +25,6 @@ export type PracticeSide = {
   /** Pillar ids from content/services.ts that belong to this half. */
   pillarIds: string[];
   href: string;
-  /** A concrete proof point rather than a claim. */
-  proof: { figure: string; caption: string };
 };
 
 export const PRACTICE: PracticeSide[] = [
@@ -39,58 +37,58 @@ export const PRACTICE: PracticeSide[] = [
     capabilities: [
       {
         title: 'Tax & GST compliance',
-        detail: 'ITR 1–7, monthly and annual GST, input credit reconciliation, export documentation.',
+        detail:
+          'ITR 1–7, monthly and annual GST, input credit reconciliation, export documentation.',
       },
       {
         title: 'Scrutiny & litigation support',
-        detail: 'Notices under s.142(1), s.143(2) and s.148. Penalty defence, first appeals, paper books.',
+        detail:
+          'Notices under s.142(1), s.143(2) and s.148. Penalty defence, first appeals, paper books.',
       },
       {
         title: 'Structuring & registration',
-        detail: 'Private Limited, LLP, partnership and proprietorship. MCA filings and constitutional drafting.',
+        detail:
+          'Private Limited, LLP, partnership and proprietorship. MCA filings and constitutional drafting.',
       },
       {
         title: 'Audit & financial systems',
-        detail: 'Statutory and tax audit under s.44AB, cloud accounting migration, payroll architecture.',
+        detail:
+          'Book-keeping, monthly verification, internal audit and payroll — the records kept so an examination is a formality.',
       },
     ],
-    pillarIds: ['tax', 'scrutiny', 'incorporation', 'audit'],
+    pillarIds: ['tax', 'scrutiny', 'incorporation', 'books'],
     href: '/services#advisory',
-    proof: {
-      figure: 'Three-way',
-      caption: 'Every purchase invoice matched against the portal and the ledger before credit is claimed.',
-    },
   },
   {
     id: 'engineering',
     name: 'Digital & Tech',
     heading: 'Engineering',
     statement: 'Products, platforms and the systems beneath them.',
-    body: 'The same practice that files the returns specifies the software. Invoicing that produces GST-valid documents, portals that capture what an audit will ask for later, interfaces built to a performance budget rather than to a template.',
+    body: 'The people who file your returns also decide how the software works. Invoicing that produces documents the department will accept, portals that keep the records anyone examining them will ask for, and a site that loads quickly for the person you are trying to win.',
     capabilities: [
       {
         title: 'Web & product development',
-        detail: 'Server-rendered applications, client portals, dashboards, role-based access and audit trails.',
+        detail:
+          'Websites, client portals and dashboards, with each person seeing only what they should and a record of every change.',
       },
       {
         title: 'Interface & experience design',
-        detail: 'Design systems rather than one-off screens. Accessible to WCAG AA as a floor, not a feature.',
+        detail:
+          'One consistent look across every screen, and readable for everyone — including anyone using a screen reader.',
       },
       {
         title: 'Brand & identity',
-        detail: 'Marks, typography systems, investor documents and the collateral that closes a room.',
+        detail:
+          'Marks, typography systems, investor documents and the collateral that closes a room.',
       },
       {
         title: 'Automation & document intelligence',
-        detail: 'Reconciliation routines, document extraction, status checks — the manual re-keying removed.',
+        detail:
+          'Software that reads figures off invoices and statements, checks them against your books, and stops the re-typing.',
       },
     ],
     pillarIds: ['digital', 'design'],
     href: '/services#engineering',
-    proof: {
-      figure: '106 kB',
-      caption: 'First-load payload of this site — a performance budget we hold our client work to as well.',
-    },
   },
 ];
 
