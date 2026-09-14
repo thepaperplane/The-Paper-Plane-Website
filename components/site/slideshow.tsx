@@ -207,7 +207,7 @@ export function Slideshow({
         {/* Drawing */}
         <div
           className={cn(
-            'bg-sunken order-1 flex items-center justify-center p-8 sm:p-10',
+            'glass order-1 flex items-center justify-center p-8 sm:p-10',
             mediaFirst ? 'md:order-1' : 'md:order-2',
           )}
         >

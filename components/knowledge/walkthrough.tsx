@@ -109,7 +109,7 @@ export function Walkthrough() {
         </div>
 
         {/* Diagram */}
-        <div className="bg-sunken flex items-center justify-center p-6 sm:p-8 lg:p-10">
+        <div className="glass flex items-center justify-center p-6 sm:p-8 lg:p-10">
           <div className="aspect-[320/176] w-full max-w-[26rem]">
             <Diagram key={`${serviceIndex}-${step}`} active />
           </div>

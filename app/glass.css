@@ -1,0 +1,413 @@
+/* ==========================================================================
+   GLASS MATERIAL SYSTEM
+   --------------------------------------------------------------------------
+   An original implementation of a layered glass aesthetic — translucency,
+   depth, refraction and specular edges — authored from scratch against this
+   project's own tokens. No third-party UI kit assets are reproduced here.
+
+   A convincing glass surface is five things stacked, and it looks wrong if any
+   one of them is missing:
+
+     1. a translucent fill, so what is behind it reads through
+     2. a backdrop blur with saturation lift, which is what makes it glass
+        rather than a tinted box — the saturation is why Apple's glass looks
+        alive over colour and a plain blur looks like frosted plastic
+     3. a specular rim, brightest where a light above-left would catch it
+     4. an interior sheen raking across the surface
+     5. depth: a contact shadow plus a wider ambient one
+
+   Cost. `backdrop-filter` forces the compositor to re-sample everything behind
+   the element on every frame it changes. Three or four of these on screen is
+   comfortable; twenty is not, and animating one that is also blurring is the
+   single most reliable way to drop below 60fps. So the glass surfaces here are
+   deliberately few and large, transforms never run on a blurring element at
+   the same time as its blur changes, and `.glass-static` exists for surfaces
+   that want the look without the cost.
+   ========================================================================== */
+
+:root {
+  /* Blur depth. Thin for bars that must stay legible over text, thick for
+     modal surfaces that should obscure what is under them. */
+  --glass-blur-thin: 10px;
+  --glass-blur-regular: 20px;
+  --glass-blur-thick: 40px;
+  --glass-saturate: 175%;
+
+  /* Fill. Light glass sits above its ground, so it is lighter than the page. */
+  --glass-fill: rgb(255 255 255 / 0.62);
+  --glass-fill-strong: rgb(255 255 255 / 0.78);
+  --glass-fill-clear: rgb(255 255 255 / 0.34);
+
+  /* The rim. A light source above and to the left: bright at the top edge,
+     falling off around the curve, with a faint bounce on the lower edge. */
+  --glass-rim-hi: rgb(255 255 255 / 0.95);
+  --glass-rim-mid: rgb(255 255 255 / 0.25);
+  --glass-rim-lo: rgb(18 19 26 / 0.06);
+
+  /* The interior sheen and the shade opposite it. */
+  --glass-sheen: rgb(255 255 255 / 0.4);
+  --glass-shade: rgb(18 19 26 / 0.03);
+
+  /* Depth. A tight contact shadow and a wide ambient one. */
+  --glass-shadow:
+    0 1px 1px rgb(18 19 26 / 0.04), 0 4px 10px -4px rgb(18 19 26 / 0.08),
+    0 18px 36px -12px rgb(18 19 26 / 0.12);
+  --glass-shadow-lifted:
+    0 2px 3px rgb(18 19 26 / 0.05), 0 10px 20px -6px rgb(18 19 26 / 0.1),
+    0 32px 60px -18px rgb(18 19 26 / 0.18);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --glass-fill: rgb(28 30 38 / 0.62);
+    --glass-fill-strong: rgb(28 30 38 / 0.82);
+    --glass-fill-clear: rgb(28 30 38 / 0.36);
+    --glass-rim-hi: rgb(255 255 255 / 0.22);
+    --glass-rim-mid: rgb(255 255 255 / 0.07);
+    --glass-rim-lo: rgb(0 0 0 / 0.3);
+    --glass-sheen: rgb(255 255 255 / 0.07);
+    --glass-shade: rgb(0 0 0 / 0.16);
+    --glass-shadow:
+      0 1px 1px rgb(0 0 0 / 0.3), 0 4px 10px -4px rgb(0 0 0 / 0.4),
+      0 18px 36px -12px rgb(0 0 0 / 0.5);
+    --glass-shadow-lifted:
+      0 2px 3px rgb(0 0 0 / 0.35), 0 10px 20px -6px rgb(0 0 0 / 0.45),
+      0 32px 60px -18px rgb(0 0 0 / 0.6);
+  }
+}
+
+:root[data-theme='dark'] {
+  --glass-fill: rgb(28 30 38 / 0.62);
+  --glass-fill-strong: rgb(28 30 38 / 0.82);
+  --glass-fill-clear: rgb(28 30 38 / 0.36);
+  --glass-rim-hi: rgb(255 255 255 / 0.22);
+  --glass-rim-mid: rgb(255 255 255 / 0.07);
+  --glass-rim-lo: rgb(0 0 0 / 0.3);
+  --glass-sheen: rgb(255 255 255 / 0.07);
+  --glass-shade: rgb(0 0 0 / 0.16);
+  --glass-shadow:
+    0 1px 1px rgb(0 0 0 / 0.3), 0 4px 10px -4px rgb(0 0 0 / 0.4), 0 18px 36px -12px rgb(0 0 0 / 0.5);
+  --glass-shadow-lifted:
+    0 2px 3px rgb(0 0 0 / 0.35), 0 10px 20px -6px rgb(0 0 0 / 0.45),
+    0 32px 60px -18px rgb(0 0 0 / 0.6);
+}
+
+/* ==========================================================================
+   MOTION SYSTEM
+   --------------------------------------------------------------------------
+   A timing hierarchy, not a pile of durations. The rule is that the size of
+   the thing moving sets how long it takes: a button responding to a press has
+   to feel instant, a section arriving can afford to take its time. Getting
+   this ordering wrong is what makes an interface feel cheap even when every
+   individual animation is smooth.
+
+   `--spring-*` are real spring solutions expressed as `linear()` ramps, which
+   is the only way to get genuine physics out of CSS without shipping a
+   JavaScript animation runtime. The overshoot in `--spring-snappy` is what
+   makes a control feel like it has mass.
+   ========================================================================== */
+
+:root {
+  /* Duration hierarchy. */
+  --dur-press: 90ms; /* pointer down — must beat perception */
+  --dur-micro: 160ms; /* hover, focus, small state change */
+  --dur-control: 260ms; /* a control resolving: toggle, tab, input */
+  --dur-element: 420ms; /* one element entering */
+  --dur-section: 680ms; /* a block of content arriving */
+  --dur-hero: 980ms; /* the masthead, once per page */
+
+  /* Choreography. One beat between siblings; a longer one between groups. */
+  --stagger-tight: 45ms;
+  --stagger: 70ms;
+  --stagger-loose: 110ms;
+
+  /* Curves.
+     standard  — the workhorse: decisive start, long settle.
+     emphasis  — for things arriving from off screen.
+     exit      — reversed; things leave faster than they arrive. */
+  --ease-standard: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-emphasis: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+
+  /* Springs, solved and sampled. `snappy` overshoots ~6% and settles; `gentle`
+     is critically damped for anything large enough that a bounce would read as
+     sloppy rather than lively. */
+  --spring-snappy: linear(
+    0,
+    0.0033 1.2%,
+    0.0263 3.7%,
+    0.0853 6.6%,
+    0.1808 9.6%,
+    0.3103 12.8%,
+    0.4667 16.1%,
+    0.6392 19.5%,
+    0.8143 23%,
+    0.9772 26.6%,
+    1.0334 28.4%,
+    1.0752 30.3%,
+    1.1023 32.2%,
+    1.1146 34.2%,
+    1.1121 36.4%,
+    1.0976 38.8%,
+    1.0732 41.4%,
+    1.0412 44.4%,
+    0.9991 48.2%,
+    0.9776 50.9%,
+    0.9629 53.8%,
+    0.9558 57.1%,
+    0.9563 60.9%,
+    0.9652 65.6%,
+    0.9809 71%,
+    0.9992 77%,
+    1.0107 82.2%,
+    1.0154 88%,
+    1.0113 94.6%,
+    1
+  );
+  /* A spring ramp MUST terminate at exactly 1. An earlier sampling of this
+     curve ended at 1.1213, which does not read as a bounce — it lands every
+     animation permanently 12% past its target. Peaks at ~1.066 and settles. */
+  --spring-gentle: linear(
+    0,
+    0.0064 2.2%,
+    0.0248 4.5%,
+    0.0946 9.1%,
+    0.2043 13.8%,
+    0.3428 18.6%,
+    0.4982 23.4%,
+    0.6569 28.2%,
+    0.8069 33%,
+    0.9386 37.9%,
+    1.0134 41.2%,
+    1.0537 44.5%,
+    1.0663 48.3%,
+    1.0577 52.6%,
+    1.0362 58%,
+    1.0121 64.5%,
+    0.9944 72.3%,
+    0.9912 81.5%,
+    0.9978 91%,
+    1
+  );
+}
+
+/* ==========================================================================
+   GLASS SURFACES
+   ========================================================================== */
+
+@layer components {
+  /* The base surface. Everything glass in the site is this plus a modifier. */
+  .glass {
+    position: relative;
+    isolation: isolate;
+    background-color: var(--glass-fill);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--glass-shadow);
+    /* The compositor re-samples everything behind this on every frame the
+       element changes, so keep it on its own layer and off the main thread. */
+    backdrop-filter: blur(var(--glass-blur-regular)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur-regular)) saturate(var(--glass-saturate));
+  }
+
+  /* The interior sheen: light raking across the surface from above-left, and
+     the shade it leaves at the opposite corner. */
+  .glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background-image: linear-gradient(
+      142deg,
+      var(--glass-sheen) 0%,
+      transparent 38%,
+      transparent 62%,
+      var(--glass-shade) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* The rim. A gradient border rather than a flat one, because a real edge
+     catches light unevenly — bright along the top, almost nothing at the
+     sides, a faint bounce underneath. Drawn as a masked ring so the gradient
+     shows only in the 1px border area. */
+  .glass::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    padding: 1px;
+    background-image: linear-gradient(
+      142deg,
+      var(--glass-rim-hi) 0%,
+      var(--glass-rim-mid) 28%,
+      transparent 52%,
+      var(--glass-rim-lo) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .glass-thin {
+    backdrop-filter: blur(var(--glass-blur-thin)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur-thin)) saturate(var(--glass-saturate));
+  }
+
+  .glass-thick {
+    background-color: var(--glass-fill-strong);
+    backdrop-filter: blur(var(--glass-blur-thick)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur-thick)) saturate(var(--glass-saturate));
+  }
+
+  .glass-clear {
+    background-color: var(--glass-fill-clear);
+  }
+
+  /* The look without the compositing cost, for surfaces that repeat — a list
+     of twenty cards has no business running twenty backdrop filters. */
+  .glass-static {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background-color: var(--glass-fill-strong);
+  }
+
+  /* Where backdrop-filter is unavailable the translucent fill would leave text
+     sitting on whatever is behind it, so fall back to an opaque surface. */
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .glass,
+    .glass-thin,
+    .glass-thick,
+    .glass-clear {
+      background-color: var(--surface);
+    }
+  }
+
+  /* An interactive surface: lifts toward the pointer, settles on release. */
+  .glass-interactive {
+    transition:
+      transform var(--dur-control) var(--spring-snappy),
+      box-shadow var(--dur-control) var(--ease-standard),
+      background-color var(--dur-micro) linear;
+    will-change: transform;
+  }
+
+  .glass-interactive:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--glass-shadow-lifted);
+  }
+
+  .glass-interactive:active {
+    transform: translateY(0) scale(0.994);
+    transition-duration: var(--dur-press);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .glass-interactive,
+    .glass-interactive:hover,
+    .glass-interactive:active {
+      transform: none;
+      transition: box-shadow var(--dur-micro) linear;
+    }
+  }
+}
+
+/* ==========================================================================
+   AMBIENT FIELD
+   --------------------------------------------------------------------------
+   Glass over a flat colour is invisible — there has to be something behind it
+   worth refracting. This is a very low-contrast field of brand-tinted light,
+   fixed to the viewport so scrolling content passes over it and the glass
+   picks up different colour as it goes.
+
+   Deliberately restrained: two soft pools at low opacity, no hard edges, no
+   movement of its own. It exists to give the glass something to do, not to be
+   noticed.
+   ========================================================================== */
+
+.ambient-field {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(60rem 40rem at 12% -8%, rgb(27 110 146 / 0.1), transparent 60%),
+    radial-gradient(48rem 36rem at 92% 8%, rgb(27 110 146 / 0.07), transparent 62%),
+    radial-gradient(52rem 42rem at 74% 92%, rgb(27 110 146 / 0.05), transparent 64%);
+}
+
+:root[data-theme='dark'] .ambient-field,
+html:not([data-theme='light']) .ambient-field {
+  background-image:
+    radial-gradient(60rem 40rem at 12% -8%, rgb(79 182 224 / 0.1), transparent 60%),
+    radial-gradient(48rem 36rem at 92% 8%, rgb(79 182 224 / 0.07), transparent 62%),
+    radial-gradient(52rem 42rem at 74% 92%, rgb(79 182 224 / 0.05), transparent 64%);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) .ambient-field {
+    background-image:
+      radial-gradient(60rem 40rem at 12% -8%, rgb(27 110 146 / 0.1), transparent 60%),
+      radial-gradient(48rem 36rem at 92% 8%, rgb(27 110 146 / 0.07), transparent 62%),
+      radial-gradient(52rem 42rem at 74% 92%, rgb(27 110 146 / 0.05), transparent 64%);
+  }
+}
+
+/* ==========================================================================
+   PARALLAX DEPTH
+   --------------------------------------------------------------------------
+   Driven by `animation-timeline: scroll()`, not a scroll listener. A listener
+   would fire on the main thread, read layout, and write a transform — three
+   chances per frame to miss 60fps on a mid-range phone. A scroll-driven
+   animation is handed to the compositor once and costs nothing thereafter.
+
+   Where it is unsupported the field simply sits still, which is a perfectly
+   good version of the same design rather than a broken one.
+   ========================================================================== */
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .ambient-field {
+      animation: pp-ambient-drift linear both;
+      animation-timeline: scroll(root block);
+      will-change: transform;
+    }
+
+    /* The field moves against the page — slower and in the opposite
+       direction — which is what reads as distance behind the content. */
+    @keyframes pp-ambient-drift {
+      from {
+        transform: translate3d(0, 0, 0) scale(1.06);
+      }
+      to {
+        transform: translate3d(0, -7%, 0) scale(1.14);
+      }
+    }
+
+    /* Anything marked as a depth layer drifts a little, at its own rate.
+       --depth is how far behind the page it sits: 1 is just off the surface,
+       4 is the far field. */
+    .depth-layer {
+      animation: pp-depth-drift linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+      will-change: transform;
+    }
+
+    @keyframes pp-depth-drift {
+      from {
+        transform: translate3d(0, calc(var(--depth, 1) * 14px), 0);
+      }
+      to {
+        transform: translate3d(0, calc(var(--depth, 1) * -14px), 0);
+      }
+    }
+  }
+}

@@ -47,8 +47,15 @@ export function SiteHeader() {
     <>
       <header
         className={cn(
-          'fixed inset-x-0 top-0 z-50 transition-colors duration-500',
-          scrolled ? 'bg-ground/92 border-b backdrop-blur-[2px]' : 'border-b border-transparent',
+          'fixed inset-x-0 top-0 z-50',
+          // The bar only becomes glass once there is content under it to
+          // refract; at the top of the page it stays out of the way entirely.
+          // Only the fill and shadow are transitioned — animating the blur
+          // radius itself forces a full backdrop re-sample every frame.
+          'transition-[background-color,box-shadow,border-color] duration-[var(--dur-control)] ease-[var(--ease-standard)]',
+          scrolled
+            ? 'glass glass-thin rounded-none border-b border-transparent'
+            : 'border-b border-transparent bg-transparent shadow-none backdrop-blur-none',
         )}
       >
         <div className="mx-auto flex h-[4.5rem] w-full max-w-[84rem] items-center gap-8 px-6 sm:px-10">
@@ -122,15 +129,17 @@ export function SiteHeader() {
       >
         <div
           className={cn(
-            'bg-ground absolute inset-0 transition-opacity duration-500 ease-[var(--ease-out-editorial)]',
+            'glass glass-thick absolute inset-0 rounded-none transition-opacity',
+            'duration-[var(--dur-control)] ease-[var(--ease-standard)]',
             open ? 'opacity-100' : 'opacity-0',
           )}
         />
         <nav
           aria-label="Mobile"
           className={cn(
-            'relative flex h-full flex-col px-6 pt-[6rem] pb-10 transition-all duration-500 ease-[var(--ease-out-editorial)] sm:px-10',
-            open ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-0',
+            'relative flex h-full flex-col px-6 pt-[6rem] pb-10 sm:px-10',
+            'transition-[transform,opacity] duration-[var(--dur-section)] ease-[var(--spring-gentle)]',
+            open ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0',
           )}
         >
           <ul className="flex-1">

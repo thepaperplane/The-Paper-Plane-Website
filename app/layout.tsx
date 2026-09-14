@@ -5,6 +5,7 @@ import { SiteHeader } from '@/components/site/site-header';
 import { SiteFooter } from '@/components/site/site-footer';
 import { THEME_SCRIPT } from '@/components/site/theme';
 import { Reveal } from '@/components/site/reveal';
+import { AmbientField } from '@/components/glass';
 import './globals.css';
 
 /* --------------------------------------------------------------------------
@@ -130,6 +131,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>
       <body className="bg-ground text-ink min-h-dvh antialiased">
+        {/* Behind everything: the light the glass refracts. */}
+        <AmbientField />
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}

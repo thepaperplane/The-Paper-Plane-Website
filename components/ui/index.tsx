@@ -142,9 +142,18 @@ export function Heading({
 type ButtonTone = 'accent' | 'outline' | 'quiet';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
+/* A control has to answer the pointer faster than it can be perceived, then
+   settle with some weight behind it. Press is --dur-press so the response is
+   immediate; release runs the spring, which overshoots slightly and is what
+   makes the control feel like an object rather than a rectangle changing
+   colour. Only transform and colour animate — both compositor-friendly. */
 const BASE =
   'inline-flex items-center justify-center gap-2 font-medium whitespace-nowrap ' +
-  'transition-colors duration-300 ease-[var(--ease-out-editorial)] ' +
+  'transition-[background-color,color,box-shadow,transform] ' +
+  'duration-[var(--dur-control)] ease-[var(--spring-snappy)] ' +
+  'hover:-translate-y-px active:translate-y-0 active:scale-[0.985] ' +
+  'active:duration-[var(--dur-press)] active:ease-[var(--ease-exit)] ' +
+  'motion-reduce:transform-none motion-reduce:transition-colors ' +
   'disabled:pointer-events-none disabled:opacity-45';
 
 const TONES: Record<ButtonTone, string> = {

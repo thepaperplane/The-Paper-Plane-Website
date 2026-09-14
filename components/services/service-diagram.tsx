@@ -48,7 +48,7 @@ export function ServiceDiagram({ id }: { id: string }) {
   const Drawing = REGISTRY[id];
   if (!Drawing) return null;
   return (
-    <div className="dg-mini-wrap bg-sunken mb-5 px-4 py-3 sm:px-5 sm:py-4">
+    <div className="dg-mini-wrap glass glass-static mb-5 px-4 py-3 sm:px-5 sm:py-4">
       <Drawing />
     </div>
   );
