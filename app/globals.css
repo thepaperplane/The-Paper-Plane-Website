@@ -752,16 +752,25 @@ svg [data-dg-fs] {
   font-size: calc(var(--dg-fs) * var(--dg-scale) * 1px);
 }
 
+/* Every element shares one duration and is offset only by `--d`, so the
+   sequence has to resolve inside a short window at the head of the cycle.
+   The earlier set spread delays across 3.4s of a 5.6s loop, which meant the
+   last piece was still arriving as the first was already leaving and the
+   picture never held still long enough to be read. Now: assembled by a fifth
+   of the way in, held for two thirds of the cycle — the part that does the
+   explaining — then cleared quickly and replayed. */
+
 @keyframes pp-dg-appear {
   0% {
     opacity: 0;
     transform: translate(var(--fx, 0px), var(--fy, 7px));
   }
   20%,
-  84% {
+  88% {
     opacity: 1;
     transform: translate(0px, 0px);
   }
+  98%,
   100% {
     opacity: 0;
     transform: translate(var(--fx, 0px), var(--fy, 7px));
@@ -773,15 +782,20 @@ svg [data-dg-fs] {
     opacity: 0;
     transform: translate(var(--fx, 0px), var(--fy, 0px));
   }
-  12% {
+  6% {
     opacity: 1;
     transform: translate(var(--fx, 0px), var(--fy, 0px));
   }
-  54%,
-  84% {
+  /* A leg of travel completes inside a fifth of the cycle rather than a third.
+     Where one movement is meant to cause the next — a reminder going out and a
+     credit coming back — a slow leg makes the second start before the first
+     has landed, and the causal order is the whole point of the drawing. */
+  22%,
+  88% {
     opacity: 1;
     transform: translate(var(--tx, 0px), var(--ty, 0px));
   }
+  98%,
   100% {
     opacity: 0;
     transform: translate(var(--tx, 0px), var(--ty, 0px));
@@ -793,10 +807,11 @@ svg [data-dg-fs] {
   0% {
     stroke-dashoffset: 1;
   }
-  34%,
-  84% {
+  26%,
+  88% {
     stroke-dashoffset: 0;
   }
+  98%,
   100% {
     stroke-dashoffset: 1;
   }
@@ -806,10 +821,11 @@ svg [data-dg-fs] {
   0% {
     transform: scaleX(0);
   }
-  40%,
-  84% {
+  30%,
+  88% {
     transform: scaleX(1);
   }
+  98%,
   100% {
     transform: scaleX(0);
   }
@@ -821,38 +837,40 @@ svg [data-dg-fs] {
     opacity: 0;
     transform: translateY(var(--fy, 0px));
   }
-  8%,
-  62% {
+  6%,
+  46% {
     opacity: 1;
   }
-  62% {
+  46% {
     transform: translateY(var(--ty, 0px));
   }
-  74%,
+  56%,
   100% {
     opacity: 0;
     transform: translateY(var(--ty, 0px));
   }
 }
 
-/* The exception. Arrives late, knocks once, stays for the rest of the cycle. */
+/* The exception. Arrives after the rest has settled, knocks once, and stays
+   for the remainder — it is the thing the drawing is about. */
 @keyframes pp-dg-flag {
   0%,
-  38% {
+  30% {
     opacity: 0;
     transform: scale(0.6);
   }
-  50% {
+  40% {
     opacity: 1;
-    transform: scale(1.08);
+    transform: scale(1.1);
   }
-  58% {
+  47% {
     transform: scale(1);
   }
-  84% {
+  88% {
     opacity: 1;
     transform: scale(1);
   }
+  98%,
   100% {
     opacity: 0;
     transform: scale(0.6);

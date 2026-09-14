@@ -40,7 +40,7 @@ export function NormaliseDiagram({ active }: P) {
   return (
     <Frame
       active={active}
-      cycle={5600}
+      cycle={6200}
       label="Ragged purchase rows being sorted into named accounting heads"
     >
       <Tag x={14} y={22}>
@@ -56,7 +56,7 @@ export function NormaliseDiagram({ active }: P) {
         <g
           key={`m${i}`}
           className="dg-travel"
-          style={travel(300 + i * 520, 0, 0, 176, (target[i] - i) * 18 + 6)}
+          style={travel(115 + i * 520, 0, 0, 176, (target[i] - i) * 18 + 6)}
         >
           <Bar x={14} y={42 + i * 18} w={Math.min(w, 74)} tone="accent" />
         </g>
@@ -85,7 +85,7 @@ export function NormaliseDiagram({ active }: P) {
         tone="accent"
         anchor="end"
         className="dg-appear"
-        style={seq(2400)}
+        style={seq(918)}
       >
         0 unclassified
       </Value>
@@ -104,7 +104,7 @@ export function MatchDiagram({ active }: P) {
   return (
     <Frame
       active={active}
-      cycle={5600}
+      cycle={6200}
       label="Two independent records compared line by line, with one line left unmatched"
     >
       <Tag x={14} y={28}>
@@ -150,7 +150,7 @@ export function MatchDiagram({ active }: P) {
         tone="caution"
         anchor="end"
         className="dg-flag dg-c"
-        style={seq(200)}
+        style={seq(76)}
       >
         1 unmatched
       </Value>
@@ -165,7 +165,7 @@ export function ChaseDiagram({ active }: P) {
   return (
     <Frame
       active={active}
-      cycle={6000}
+      cycle={6200}
       label="A reminder sent to a defaulting supplier, and the input credit returning"
     >
       <Panel x={14} y={40} w={84} h={54} />
@@ -178,15 +178,15 @@ export function ChaseDiagram({ active }: P) {
       </Tag>
 
       {/* Out: the reminder. Back: the credit. */}
-      <Trace d="M 100 56 H 220" delay={200} tone="structure" dashed />
-      <Chip x={104} y={49} delay={500} dx={94} tone="context" />
+      <Trace d="M 100 56 H 220" delay={76} tone="structure" dashed />
+      <Chip x={104} y={49} delay={191} dx={94} tone="context" />
       <Tag x={160} y={44} anchor="middle" tone="quiet">
         REMINDER
       </Tag>
 
-      <Trace d="M 220 84 H 100" delay={2400} />
-      <Chip x={196} y={77} delay={2700} dx={-94} />
-      <Tag x={160} y={106} anchor="middle" tone="accent" className="dg-appear" style={seq(2700)}>
+      <Trace d="M 220 84 H 100" delay={1560} />
+      <Chip x={196} y={77} delay={1620} dx={-94} />
+      <Tag x={160} y={106} anchor="middle" tone="accent" className="dg-appear" style={seq(1720)}>
         CREDIT RETURNED
       </Tag>
 
@@ -196,7 +196,7 @@ export function ChaseDiagram({ active }: P) {
         ITC LEDGER
       </Tag>
       <rect x={196} y={138} width={110} height={10} rx="1" fill="var(--hairline-strong)" />
-      <g className="dg-grow dg-l" style={seq(3400)}>
+      <g className="dg-grow dg-l" style={seq(2050)}>
         <rect x={196} y={138} width={110} height={10} rx="1" fill="var(--accent)" />
       </g>
     </Frame>
@@ -210,7 +210,7 @@ export function OffsetDiagram({ active }: P) {
   return (
     <Frame
       active={active}
-      cycle={5600}
+      cycle={6200}
       label="Input credit set off against output liability, leaving the net amount payable"
     >
       <Tag x={14} y={30}>
@@ -225,7 +225,7 @@ export function OffsetDiagram({ active }: P) {
         CREDIT AVAILABLE
       </Tag>
       <rect x={14} y={98} width={214} height={20} rx="2" fill="var(--hairline-strong)" />
-      <g className="dg-grow dg-l" style={seq(400)}>
+      <g className="dg-grow dg-l" style={seq(153)}>
         <rect x={14} y={98} width={214} height={20} rx="2" fill="var(--accent)" />
       </g>
       <Value x={306} y={92} size={10} tone="accent" anchor="end">
@@ -233,7 +233,7 @@ export function OffsetDiagram({ active }: P) {
       </Value>
 
       {/* The credit is consumed out of the liability, left to right. */}
-      <g className="dg-grow dg-l" style={seq(1500)}>
+      <g className="dg-grow dg-l" style={seq(574)}>
         <rect
           x={14}
           y={40}
@@ -257,7 +257,7 @@ export function OffsetDiagram({ active }: P) {
         tone="accent"
         anchor="end"
         className="dg-appear"
-        style={seq(2600)}
+        style={seq(994)}
       >
         1,12,200
       </Value>
@@ -273,7 +273,7 @@ export function ArchiveDiagram({ active }: P) {
   return (
     <Frame
       active={active}
-      cycle={6000}
+      cycle={6200}
       label="Working papers filed into an indexed folder, and one retrieved later"
     >
       <Tag x={14} y={26}>
@@ -282,11 +282,7 @@ export function ArchiveDiagram({ active }: P) {
 
       {/* Sheets settle into the stack. */}
       {sheets.map((i) => (
-        <g
-          key={i}
-          className="dg-appear"
-          style={seq(200 + i * 380, { ['--fy' as string]: '-14px' })}
-        >
+        <g key={i} className="dg-appear" style={seq(76 + i * 380, { ['--fy' as string]: '-14px' })}>
           <rect
             x={20 + i * 5}
             y={44 + i * 13}
@@ -307,7 +303,7 @@ export function ArchiveDiagram({ active }: P) {
         INDEXED
       </Tag>
       {['AY 23', 'AY 24', 'AY 25'].map((t, i) => (
-        <g key={t} className="dg-appear" style={seq(1700 + i * 300)}>
+        <g key={t} className="dg-appear" style={seq(650 + i * 300)}>
           <rect
             x={198}
             y={54 + i * 22}
@@ -320,12 +316,12 @@ export function ArchiveDiagram({ active }: P) {
           <Bar x={246} y={57 + i * 22} w={48} h={6} tone={i === 1 ? 'accent' : 'context'} />
         </g>
       ))}
-      <Trace d="M 142 92 H 184" delay={1500} />
+      <Trace d="M 142 92 H 184" delay={574} />
 
       {/* Fourteen months on, one comes back out. */}
       <Rule x1={14} y1={142} x2={306} y2={142} />
-      <Chip x={198} y={150} delay={3400} dx={-150} />
-      <Tag x={14} y={136} tone="accent" className="dg-appear" style={seq(3400)}>
+      <Chip x={198} y={150} delay={1300} dx={-150} />
+      <Tag x={14} y={136} tone="accent" className="dg-appear" style={seq(1300)}>
         RETRIEVED ON NOTICE
       </Tag>
     </Frame>
@@ -341,7 +337,7 @@ export function InspectDiagram({ active }: P) {
   return (
     <Frame
       active={active}
-      cycle={5600}
+      cycle={6200}
       label="A notice read line by line until the operative clause is located"
     >
       {/* The notice sits right, leaving a real column for the finding rather
@@ -363,14 +359,14 @@ export function InspectDiagram({ active }: P) {
       {/* The reading head. */}
       <g
         className="dg-sweep"
-        style={seq(200, { ['--fy' as string]: '0px', ['--ty' as string]: '90px' })}
+        style={seq(76, { ['--fy' as string]: '0px', ['--ty' as string]: '90px' })}
       >
         <rect x={124} y={28} width={182} height={14} fill="var(--accent)" fillOpacity="0.1" />
         <line x1={124} y1={42} x2={306} y2={42} stroke="var(--accent)" strokeWidth="1" />
       </g>
 
       {/* What it found. 20 units of leading, left aligned in its own column. */}
-      <g className="dg-appear" style={seq(2600)}>
+      <g className="dg-appear" style={seq(994)}>
         <path d="M 118 82 h -6 v 24 h 6" fill="none" stroke="var(--accent)" strokeWidth="1.4" />
         <Tag x={14} y={80} tone="accent">
           s.148
@@ -403,7 +399,7 @@ export function AssembleDiagram({ active }: P) {
   return (
     <Frame
       active={active}
-      cycle={6000}
+      cycle={6200}
       label="Separate pieces of evidence assembled into a single submission"
     >
       {/* The submission being built. */}
@@ -435,7 +431,7 @@ export function AssembleDiagram({ active }: P) {
             fill="var(--ink-3)"
             fillOpacity="0.22"
           />
-          <g className="dg-travel" style={travel(300 + i * 560, 0, 0, p.dx, p.dy)}>
+          <g className="dg-travel" style={travel(115 + i * 560, 0, 0, p.dx, p.dy)}>
             <rect x={p.x} y={p.y} width={p.w} height={20} rx="2" fill="var(--accent)" />
           </g>
         </g>
@@ -451,7 +447,7 @@ export function AssembleDiagram({ active }: P) {
           h={5}
           tone="accent"
           className="dg-appear"
-          style={seq(900 + i * 560)}
+          style={seq(344 + i * 560)}
         />
       ))}
       <Value x={160} y={158} size={10} tone="quiet" anchor="middle">
@@ -473,13 +469,13 @@ export function CompareDiagram({ active }: P) {
   return (
     <Frame
       active={active}
-      cycle={5600}
+      cycle={6200}
       label="Two tax regimes computed side by side, with the cheaper one and the difference"
     >
       {/* The saving gets its own band across the top, separated by a rule.
           Sharing the upper area with the taller bar's figure put the two
           numbers on top of each other once the small-screen scale was applied. */}
-      <g className="dg-appear" style={seq(1900)}>
+      <g className="dg-appear" style={seq(726)}>
         <Tag x={14} y={20}>
           DIFFERENCE
         </Tag>
@@ -487,7 +483,7 @@ export function CompareDiagram({ active }: P) {
           −48,200
         </Value>
       </g>
-      <Pass cx={286} cy={32} delay={1600} r={11} />
+      <Pass cx={286} cy={32} delay={612} r={11} />
       <Rule x1={14} y1={64} x2={306} y2={64} />
 
       <Rule x1={14} y1={BASE} x2={306} y2={BASE} />
@@ -497,7 +493,7 @@ export function CompareDiagram({ active }: P) {
             className="dg-grow"
             style={
               {
-                ...seq(300 + i * 420),
+                ...seq(115 + i * 420),
                 transformBox: 'fill-box',
                 transformOrigin: 'center bottom',
               } as React.CSSProperties
@@ -543,7 +539,7 @@ export function StructureDiagram({ active }: P) {
   return (
     <Frame
       active={active}
-      cycle={5800}
+      cycle={6200}
       label="A holding entity with three subsidiaries arranged beneath it"
     >
       <rect x={116} y={20} width={88} height={30} rx="3" fill="var(--accent)" />
@@ -551,13 +547,13 @@ export function StructureDiagram({ active }: P) {
         HOLDING
       </Tag>
 
-      <Trace d="M 160 50 V 74" delay={300} />
-      <Trace d="M 62 74 H 258" delay={700} tone="structure" />
+      <Trace d="M 160 50 V 74" delay={115} />
+      <Trace d="M 62 74 H 258" delay={268} tone="structure" />
 
       {kids.map((k, i) => (
         <g key={k.label}>
           <Trace d={`M ${k.x + 36} 74 V 100`} delay={1100 + i * 320} />
-          <g className="dg-appear" style={seq(1400 + i * 320)}>
+          <g className="dg-appear" style={seq(535 + i * 320)}>
             <rect
               x={k.x}
               y={100}

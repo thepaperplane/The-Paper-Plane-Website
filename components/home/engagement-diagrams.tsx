@@ -77,13 +77,13 @@ export function ReadDiagram({ active }: P) {
       {/* Read line by line. */}
       <g
         className="dg-sweep"
-        style={seq(300, { ['--fy' as string]: '0px', ['--ty' as string]: '86px' })}
+        style={seq(85, { ['--fy' as string]: '0px', ['--ty' as string]: '86px' })}
       >
         <rect x={116} y={44} width={150} height={13} fill="var(--accent)" fillOpacity="0.1" />
         <line x1={116} y1={57} x2={266} y2={57} stroke="var(--accent)" strokeWidth="1" />
       </g>
 
-      <g className="dg-appear" style={seq(3000)}>
+      <g className="dg-appear" style={seq(848)}>
         <path d="M 272 92 h 8 v 18 h -8" fill="none" stroke="var(--accent)" strokeWidth="1.4" />
         <Tag x={306} y={122} anchor="end" tone="accent">
           s.143(2)
@@ -106,7 +106,7 @@ export function ScopeDiagram({ active }: P) {
   return (
     <Frame
       active={active}
-      cycle={6400}
+      cycle={6200}
       label="Work sorted into an agreed in-scope column and an equally explicit out-of-scope column"
     >
       <Panel x={14} y={34} w={140} h={112} tone="accent" />
@@ -136,7 +136,7 @@ export function ScopeDiagram({ active }: P) {
             />
             <g
               className="dg-travel"
-              style={travel(400 + i * 640, it.side === 0 ? 46 : -52, 46 - row * 30, 0, 0)}
+              style={travel(113 + i * 640, it.side === 0 ? 46 : -52, 46 - row * 30, 0, 0)}
             >
               <rect
                 x={x}
@@ -177,7 +177,7 @@ export function GroundworkDiagram({ active }: P) {
   return (
     <Frame
       active={active}
-      cycle={6000}
+      cycle={6200}
       label="A small filed return resting on a much larger body of reconciliation work"
     >
       <rect x={112} y={14} width={96} height={26} rx="2" fill="var(--accent)" />
@@ -209,7 +209,7 @@ export function GroundworkDiagram({ active }: P) {
                   fill="var(--ink-3)"
                   fillOpacity={0.2 + c * 0.04}
                   className="dg-appear"
-                  style={seq(300 + (r * 4 + c) * 190, { ['--fy' as string]: '10px' })}
+                  style={seq(85 + (r * 4 + c) * 190, { ['--fy' as string]: '10px' })}
                 />
               );
               x += w * 1.18 + 7;
@@ -229,7 +229,7 @@ export function GroundworkDiagram({ active }: P) {
         tone="accent"
         anchor="end"
         className="dg-appear"
-        style={seq(2700)}
+        style={seq(763)}
       >
         ~75%
       </Value>
@@ -244,26 +244,26 @@ export function ReviewDiagram({ active }: P) {
   return (
     <Frame
       active={active}
-      cycle={6600}
+      cycle={6200}
       label="Work prepared, sent back once on review, then passed and filed"
     >
       <Rule x1={20} y1={80} x2={286} y2={80} />
 
-      <Pass cx={92} cy={80} delay={600} />
+      <Pass cx={92} cy={80} delay={170} />
       <Tag x={92} y={112} anchor="middle">
         PREPARE
       </Tag>
 
-      <Pass cx={192} cy={80} delay={3000} />
+      <Pass cx={192} cy={80} delay={848} />
       <Tag x={192} y={112} anchor="middle">
         REVIEW
       </Tag>
 
       {/* Out of the preparer's hands. */}
-      <Chip x={26} y={73} delay={200} dx={50} tone="context" />
+      <Chip x={26} y={73} delay={57} dx={50} tone="context" />
 
       {/* The reviewer sends one back — the whole reason for the second pass. */}
-      <g className="dg-flag dg-c" style={seq(200)}>
+      <g className="dg-flag dg-c" style={seq(57)}>
         <path
           d="M 176 62 q -42 -30 -84 0"
           fill="none"
@@ -284,8 +284,8 @@ export function ReviewDiagram({ active }: P) {
       </g>
 
       {/* Then through, and out. */}
-      <Chip x={210} y={73} delay={4200} dx={54} />
-      <g className="dg-appear" style={seq(4600)}>
+      <Chip x={210} y={73} delay={1187} dx={54} />
+      <g className="dg-appear" style={seq(1300)}>
         <rect x={272} y={66} width={30} height={28} rx="2" fill="var(--accent)" />
         <path
           d="M 280 80 l 4 4 l 9 -10"
@@ -316,7 +316,7 @@ export function AftercareDiagram({ active }: P) {
   return (
     <Frame
       active={active}
-      cycle={6600}
+      cycle={6200}
       label="A return filed, then a notice arriving fourteen months later answered from the retained file"
     >
       <Rule x1={14} y1={86} x2={306} y2={86} />
@@ -332,13 +332,13 @@ export function AftercareDiagram({ active }: P) {
       </Tag>
 
       {/* The months passing. */}
-      <Trace d="M 22 112 H 288" delay={300} tone="structure" dashed />
+      <Trace d="M 22 112 H 288" delay={85} tone="structure" dashed />
       <Tag x={22} y={128}>
         PAPERS HELD &amp; INDEXED
       </Tag>
 
       {/* The notice, much later. */}
-      <g className="dg-flag dg-c" style={seq(200)}>
+      <g className="dg-flag dg-c" style={seq(57)}>
         <line x1={288} y1={56} x2={288} y2={86} stroke="var(--caution)" strokeWidth="1.4" />
         <circle cx={288} cy={56} r={4.5} fill="var(--caution)" />
         <Tag x={306} y={44} anchor="end" tone="caution">
@@ -347,7 +347,7 @@ export function AftercareDiagram({ active }: P) {
       </g>
 
       {/* Answered from the file rather than from memory. */}
-      <Chip x={40} y={148} delay={3400} dx={222} />
+      <Chip x={40} y={148} delay={961} dx={222} />
       <Tag x={14} y={168}>
         ANSWERED FROM THE FILE
       </Tag>
@@ -358,7 +358,7 @@ export function AftercareDiagram({ active }: P) {
         tone="accent"
         anchor="end"
         className="dg-appear"
-        style={seq(4400)}
+        style={seq(1243)}
       >
         same day
       </Value>
