@@ -40,15 +40,19 @@ export const CONTENT_DEFAULTS: Record<ContentKey, { label: string; page: string;
       label: 'Masthead — standfirst (unused in v3 layout)',
       value: 'Advisory and engineering, held to one standard',
     },
+    /* The masthead headline is the brand tagline. It is the registered line
+       that also sets the logo lockup, the OG image and the footer — it is not
+       marketing copy to be reworded. Both halves are stored here only so the
+       masthead can break the line where the comma falls. */
     'home.hero.title': {
       page: 'home',
-      label: 'Masthead — headline, first lines',
-      value: 'Chartered advisory and software engineering,',
+      label: 'Masthead — BRAND TAGLINE, first line (do not reword)',
+      value: 'We handle the Papers,',
     },
     'home.hero.titleAccent': {
       page: 'home',
-      label: 'Masthead — headline, italic accent line',
-      value: 'under one roof.',
+      label: 'Masthead — BRAND TAGLINE, second line (do not reword)',
+      value: 'You Handle the Takeoff',
     },
     'home.hero.lede': {
       page: 'home',

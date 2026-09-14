@@ -10,6 +10,12 @@ import { SITE } from '@/lib/site';
  * beneath it to the right, so the eye travels diagonally rather than down a
  * centre line. A standing rule and a metadata row close it, the way a
  * masthead closes above the fold of a broadsheet.
+ *
+ * The headline is the brand tagline, so it is set as one line in one ink. The
+ * `.em-serif` treatment used for second halves elsewhere on the site also
+ * recolours to the accent, and recolouring half of a registered brand line
+ * breaks the parallel — "We handle… / You Handle…" — that the line is built
+ * on. The italic alone carries the turn.
  */
 export function Masthead({
   title,
@@ -27,7 +33,7 @@ export function Masthead({
           <h1 className="reveal col-span-12 text-[length:var(--text-display-1)] leading-[0.95] lg:col-span-11">
             {title}
             <br />
-            <span className="em-serif">{titleAccent}</span>
+            <span className="italic">{titleAccent}</span>
           </h1>
         </div>
 
