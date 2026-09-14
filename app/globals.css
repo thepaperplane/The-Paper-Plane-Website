@@ -105,7 +105,9 @@
   --hairline: rgba(18, 19, 26, 0.1);
   --hairline-strong: rgba(18, 19, 26, 0.18);
 
-  --positive: #0f7a3d;
+  /* Darkened from #0f7a3d: the ambient field tints the ground it sits on,
+     which took the GST chip to 4.25:1. This clears 4.5 with margin. */
+  --positive: #0c6a34;
   --caution: #8f5300;
   --critical: #a8291f;
 

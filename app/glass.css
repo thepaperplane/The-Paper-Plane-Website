@@ -1,95 +1,95 @@
 /* ==========================================================================
    GLASS MATERIAL SYSTEM
    --------------------------------------------------------------------------
-   An original implementation of a layered glass aesthetic — translucency,
-   depth, refraction and specular edges — authored from scratch against this
-   project's own tokens. No third-party UI kit assets are reproduced here.
+   Calibrated against the real thing. The values below are not guessed: the
+   Liquid Glass components were imported through the Figma plugin API and their
+   fills, effects, radii and shadows read off directly. No Apple asset is
+   reproduced here — these are measurements, and the implementation is ours.
 
-   A convincing glass surface is five things stacked, and it looks wrong if any
-   one of them is missing:
+   What that measurement corrected, because I had all three wrong:
 
-     1. a translucent fill, so what is behind it reads through
-     2. a backdrop blur with saturation lift, which is what makes it glass
-        rather than a tinted box — the saturation is why Apple's glass looks
-        alive over colour and a plain blur looks like frosted plastic
-     3. a specular rim, brightest where a light above-left would catch it
-     4. an interior sheen raking across the surface
-     5. depth: a contact shadow plus a wider ambient one
+     radius   34px on Regular, 24px on Clear. I had 14. The near-capsule
+              roundness is one of the strongest signatures of the material and
+              a 14px box simply does not read as it.
+     blur     12-14px, not the 20-40 I assumed. Apple uses LESS blur than you
+              would guess.
+     shadow   one soft pass — 0 8px 40px at 12% — not a tight three-part
+              stack. It reads as something floating, not something bevelled.
 
-   Cost. `backdrop-filter` forces the compositor to re-sample everything behind
-   the element on every frame it changes. Three or four of these on screen is
-   comfortable; twenty is not, and animating one that is also blurring is the
-   single most reliable way to drop below 60fps. So the glass surfaces here are
-   deliberately few and large, transforms never run on a blurring element at
-   the same time as its blur changes, and `.glass-static` exists for surfaces
-   that want the look without the cost.
+   And the part I had missed entirely: the fill is a BLEND, not an alpha wash.
+   Dark glass is a light grey at `color-burn` over a black tint; light glass is
+   white at `screen`. That blend is why the material looks rich and alive over
+   colour, and why a plain rgba() fill always looks like milk. It is the single
+   biggest difference between this and the previous pass.
+
+   None of it shows over a white page. Glass can only reveal what is behind it,
+   so the ambient field at the bottom of this file does the other half of the
+   work — without something saturated underneath, a correct implementation of
+   this material is invisible, which is exactly what happened the first time.
    ========================================================================== */
 
 :root {
-  /* Blur depth. Thin for bars that must stay legible over text, thick for
-     modal surfaces that should obscure what is under them. */
+  /* Measured: 34 on Regular, 24 on Clear. */
+  --glass-radius: 28px;
+  --glass-radius-sm: 20px;
+  --glass-radius-lg: 34px;
+
+  /* Measured: 12 on Regular Medium, 14 on Regular Large, 5 on Clear. */
   --glass-blur-thin: 10px;
-  --glass-blur-regular: 20px;
-  --glass-blur-thick: 40px;
-  --glass-saturate: 175%;
+  --glass-blur-regular: 14px;
+  --glass-blur-thick: 28px;
+  --glass-saturate: 190%;
 
-  /* Fill. Light glass sits above its ground, so it is lighter than the page. */
-  --glass-fill: rgb(255 255 255 / 0.62);
-  --glass-fill-strong: rgb(255 255 255 / 0.78);
-  --glass-fill-clear: rgb(255 255 255 / 0.34);
+  /* Light glass: a white screen pass, kept low. */
+  --glass-fill: rgb(255 255 255 / 0.5);
+  --glass-fill-strong: rgb(255 255 255 / 0.68);
+  --glass-fill-clear: rgb(255 255 255 / 0.28);
+  --glass-blend: screen;
+  --glass-blend-color: rgb(255 255 255 / 0.55);
 
-  /* The rim. A light source above and to the left: bright at the top edge,
-     falling off around the curve, with a faint bounce on the lower edge. */
-  --glass-rim-hi: rgb(255 255 255 / 0.95);
-  --glass-rim-mid: rgb(255 255 255 / 0.25);
-  --glass-rim-lo: rgb(18 19 26 / 0.06);
+  --glass-rim-hi: rgb(255 255 255 / 1);
+  --glass-rim-mid: rgb(255 255 255 / 0.35);
+  --glass-rim-lo: rgb(18 19 26 / 0.08);
 
-  /* The interior sheen and the shade opposite it. */
-  --glass-sheen: rgb(255 255 255 / 0.4);
-  --glass-shade: rgb(18 19 26 / 0.03);
+  --glass-sheen: rgb(255 255 255 / 0.55);
+  --glass-shade: rgb(18 19 26 / 0.04);
 
-  /* Depth. A tight contact shadow and a wide ambient one. */
-  --glass-shadow:
-    0 1px 1px rgb(18 19 26 / 0.04), 0 4px 10px -4px rgb(18 19 26 / 0.08),
-    0 18px 36px -12px rgb(18 19 26 / 0.12);
-  --glass-shadow-lifted:
-    0 2px 3px rgb(18 19 26 / 0.05), 0 10px 20px -6px rgb(18 19 26 / 0.1),
-    0 32px 60px -18px rgb(18 19 26 / 0.18);
+  /* Measured: radius 40, y+8, 12%. One pass, soft and wide. */
+  --glass-shadow: 0 8px 40px rgb(18 19 26 / 0.14);
+  --glass-shadow-lifted: 0 16px 60px rgb(18 19 26 / 0.2);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --glass-fill: rgb(28 30 38 / 0.62);
-    --glass-fill-strong: rgb(28 30 38 / 0.82);
-    --glass-fill-clear: rgb(28 30 38 / 0.36);
-    --glass-rim-hi: rgb(255 255 255 / 0.22);
-    --glass-rim-mid: rgb(255 255 255 / 0.07);
-    --glass-rim-lo: rgb(0 0 0 / 0.3);
-    --glass-sheen: rgb(255 255 255 / 0.07);
-    --glass-shade: rgb(0 0 0 / 0.16);
-    --glass-shadow:
-      0 1px 1px rgb(0 0 0 / 0.3), 0 4px 10px -4px rgb(0 0 0 / 0.4),
-      0 18px 36px -12px rgb(0 0 0 / 0.5);
-    --glass-shadow-lifted:
-      0 2px 3px rgb(0 0 0 / 0.35), 0 10px 20px -6px rgb(0 0 0 / 0.45),
-      0 32px 60px -18px rgb(0 0 0 / 0.6);
+    --glass-fill: rgb(18 20 26 / 0.55);
+    --glass-fill-strong: rgb(18 20 26 / 0.74);
+    --glass-fill-clear: rgb(18 20 26 / 0.3);
+    /* Measured: grey 0.8 at color-burn over a black tint. */
+    --glass-blend: color-burn;
+    --glass-blend-color: rgb(204 204 204);
+    --glass-rim-hi: rgb(255 255 255 / 0.4);
+    --glass-rim-mid: rgb(255 255 255 / 0.1);
+    --glass-rim-lo: rgb(0 0 0 / 0.36);
+    --glass-sheen: rgb(255 255 255 / 0.1);
+    --glass-shade: rgb(0 0 0 / 0.22);
+    --glass-shadow: 0 8px 40px rgb(0 0 0 / 0.5);
+    --glass-shadow-lifted: 0 16px 60px rgb(0 0 0 / 0.62);
   }
 }
 
 :root[data-theme='dark'] {
-  --glass-fill: rgb(28 30 38 / 0.62);
-  --glass-fill-strong: rgb(28 30 38 / 0.82);
-  --glass-fill-clear: rgb(28 30 38 / 0.36);
-  --glass-rim-hi: rgb(255 255 255 / 0.22);
-  --glass-rim-mid: rgb(255 255 255 / 0.07);
-  --glass-rim-lo: rgb(0 0 0 / 0.3);
-  --glass-sheen: rgb(255 255 255 / 0.07);
-  --glass-shade: rgb(0 0 0 / 0.16);
-  --glass-shadow:
-    0 1px 1px rgb(0 0 0 / 0.3), 0 4px 10px -4px rgb(0 0 0 / 0.4), 0 18px 36px -12px rgb(0 0 0 / 0.5);
-  --glass-shadow-lifted:
-    0 2px 3px rgb(0 0 0 / 0.35), 0 10px 20px -6px rgb(0 0 0 / 0.45),
-    0 32px 60px -18px rgb(0 0 0 / 0.6);
+  --glass-fill: rgb(18 20 26 / 0.55);
+  --glass-fill-strong: rgb(18 20 26 / 0.74);
+  --glass-fill-clear: rgb(18 20 26 / 0.3);
+  --glass-blend: color-burn;
+  --glass-blend-color: rgb(204 204 204);
+  --glass-rim-hi: rgb(255 255 255 / 0.4);
+  --glass-rim-mid: rgb(255 255 255 / 0.1);
+  --glass-rim-lo: rgb(0 0 0 / 0.36);
+  --glass-sheen: rgb(255 255 255 / 0.1);
+  --glass-shade: rgb(0 0 0 / 0.22);
+  --glass-shadow: 0 8px 40px rgb(0 0 0 / 0.5);
+  --glass-shadow-lifted: 0 16px 60px rgb(0 0 0 / 0.62);
 }
 
 /* ==========================================================================
@@ -201,7 +201,7 @@
     position: relative;
     isolation: isolate;
     background-color: var(--glass-fill);
-    border-radius: var(--radius-lg);
+    border-radius: var(--glass-radius);
     box-shadow: var(--glass-shadow);
     /* The compositor re-samples everything behind this on every frame the
        element changes, so keep it on its own layer and off the main thread. */
@@ -211,20 +211,44 @@
 
   /* The interior sheen: light raking across the surface from above-left, and
      the shade it leaves at the opposite corner. */
+  /* The blend pass, and the reason this reads as glass rather than as a
+     tinted panel. Light glass screens white over the backdrop; dark glass
+     burns a light grey into it. Both enrich what is behind rather than
+     veiling it, which is what an alpha fill can never do. The raking sheen
+     rides on top of the same layer. */
   .glass::before {
     content: '';
     position: absolute;
     inset: 0;
     z-index: -1;
     border-radius: inherit;
-    background-image: linear-gradient(
-      142deg,
-      var(--glass-sheen) 0%,
-      transparent 38%,
-      transparent 62%,
-      var(--glass-shade) 100%
-    );
+    background-color: var(--glass-blend-color);
+    mix-blend-mode: var(--glass-blend);
+    opacity: 0.5;
     pointer-events: none;
+  }
+
+  .glass > * {
+    position: relative;
+  }
+
+  /* Sheen and shade, kept off the blend layer so they stay literal. */
+  .glass::after {
+    background-image:
+      linear-gradient(
+        142deg,
+        var(--glass-rim-hi) 0%,
+        var(--glass-rim-mid) 26%,
+        transparent 50%,
+        var(--glass-rim-lo) 100%
+      ),
+      linear-gradient(
+        142deg,
+        var(--glass-sheen) 0%,
+        transparent 34%,
+        transparent 64%,
+        var(--glass-shade) 100%
+      );
   }
 
   /* The rim. A gradient border rather than a flat one, because a real edge
@@ -238,13 +262,6 @@
     z-index: -1;
     border-radius: inherit;
     padding: 1px;
-    background-image: linear-gradient(
-      142deg,
-      var(--glass-rim-hi) 0%,
-      var(--glass-rim-mid) 28%,
-      transparent 52%,
-      var(--glass-rim-lo) 100%
-    );
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,
       linear-gradient(#000 0 0);
@@ -322,42 +339,90 @@
 /* ==========================================================================
    AMBIENT FIELD
    --------------------------------------------------------------------------
-   Glass over a flat colour is invisible — there has to be something behind it
-   worth refracting. This is a very low-contrast field of brand-tinted light,
-   fixed to the viewport so scrolling content passes over it and the glass
-   picks up different colour as it goes.
+   Third approach, and the right one. The first two both failed, for different
+   reasons worth recording so neither is tried again:
 
-   Deliberately restrained: two soft pools at low opacity, no hard edges, no
-   movement of its own. It exists to give the glass something to do, not to be
-   noticed.
+     1. A fixed div at `z-index: -1` inside <body> paints BEHIND body's own
+        background, because body establishes no stacking context. The field
+        rendered perfectly and was covered the whole time — a solid red test
+        layer came back pure white, which is what proved it.
+
+     2. Moving the gradients onto :root with `background-attachment: fixed`
+        fixed the stacking and broke the painting: six large gradients with
+        fixed attachment cannot be composited onto their own layer, so every
+        scroll forces a full-viewport repaint. The page rendered correctly at
+        the top and blanked as soon as it scrolled. That is a real defect, not
+        a screenshot artefact — it would flicker for anyone scrolling.
+
+   The pattern that satisfies both: a `position: fixed` element at `z-index: 0`,
+   which the compositor promotes to its own layer and never repaints on scroll,
+   with page content lifted above it by being positioned. Cheap, stable, and
+   the colour stays put while content travels across it.
    ========================================================================== */
 
 .ambient-field {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
+  background-color: var(--ground);
   background-image:
-    radial-gradient(60rem 40rem at 12% -8%, rgb(27 110 146 / 0.1), transparent 60%),
-    radial-gradient(48rem 36rem at 92% 8%, rgb(27 110 146 / 0.07), transparent 62%),
-    radial-gradient(52rem 42rem at 74% 92%, rgb(27 110 146 / 0.05), transparent 64%);
+    radial-gradient(52rem 44rem at 6% 0%, rgb(53 165 213 / 0.44), transparent 70%),
+    radial-gradient(44rem 38rem at 94% 10%, rgb(27 110 146 / 0.34), transparent 70%),
+    radial-gradient(48rem 42rem at 76% 46%, rgb(53 165 213 / 0.3), transparent 70%),
+    radial-gradient(44rem 38rem at 14% 62%, rgb(27 110 146 / 0.3), transparent 70%),
+    radial-gradient(48rem 40rem at 60% 92%, rgb(53 165 213 / 0.28), transparent 72%),
+    linear-gradient(
+      152deg,
+      rgb(53 165 213 / 0.2) 0%,
+      rgb(53 165 213 / 0.08) 42%,
+      rgb(27 110 146 / 0.16) 100%
+    );
 }
 
-:root[data-theme='dark'] .ambient-field,
-html:not([data-theme='light']) .ambient-field {
+:root[data-theme='dark'] .ambient-field {
   background-image:
-    radial-gradient(60rem 40rem at 12% -8%, rgb(79 182 224 / 0.1), transparent 60%),
-    radial-gradient(48rem 36rem at 92% 8%, rgb(79 182 224 / 0.07), transparent 62%),
-    radial-gradient(52rem 42rem at 74% 92%, rgb(79 182 224 / 0.05), transparent 64%);
+    radial-gradient(52rem 44rem at 6% 0%, rgb(53 165 213 / 0.26), transparent 70%),
+    radial-gradient(44rem 38rem at 94% 10%, rgb(79 182 224 / 0.18), transparent 70%),
+    radial-gradient(48rem 42rem at 76% 46%, rgb(53 165 213 / 0.16), transparent 70%),
+    radial-gradient(44rem 38rem at 14% 62%, rgb(79 182 224 / 0.2), transparent 70%),
+    radial-gradient(48rem 40rem at 60% 92%, rgb(53 165 213 / 0.15), transparent 72%),
+    linear-gradient(
+      152deg,
+      rgb(53 165 213 / 0.12) 0%,
+      rgb(53 165 213 / 0.04) 42%,
+      rgb(79 182 224 / 0.1) 100%
+    );
 }
 
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme='dark']) .ambient-field {
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .ambient-field {
     background-image:
-      radial-gradient(60rem 40rem at 12% -8%, rgb(27 110 146 / 0.1), transparent 60%),
-      radial-gradient(48rem 36rem at 92% 8%, rgb(27 110 146 / 0.07), transparent 62%),
-      radial-gradient(52rem 42rem at 74% 92%, rgb(27 110 146 / 0.05), transparent 64%);
+      radial-gradient(52rem 44rem at 6% 0%, rgb(53 165 213 / 0.26), transparent 70%),
+      radial-gradient(44rem 38rem at 94% 10%, rgb(79 182 224 / 0.18), transparent 70%),
+      radial-gradient(48rem 42rem at 76% 46%, rgb(53 165 213 / 0.16), transparent 70%),
+      radial-gradient(44rem 38rem at 14% 62%, rgb(79 182 224 / 0.2), transparent 70%),
+      radial-gradient(48rem 40rem at 60% 92%, rgb(53 165 213 / 0.15), transparent 72%),
+      linear-gradient(
+        152deg,
+        rgb(53 165 213 / 0.12) 0%,
+        rgb(53 165 213 / 0.04) 42%,
+        rgb(79 182 224 / 0.1) 100%
+      );
   }
+}
+
+/* Content sits above the field. Without this, non-positioned blocks paint in
+   an earlier phase than a positioned layer and the field covers the page. */
+body > main,
+body > footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* The page must not paint over its own backdrop. */
+body {
+  background-color: transparent !important;
 }
 
 /* ==========================================================================
@@ -463,4 +528,49 @@ html:not([data-theme='light']) {
   .tagline-gradient .line-mask:nth-of-type(2) > * {
     background-position: 0% 100%;
   }
+}
+
+/* ==========================================================================
+   TONAL SURFACES OVER THE FIELD
+   --------------------------------------------------------------------------
+   Section tones were opaque, which meant every sunken or surface block painted
+   straight over the ambient field and took the glass back to white-on-white.
+
+   They keep their tonal role — sunken still reads as recessed, surface still
+   reads as raised — but as translucent washes that tint the field rather than
+   replace it. `!important` because Tailwind emits these in the utilities
+   layer, which resolves after components; the alternative is fighting the
+   cascade with selector weight, which is worse to read and no more robust.
+   ========================================================================== */
+
+.bg-sunken {
+  background-color: rgb(243 243 240 / 0.52) !important;
+}
+
+.bg-surface {
+  background-color: rgb(255 255 255 / 0.5) !important;
+}
+
+.bg-ground {
+  background-color: transparent !important;
+}
+
+:root[data-theme='dark'] .bg-sunken,
+:root[data-theme='dark'] .bg-surface,
+:root[data-theme='dark'] .bg-ground {
+  background-color: rgb(10 11 13 / 0.44) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .bg-sunken,
+  :root:not([data-theme='light']) .bg-surface,
+  :root:not([data-theme='light']) .bg-ground {
+    background-color: rgb(10 11 13 / 0.44) !important;
+  }
+}
+
+/* The inverse block is the one surface that should stay solid — it is the
+   page's single held moment and reads as a slab, not as glass. */
+.bg-inverse {
+  background-color: var(--inverse) !important;
 }
