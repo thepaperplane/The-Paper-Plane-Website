@@ -132,7 +132,7 @@ export default async function HomePage() {
                     <dd className="text-brand-900 mt-1 text-[1.75rem] leading-none font-semibold tabular-nums">
                       {item.reviewLayers}
                     </dd>
-                    <dd className="text-brand-700/70 mt-1 text-[0.6875rem]">before filing</dd>
+                    <dd className="text-brand-700 mt-1 text-[0.6875rem] opacity-80">before filing</dd>
                   </div>
                 </dl>
 

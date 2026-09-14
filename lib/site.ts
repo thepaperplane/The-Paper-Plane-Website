@@ -60,7 +60,17 @@ export function pageOg(opts: { title: string; description: string; path: string 
 
 export type NavItem = {
   href: string;
+  /** Full name — used in the mobile sheet and footer. */
   label: string;
+  /**
+   * Compact name for the desktop top bar.
+   *
+   * "Knowledge Corner" and "Compliance Calendar" wrapped onto two lines from
+   * 1024px upward, leaving those items 61px tall against 39px for the rest —
+   * a visibly ragged nav. A top bar wants short labels; the full names still
+   * appear everywhere there is room for them.
+   */
+  short?: string;
   description?: string;
 };
 
@@ -70,9 +80,15 @@ export const PRIMARY_NAV: NavItem[] = [
   {
     href: '/knowledge',
     label: 'Knowledge Corner',
+    short: 'Knowledge',
     description: 'Understand exactly what you are paying for',
   },
-  { href: '/calendar', label: 'Compliance Calendar', description: 'Every statutory due date' },
+  {
+    href: '/calendar',
+    label: 'Compliance Calendar',
+    short: 'Calendar',
+    description: 'Every statutory due date',
+  },
   { href: '/news', label: 'News', description: 'Daily tax, GST and corporate updates' },
   { href: '/about', label: 'About', description: 'How the practice is built' },
 ];

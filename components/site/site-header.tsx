@@ -63,22 +63,22 @@ export function SiteHeader() {
           </Link>
 
           {/* Desktop navigation */}
-          <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Primary">
+          <nav className="hidden min-w-0 items-center gap-0.5 lg:flex" aria-label="Primary">
             {PRIMARY_NAV.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 aria-current={isActive(item.href) ? 'page' : undefined}
                 className={cn(
-                  'relative rounded-[var(--radius-sm)] px-3.5 py-2 text-[0.9375rem] font-medium transition-colors duration-200',
+                  'relative rounded-[var(--radius-sm)] px-3 py-2 text-[0.9375rem] font-medium whitespace-nowrap transition-colors duration-200',
                   isActive(item.href)
                     ? 'text-brand-700'
                     : 'text-ink-secondary hover:text-ink hover:bg-sunken',
                 )}
               >
-                {item.label}
+                {item.short ?? item.label}
                 {isActive(item.href) ? (
-                  <span className="bg-brand-600 absolute inset-x-3.5 -bottom-px h-0.5 rounded-full" />
+                  <span className="bg-brand-600 absolute inset-x-3 -bottom-px h-0.5 rounded-full" />
                 ) : null}
               </Link>
             ))}
@@ -87,7 +87,7 @@ export function SiteHeader() {
           <div className="flex items-center gap-2">
             <a
               href={`tel:${SITE.phoneIntl}`}
-              className="text-ink-secondary hover:text-ink hover:bg-sunken hidden h-10 items-center gap-2 rounded-[var(--radius-md)] px-3.5 text-[0.9375rem] font-medium transition-colors md:inline-flex"
+              className="text-ink-secondary hover:text-ink hover:bg-sunken hidden h-10 items-center gap-2 rounded-[var(--radius-md)] px-3 text-[0.9375rem] font-medium whitespace-nowrap transition-colors md:inline-flex"
             >
               <Phone className="h-4 w-4" strokeWidth={2} />
               <span className="hidden xl:inline">{SITE.phone}</span>
@@ -95,7 +95,7 @@ export function SiteHeader() {
 
             <Link
               href="/contact"
-              className="bg-brand-600 hover:bg-brand-700 hidden h-10 items-center gap-1.5 rounded-[var(--radius-md)] px-4 text-[0.9375rem] font-semibold text-white shadow-[var(--shadow-brand)] transition-all duration-300 hover:shadow-[0_18px_36px_-12px_rgba(36,121,163,0.45)] active:scale-[0.97] sm:inline-flex"
+              className="bg-brand-600 hover:bg-brand-700 hidden h-10 items-center gap-1.5 rounded-[var(--radius-md)] px-4 text-[0.9375rem] font-semibold whitespace-nowrap text-white shadow-[var(--shadow-brand)] transition-all duration-300 hover:shadow-[0_18px_36px_-12px_rgba(33,111,151,0.45)] active:scale-[0.97] sm:inline-flex"
             >
               Book a consultation
             </Link>

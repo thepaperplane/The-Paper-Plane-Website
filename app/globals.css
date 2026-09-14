@@ -14,14 +14,18 @@
      Note on 500 vs 600: the authentic logo blue (#35a5d5) is only 2.8:1
      against white, so it can never carry text or act as a button. It stays
      DECORATIVE — fills, dots, bars, gradients. Anything a user must read or
-     click uses 600 (#2479a3, 4.84:1) or a navy, both of which pass WCAG AA. */
+     click uses 600 or a navy.
+
+     600 and ink-quaternary are tuned to pass AA against BOTH #ffffff and the
+     #f5f5f7 sunken surface — a value that passes on white alone still fails
+     inside every sunken section, which is most of the page. */
   --color-brand-50: #eef7fc;
   --color-brand-100: #d7ecf7;
   --color-brand-200: #b2dbee;
   --color-brand-300: #7cc3e2;
   --color-brand-400: #4da8d0; /* logo — lighter swoosh            */
   --color-brand-500: #35a5d5; /* LOGO BLUE — decorative only      */
-  --color-brand-600: #2479a3; /* AA-safe blue: buttons, links     */
+  --color-brand-600: #216f97; /* AA-safe blue: buttons, links     */
   --color-brand-700: #1c3252; /* logo — wordmark navy             */
   --color-brand-800: #152b4d; /* logo — plane body                */
   --color-brand-900: #11284a; /* logo — plane deep fold           */
@@ -39,16 +43,16 @@
   --color-ink: #1d1d1f; /* Apple near-black — primary label   */
   --color-ink-secondary: #494950; /* secondary label                    */
   --color-ink-tertiary: #6e6e73; /* tertiary label                     */
-  --color-ink-quaternary: #86868b; /* quaternary — decorative only       */
+  --color-ink-quaternary: #6b6b75; /* quaternary — AA on white AND sunken */
 
   /* --- Separators ------------------------------------------------------ */
   --color-hairline: rgba(0, 0, 0, 0.08);
   --color-hairline-strong: rgba(0, 0, 0, 0.14);
 
   /* --- Semantic (iOS system colours, light variants) ------------------- */
-  --color-success: #1d9d55;
+  --color-success: #0f7a3d;
   --color-success-soft: #e8f6ed;
-  --color-warning: #b06800;
+  --color-warning: #9a5a00;
   --color-warning-soft: #fdf3e3;
   --color-danger: #c8342a;
   --color-danger-soft: #fdeeed;
@@ -101,7 +105,7 @@
     0 24px 48px -12px rgba(16, 24, 40, 0.12), 0 8px 16px -8px rgba(16, 24, 40, 0.05);
   --shadow-2xl:
     0 40px 80px -20px rgba(16, 24, 40, 0.16), 0 12px 24px -12px rgba(16, 24, 40, 0.06);
-  --shadow-brand: 0 16px 32px -12px rgba(36, 121, 163, 0.30);
+  --shadow-brand: 0 16px 32px -12px rgba(33, 111, 151, 0.30);
 
   /* --- Motion ----------------------------------------------------------
      Apple's spring-adjacent easing curves.                               */

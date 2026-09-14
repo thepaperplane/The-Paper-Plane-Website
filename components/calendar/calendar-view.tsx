@@ -88,7 +88,7 @@ export function CalendarView({ initialMonth }: { initialMonth: number }) {
           type="button"
           onClick={() => setFilter('all')}
           className={cn(
-            'rounded-full px-3.5 py-1.5 text-[0.8125rem] font-medium transition-colors',
+            'rounded-full px-4 py-2.5 text-[0.8125rem] font-medium transition-colors sm:px-3.5 sm:py-1.5',
             filter === 'all'
               ? 'bg-ink text-white'
               : 'text-ink-secondary hover:text-ink bg-white ring-1 ring-[var(--color-hairline)] ring-inset',
@@ -107,7 +107,7 @@ export function CalendarView({ initialMonth }: { initialMonth: number }) {
               disabled={count === 0}
               onClick={() => setFilter(category)}
               className={cn(
-                'inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[0.8125rem] font-medium transition-colors disabled:opacity-35',
+                'inline-flex items-center gap-1.5 rounded-full px-4 py-2.5 text-[0.8125rem] font-medium transition-colors disabled:opacity-35 sm:px-3.5 sm:py-1.5',
                 selected
                   ? 'bg-ink text-white'
                   : 'text-ink-secondary hover:text-ink bg-white ring-1 ring-[var(--color-hairline)] ring-inset',

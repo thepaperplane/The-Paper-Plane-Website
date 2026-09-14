@@ -77,7 +77,7 @@ export default async function NewsPage({ searchParams }: { searchParams: SearchP
             <Link
               href="/news"
               className={cn(
-                'rounded-full px-4 py-2 text-[0.875rem] font-medium transition-colors',
+                'rounded-full px-4 py-2.5 text-[0.875rem] font-medium transition-colors sm:py-2',
                 !category
                   ? 'bg-ink text-white'
                   : 'text-ink-secondary hover:text-ink bg-white ring-1 ring-[var(--color-hairline)] ring-inset',
@@ -90,7 +90,7 @@ export default async function NewsPage({ searchParams }: { searchParams: SearchP
                 key={name}
                 href={`/news?category=${encodeURIComponent(name)}`}
                 className={cn(
-                  'rounded-full px-4 py-2 text-[0.875rem] font-medium transition-colors',
+                  'rounded-full px-4 py-2.5 text-[0.875rem] font-medium transition-colors sm:py-2',
                   category === name
                     ? 'bg-ink text-white'
                     : 'text-ink-secondary hover:text-ink bg-white ring-1 ring-[var(--color-hairline)] ring-inset',

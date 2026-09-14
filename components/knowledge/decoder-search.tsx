@@ -56,7 +56,7 @@ export function DecoderSearch() {
             type="button"
             onClick={() => setQuery(entry.key)}
             className={cn(
-              'rounded-full px-3 py-1.5 text-[0.8125rem] font-medium transition-colors',
+              'rounded-full px-3.5 py-2.5 text-[0.8125rem] font-medium transition-colors sm:px-3 sm:py-1.5',
               query.trim().toLowerCase() === entry.key.toLowerCase()
                 ? 'bg-brand-600 text-white'
                 : 'text-ink-secondary hover:text-ink bg-white ring-1 ring-[var(--color-hairline)] ring-inset',
